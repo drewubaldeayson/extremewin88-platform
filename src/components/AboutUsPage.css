@@ -1,0 +1,62 @@
+.about-us-container {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    color: #fff;
+    background-color: #090F1E;
+  }
+  
+  .about-us-container h1,   .about-us-container h2 {
+    color: white;
+  }
+  
+  .about-us-sections {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .about-us-mission, .about-us-offer {
+    flex: 1;
+    background-color: #1c2238;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  }
+  
+  .about-us-why-choose, .about-us-contact {
+    background-color: #1c2238;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-top:1px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .about-us-why-choose ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .about-us-why-choose li {
+    margin-bottom: 10px;
+  }
+  
+  .join-button {
+    background: linear-gradient(255deg, #00b7ff, #8d53e9);
+    color: #fff;
+    border: none;
+    text-decoration: none;
+    margin-top:30px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .join-button:hover {
+    background-color: #009acd;
+  }
+  

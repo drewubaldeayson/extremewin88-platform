@@ -1,8 +1,23 @@
 import React from "react";
 import "./Footer.css";
 import companyLogo from "../assets/icons/extremewin88logo.png";
+import { useNavigate } from 'react-router-dom';
 
 const Footer = () => {
+  const navigate = useNavigate();
+
+  const handleRedirectToAbout = () => {
+    navigate('/about-us'); 
+  };
+
+  const handleRedirectToPrivacyPolicy = () => {
+    navigate('/privacy-policy'); 
+  };
+
+  const handleRedirectToTerms = () => {
+    navigate('/terms-and-conditions'); 
+  };
+
   return (
     <footer className="footer">
       <div className="footer-top-border">
@@ -20,20 +35,18 @@ const Footer = () => {
         <div className="footer-section">
           <h3>Information</h3>
           <ul>
-            <li><a href="#about">About</a></li>
-            <li><a href="#privacy-policy">Privacy Policy</a></li>
-            <li><a href="#terms">Terms & Conditions</a></li>
-            <li><a href="#refund-policy">Refund Policy</a></li>
-            <li><a href="#data-deletion">Data Deletion</a></li>
+            <li onClick={handleRedirectToAbout}>About</li>
+            <li onClick={handleRedirectToPrivacyPolicy}>Privacy Policy</li>
+            <li onClick={handleRedirectToTerms}>Terms & Conditions</li>
           </ul>
         </div>
         <div className="footer-section">
           <h3>Categories</h3>
           <ul>
-            <li><a href="#popular">Popular</a></li>
-            <li><a href="#casino">Casino</a></li>
-            <li><a href="#fishing">Fishing</a></li>
-            <li><a href="#slot">Slot</a></li>
+            <li>Popular</li>
+            <li>Casino</li>
+            <li>Fishing</li>
+            <li>Slot</li>
           </ul>
         </div>
         <div className="footer-section">

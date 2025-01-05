@@ -1,34 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import "./GameSection.css";
+import LoginModal from "./LoginModal.js";
 
 const GameSection = ({ title, games, providerId, onViewAll  }) => {
   const [startIndex, setStartIndex] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
   const [gameLaunchUrl, setGameLaunchUrl] = useState("");
   const [isMaximized, setIsMaximized] = useState(false);
+  const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
+  const [isLoginModalVisible, setIsLoginModalVisible] = useState(false);
+  const auth = getAuth();
+  
+  useEffect(() => {
+      // Listen for changes in Firebase authentication state
+      const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
+        if (user) {
+          setIsUserAuthenticated(true);
+        } else {
+          setIsUserAuthenticated(false);
+        }
+        console.log("User is authenticated:", isUserAuthenticated);
+      });
+      return () => unsubscribeAuth();
+  }, [auth]);
 
+  const toggleLoginModal = () => {
+    setIsLoginModalVisible(!isLoginModalVisible);
+  };
+  
   const handleGameClick = async (gameUid) => {
-    const response = await fetch("https://live-casino-slots-evolution-jili-and-50-plus-provider.p.rapidapi.com/casino/get-game-url", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-igtechcasino-apikey": "677126d265bb35832e54e6d3",
-        "x-rapidapi-host": "live-casino-slots-evolution-jili-and-50-plus-provider.p.rapidapi.com",
-        "x-rapidapi-key": "bf58a6fbe1mshe87b23e355bf58ap1ba530jsnd157e37e2a1d",
-      },
-      body: JSON.stringify({
-        userId: "igtechgamingdemo",
-        gameId: gameUid,
-        lang: "en",
-        money: 100000,
-        home_url: "https://igtechgaming.com/",
-        platform: 1,
-      }),
-    });
+    if(isUserAuthenticated){
+      const response = await fetch("https://live-casino-slots-evolution-jili-and-50-plus-provider.p.rapidapi.com/casino/get-game-url", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-igtechcasino-apikey": "677126d265bb35832e54e6d3",
+          "x-rapidapi-host": "live-casino-slots-evolution-jili-and-50-plus-provider.p.rapidapi.com",
+          "x-rapidapi-key": "bf58a6fbe1mshe87b23e355bf58ap1ba530jsnd157e37e2a1d",
+        },
+        body: JSON.stringify({
+          userId: "igtechgamingdemo",
+          gameId: gameUid,
+          lang: "en",
+          money: 100000,
+          home_url: "https://igtechgaming.com/",
+          platform: 1,
+        }),
+      });
 
-    const data = await response.json();
-    setGameLaunchUrl(data.payload.game_launch_url);
-    setModalVisible(true);
+      const data = await response.json();
+      setGameLaunchUrl(data.payload.game_launch_url);
+      setModalVisible(true);
+    }else{
+      setIsLoginModalVisible(true);
+    }
   };
 
   const toggleMaximize = () => {
@@ -108,6 +134,10 @@ const GameSection = ({ title, games, providerId, onViewAll  }) => {
           </div>
           
         </div>
+      )}
+
+      {isLoginModalVisible && (
+        <LoginModal onClose={toggleLoginModal} />
       )}
     </div>
   );

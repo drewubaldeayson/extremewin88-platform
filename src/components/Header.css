@@ -9,6 +9,7 @@
   
   .left-section {
     display: flex;
+    cursor: pointer;
     align-items: center;
   }
   
@@ -38,11 +39,12 @@
     color: white;
     font-size: 18px; /* Medium-sized text for nav links */
     font-weight: 500;
+    cursor: pointer;
     transition: color 0.3s ease;
   }
   
   .nav-link:hover {
-    color: #00ffcc; /* Highlight color on hover */
+     /* Highlight color on hover */
   }
   
   .auth-buttons {

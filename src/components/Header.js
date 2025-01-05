@@ -5,6 +5,7 @@ import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { db } from "../services/firebase";
 import "./Header.css";
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
 
@@ -14,6 +15,7 @@ const Header = () => {
   const [walletAmount, setWalletAmount] = useState(0.0);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const auth = getAuth();
+  const navigate = useNavigate();
 
   const toggleLoginModal = () => {
     setIsLoginModalVisible(!isLoginModalVisible);
@@ -92,22 +94,27 @@ const Header = () => {
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
+
+  const handleRedirectToHome = () => {
+    navigate('/'); 
+  };
+
   return (
     <>
       <header className="header">
-        <div className="left-section">
+        <div className="left-section" onClick={handleRedirectToHome}>
           <div className="logo">
             <span className="logo-lvs">Extreme</span>
             <span className="logo-gaming">Win88</span>
           </div>
           <nav className="nav">
-            <a href="#home" className="nav-link">
+            <a onClick={handleRedirectToHome} className="nav-link">
               Home
             </a>
-            <a href="#slots" className="nav-link">
+            <a onClick={handleRedirectToHome} className="nav-link">
               Slots
             </a>
-            <a href="#promotions" className="nav-link">
+            <a onClick={handleRedirectToHome} className="nav-link">
               Promotions
             </a>
           </nav>

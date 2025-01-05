@@ -1,19 +1,26 @@
-import logo from './logo.svg';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
-import HomePage from './components/HomePage';
 import Header from "./components/Header";
-import PromotionalHighlights from './components/PromotionalHighlights';
-import GameSection from "./components/GameSection";
 import Footer from './components/Footer';
+import HomeScreen from './components/HomeScreen';
+import AboutUsPage from './components/AboutUsPage';
+import PrivacyPolicyPage from './components/PrivacyPolicyPage';
+import TermsAndConditionsPage from './components/TermsAndConditionsPage';
 
 function App() {
   return (
-    <div className="App">
-      <Header/>
-      <PromotionalHighlights/>
-      <HomePage />
-      <Footer/>
-    </div>
+    <Router> 
+      <div className="App">
+        <Header/>
+        <Routes>
+          <Route path="/" element={<HomeScreen />} />
+          <Route path="/about-us" element={<AboutUsPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
+        </Routes>
+        <Footer/>
+      </div>
+    </Router>
   );
 }
 
