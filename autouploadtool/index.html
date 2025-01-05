@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Excel to Firestore</title>
+   <!-- Firebase SDK -->
+   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script> 
+ 
+   <!-- XLSX library -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
+ 
+  
+</head>
+<body>
+
+  <input type="file" id="excel-file" accept=".xlsx, .xls" />
+  <button onclick="uploadAndCheck()">Upload to Firestore</button>
+
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyDssOo432oFRRuIDAZLsyREa3VEVaGuZwQ",
+        authDomain: "extremewin88-9a5d2.firebaseapp.com",
+        projectId: "extremewin88-9a5d2",
+        storageBucket: "extremewin88-9a5d2.firebasestorage.app",
+        messagingSenderId: "84383913086",
+        appId: "1:84383913086:web:6d67aa520284357bb6742f",
+        measurementId: "G-XCQRQJMKSZ"
+    };
+
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    function uploadAndCheck() {
+      const fileInput = document.getElementById("excel-file");
+      const file = fileInput.files[0];
+      
+      if (!file) {
+        alert("Please select an Excel file.");
+        return;
+      }
+
+      // Create a file reader to read the file
+      const reader = new FileReader();
+      
+      reader.onload = function(e) {
+        const data = e.target.result;
+        
+        // Use the xlsx library to parse the Excel data
+        const workbook = XLSX.read(data, { type: 'binary' });
+
+        // Get the first sheet (You can choose another sheet as needed)
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
+
+        // Convert the sheet to JSON (array of objects)
+        const jsonData = XLSX.utils.sheet_to_json(sheet);
+
+        // Example: Check the columns of the first row and map data
+        const requiredColumns = ["game_name", "game_uid", "game_type", "game_launcher_icon", "provider_uid"];
+        
+        // Validate the columns
+        const columns = Object.keys(jsonData[0]);
+        const missingColumns = requiredColumns.filter(col => !columns.includes(col));
+
+        if (missingColumns.length > 0) {
+          alert(`Missing columns: ${missingColumns.join(', ')}`);
+          return;
+        }
+
+        // Upload data to Firestore
+        jsonData.forEach(async (row) => {
+          const gameData = {
+            game_name: row.game_name,
+            game_uid: row.game_uid,
+            game_type: row.game_type,
+            game_launcher_icon: row.game_launcher_icon,
+            provider_uid: row.provider_uid,
+          };
+
+          try {
+            // Add data to Firestore
+            await db.collection('game_list').add(gameData);
+            console.log(`Added game: ${row.game_name}`);
+          } catch (error) {
+            console.error("Error adding document: ", error);
+          }
+        });
+
+        alert("Data has been uploaded to Firestore!");
+      };
+
+      // Read the file as binary string
+      reader.readAsBinaryString(file);
+    }
+  </script>
+
+</body>
+</html>

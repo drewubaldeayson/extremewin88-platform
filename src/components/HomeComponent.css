@@ -1,0 +1,98 @@
+.home-page {
+    padding: 20px;
+    background: #090f1e;
+    min-height: 100vh; /* Ensures it covers the full viewport height */
+}
+  
+.game-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    gap: 20px; 
+}
+  
+
+
+.all-games-page {
+    padding: 20px;
+    background-color: #090f1e;
+    min-height: 100vh;
+  }
+
+  .all-games-section {
+    background-color: #1c2238;
+    padding: 20px;
+    border-radius: 12px;
+    max-width: 100vw;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .all-games-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .all-games-header h3 {
+    color: #ffffff;
+    font-size: 1.8rem;
+    padding-left:10px;
+
+  }
+  
+  .all-games-header .back-btn {
+    background-color: #f39c12;
+    color: #ffffff;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+  }
+  
+  .all-games-header .back-btn:hover {
+    background-color: #ffcc00;
+  }
+  
+  .all-games-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 60px; /* Adds consistent spacing between rows and columns */
+    padding-top: 30px; /* Optional: Add padding to the grid container */
+    padding-bottom: 30px;
+    padding-right:40px;
+    padding-left:10px;
+    max-width: 100%; /* Prevents grid from overflowing */
+    box-sizing: border-box; /* Ensures padding is included in the total width */
+  }
+  
+  .all-games-list .game-card {
+    width: 150px; /* Fixed width for all cards */
+    background-color: #2b345a;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    margin-bottom:30px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+    overflow: hidden;
+  }
+  
+  .all-games-list .game-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  }
+  
+  .all-games-list .game-card img {
+    max-width: 100%;
+    height: auto; 
+    border-radius: 4px;
+  }
+  
+  .all-games-list .game-card p {
+    margin-top: 5px;
+    font-size: 20px;
+  }

@@ -1,0 +1,102 @@
+.game-section {
+  background-color: #1c2238;
+  padding: 15px;
+  border-radius: 12px;
+  flex: 1; /* Allows the sections to grow or shrink evenly */
+  min-width: 300px; /* Ensures a minimum width to prevent overlap */
+  max-width: 49.5%; /* Limits the width to 48% for two columns */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box; /* Ensures padding is included in the width */
+}
+
+.game-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.game-section-title {
+  font-size: 18px;
+  margin-left:40px;
+  color: #fff;
+  font-weight: bold;
+}
+
+.view-all-btn {
+  background-color: transparent;
+  color: #ffcc00;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.game-section-games-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.scroll-btn {
+  background-color: #3c467a;
+  color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 18px;
+  cursor: pointer;
+  margin: 0 10px;
+}
+
+.scroll-btn:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+}
+
+.game-section-games {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  flex-grow: 1;
+  padding-bottom: 10px;
+  scrollbar-width: none;
+}
+
+.game-section-games::-webkit-scrollbar {
+  display: none;
+}
+
+.game-card {
+  min-width: 120px;
+background-color: #2b345a;
+border-radius: 8px;
+padding: 10px;
+text-align: center;
+flex-shrink: 0;
+box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.game-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.game-card:hover {
+  cursor:pointer;
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.game-card p {
+  margin-top: 5px;
+  font-size: 16px;
+  color: #fff;
+}
+  
+
+
+  
+  
