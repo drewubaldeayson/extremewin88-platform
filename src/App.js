@@ -6,6 +6,7 @@ import HomeScreen from './components/HomeScreen';
 import AboutUsPage from './components/AboutUsPage';
 import PrivacyPolicyPage from './components/PrivacyPolicyPage';
 import TermsAndConditionsPage from './components/TermsAndConditionsPage';
+import DepositMoneyHistoryPage from './components/DepositMoneyHistoryPage';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/about-us" element={<AboutUsPage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
           <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
+          <Route path="/deposit-history" element={<DepositMoneyHistoryPage />} />
         </Routes>
         <Footer/>
       </div>

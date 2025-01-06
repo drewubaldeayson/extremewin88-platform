@@ -1,0 +1,183 @@
+import React, { useState } from "react";
+import "./DepositMoneyModal.css";
+import Swal from "sweetalert2";
+import { sendDepositTransaction } from "../services/firebase"; // Import the function
+import gcashTransferImage from "../assets/images/gcash.png";
+
+const DepositMoneyModal = ({ onClose }) => {
+  const [selectedTab, setSelectedTab] = useState("GCash");
+  const [amount, setAmount] = useState("");
+  const [showGCashInstructions, setShowGCashInstructions] = useState(false);
+  const [transactionNumber, setTransactionNumber] = useState("");
+
+  const handleTabChange = (tab) => {
+    setSelectedTab(tab);
+  };
+
+  const handleAmountClick = (value) => {
+    setAmount(value);
+  };
+
+  const handleAmountChange = (e) => {
+    setAmount(e.target.value);
+  };
+
+  const handleDeposit = () => {
+    if (!amount || isNaN(amount) || amount <= 0) {
+      Swal.fire("Error", "Please enter a valid deposit amount.", "error");
+      return;
+    }
+    setShowGCashInstructions(true);
+  };
+
+  const handleSendTransaction = async () => {
+    if (!transactionNumber) {
+      Swal.fire("Error", "Please enter the transaction number.", "error");
+      return;
+    }
+
+    try {
+      await sendDepositTransaction({ amount, transactionNumber });
+
+      Swal.fire("Success", "Your deposit request has been submitted!", "success").then(() => {
+        onClose(); // Close the modal after success
+      });
+    } catch (error) {
+      Swal.fire("Error", error.message, "error");
+    }
+  };
+
+  const handleBack = () => {
+    setShowGCashInstructions(false);
+  };
+
+  return (
+    <div className="modal-overlay">
+      <div className="modal-container">
+        <button className="close-button" onClick={onClose}>
+          &times;
+        </button>
+
+        <div className="modal-header">
+          {showGCashInstructions && (
+            <button className="back-button" onClick={handleBack}>
+              &larr;
+            </button>
+          )}
+          <h2 className="modal-title">
+            Deposit thru {selectedTab}
+          </h2>
+        </div>
+
+        {!showGCashInstructions ? (
+          <>
+            <br/><br/>
+            <div className="tabs">
+              <button
+                className={`tab-button ${selectedTab === "GCash" ? "active" : ""}`}
+                onClick={() => handleTabChange("GCash")}
+              >
+                GCash
+              </button>
+            </div>
+            <p className="modal-subtitle">Start Earning and Enjoy the Thrill! Deposit Now and Play!</p>
+            <input
+              type="text"
+              placeholder="Enter Amount"
+              value={amount}
+              onChange={handleAmountChange}
+              className="amount-input"
+            />
+            <div className="amount-buttons">
+              {[50, 100, 500, 1000, 1500, 2000, 5000, 10000].map((value) => (
+                <button
+                  key={value}
+                  className="amount-button"
+                  onClick={() => handleAmountClick(value)}
+                >
+                  ₱ {value}
+                </button>
+              ))}
+            </div>
+            <button className="deposit-button" onClick={handleDeposit}>
+              Deposit
+            </button>
+          </>
+        ) : (
+          <>
+            <br/><br/><br/>
+            <p className="important-instructions">
+                ⚠️ <strong>Important Deposit Instructions</strong>
+                <br/>
+                <br />
+                Please proceed with the payment using one of the following methods:
+                <br />
+                <br/>
+                <strong>1. Send Money:</strong> Enter the following GCash number in your GCash app to send the amount <strong>₱{amount}</strong> directly.
+                <br />
+                <br/>
+                <strong>2. Scan QR Code:</strong> Alternatively, you can scan the QR code below to make the payment. Ensure the amount <strong>₱{amount}</strong> is entered correctly.
+                <br />
+                <br/>
+                After successfully completing the payment, kindly note down the reference or transaction number. Once done, submit the transaction details to us to confirm your payment.
+                <br />
+                <br/>
+                Thank you for choosing a seamless payment experience with us!
+            </p>
+
+            <div className="gcash-details">
+              <h3>1. GCash Number</h3>
+              <br/>
+              <table className="gcash-table">
+                <tbody>
+                <tr>
+                    <td className="gcash-label">GCash</td>
+                    <td className="gcash-value">
+                    <span id="gcash-number">0961 783 7182</span>
+                    <button
+                        className="copy-button"
+                        onClick={() => {
+                        const text = document.getElementById("gcash-number").textContent;
+                        navigator.clipboard.writeText(text).then(() => {
+                            alert("GCash number copied!");
+                        });
+                        }}
+                    >
+                        📋
+                    </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td className="gcash-label">Price Amount</td>
+                    <td className="gcash-value">₱{amount}</td>
+                </tr>
+                </tbody>
+            </table>
+            </div>
+            <br/>
+            <div className="gcash-qr">
+                <h3>2. GCash QR</h3>
+                <br/>
+                <div className="qr-container">
+                    <img src={gcashTransferImage} alt="GCash QR Code" className="qr-code" />
+                </div>
+            </div>
+            <br/>
+            <input
+              type="text"
+              placeholder="Enter Transaction Number"
+              value={transactionNumber}
+              onChange={(e) => setTransactionNumber(e.target.value)}
+              className="amount-input"
+            />
+            <button className="deposit-button" onClick={handleSendTransaction}>
+              Send
+            </button>
+          </>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default DepositMoneyModal;

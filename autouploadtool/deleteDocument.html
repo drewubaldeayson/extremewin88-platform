@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delete Firebase Documents</title>
+  <script type="module">
+    // Import Firebase libraries
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
+    import { getFirestore, collection, query, where, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDu2ap7zNmkOYpUBgm0T5eHlSRxjbRZldM",
+      authDomain: "extremewin88-6ec15.firebaseapp.com",
+      projectId: "extremewin88-6ec15",
+      storageBucket: "extremewin88-6ec15.appspot.com",
+      messagingSenderId: "622031742553",
+      appId: "1:622031742553:web:8c73ad700f4622eea07348",
+      measurementId: "G-H10JP5B512"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Define the deleteDocuments function and expose it globally
+    window.deleteDocuments = async function () {
+      try {
+        // Reference the collection and query documents with provider_uid == "jdb"
+        const gameListCollection = collection(db, "game_list");
+        const q = query(gameListCollection, where("provider_uid", "==", "jdb"));
+        const querySnapshot = await getDocs(q);
+
+        // Loop through each document and delete it
+        const deletePromises = querySnapshot.docs.map((docSnapshot) => {
+          return deleteDoc(doc(db, "game_list", docSnapshot.id));
+        });
+
+        await Promise.all(deletePromises);
+        alert("Documents with provider_uid 'jdb' have been deleted.");
+      } catch (error) {
+        console.error("Error deleting documents: ", error);
+        alert("An error occurred. Check the console for details.");
+      }
+    };
+  </script>
+</head>
+<body>
+  <h1>Delete Firebase Documents</h1>
+  <button onclick="deleteDocuments()">Delete Documents</button>
+</body>
+</html>

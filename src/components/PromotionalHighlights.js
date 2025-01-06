@@ -1,5 +1,6 @@
 import React from "react";
 import "./PromotionalHighlights.css";
+import promotionalImage1 from "../assets/images/2025-promotional-gif.gif";;
 
 const PromotionalHighlights = () => {
   return (
@@ -19,7 +20,7 @@ const PromotionalHighlights = () => {
         </div>
         <div className="hero-card">
           <img
-            src="https://backend.lvsgaming.com/uploads/1735781780383_813943575.jpg"
+            src={promotionalImage1}
             alt="Casino"
             className="hero-image"
           />

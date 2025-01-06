@@ -1,0 +1,156 @@
+.deposit-history-container {
+    font-family: Arial, sans-serif;
+    color: white;
+    background-color: #090F1E;
+    padding: 20px;
+  }
+  
+  .title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 40px;
+  }
+  
+  .tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+  
+  .tab {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 5px;
+   
+    cursor: pointer;
+  }
+  
+  .tab.active {
+    background-color: #007bff;
+  }
+  
+  .filters {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+    
+  }
+  
+  .date-range, .status-filter {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin: 0 10px;
+  }
+  
+  .history-table {
+    margin: 0 auto;
+    width: 80%;
+    border-collapse: collapse;
+  }
+  
+  .row {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #444;
+    padding: 10px 0;
+  }
+  
+  .row.header {
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  .cell {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .processing {
+    color: yellow;
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .prev, .next {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 0 5px;
+  }
+  
+  .page-info {
+    color: white;
+    margin: 0 10px;
+  }
+  
+
+  
+  .date-range-dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .date-range-picker-popup {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    background: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    padding: 10px;
+  }
+  
+  .date-range-picker-toggle {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .date-range-picker-toggle:hover {
+    background-color: #0056b3;
+  }
+  
+
+
+  .apply-button {
+    padding: 10px 20px; /* Increased padding for a more prominent look */
+    background-color: #007bff; /* Blue color */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px; /* Adjust font size if needed */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .apply-button:hover {
+    background-color: #0056b3; /* Darker blue for hover effect */
+  }
+  
+  .apply-button:active {
+    background-color: #004494; /* Slightly darker blue for active effect */
+  }
+  
+
+  .no-data {
+    text-align: center;
+    font-size: 18px;
+    color: #888;
+    padding: 30px;
+  }

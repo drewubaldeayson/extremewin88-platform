@@ -7,11 +7,13 @@ import { db } from "../services/firebase";
 import "./Header.css";
 import { useNavigate } from 'react-router-dom';
 import RegistrationModal from "./RegistrationModal";
+import DepositMoneyModal from "./DepositMoneyModal";
 
 const Header = () => {
 
   const [isLoginModalVisible, setIsLoginModalVisible] = useState(false);
   const [isRegistrationModalVisible, setIsRegistrationModalVisible] = useState(false);
+  const [isDepositMoneyModalVisible, setIsDepositMoneyModalVisible] = useState(false);
   const [playerData, setPlayerData] = useState(null);
   const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
   const [walletAmount, setWalletAmount] = useState(0.0);
@@ -26,6 +28,14 @@ const Header = () => {
   const toggleRegistrationModal = () => {
     setIsRegistrationModalVisible(!isRegistrationModalVisible);
   };
+
+  const toggleDepositMoneyModal = () => {
+    setIsDepositMoneyModalVisible(!isDepositMoneyModalVisible);
+  }
+
+  const toggleDepositMoneyHistoryModal = () => {
+    navigate("/deposit-history");
+  }
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -178,13 +188,13 @@ const Header = () => {
                 </button>
                 {isDropdownOpen && ( 
                   <div className="dropdown-menu">
-                    <a href="#deposit" className="dropdown-item">
+                    <a onClick={toggleDepositMoneyModal} className="dropdown-item">
                       Deposit
                     </a>
                     <a href="#withdraw" className="dropdown-item">
                       Withdraw
                     </a>
-                    <a href="#deposit-history" className="dropdown-item">
+                    <a onClick={toggleDepositMoneyHistoryModal} className="dropdown-item">
                       Deposit History
                     </a>
                     <a href="#withdraw-history" className="dropdown-item">
@@ -219,6 +229,11 @@ const Header = () => {
       {isRegistrationModalVisible && (
         <RegistrationModal onClose={toggleRegistrationModal} />
       )}
+
+      {isDepositMoneyModalVisible && (
+        <DepositMoneyModal onClose={toggleDepositMoneyModal} />
+      )}
+
     </>
   );
 };

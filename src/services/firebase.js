@@ -1,7 +1,8 @@
 // Import the required Firebase libraries
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, query, where, doc, onSnapshot, addDoc } from "firebase/firestore";
+import { Timestamp, getFirestore, collection, getDocs, query, where, doc, onSnapshot, addDoc, serverTimestamp  } from "firebase/firestore";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword  } from "firebase/auth";
+import { v4 as uuidv4 } from "uuid"; 
 
 // Firebase configuration
 const firebaseConfig = {
@@ -99,6 +100,78 @@ export const registerUser = async ({ name, username, password, phone, inviteCode
 
     return userCredential.user;
   } catch (error) {
+    throw error;
+  }
+};
+
+
+// Handle deposit requests
+export const sendDepositTransaction = async ({ amount, transactionNumber }) => {
+  try {
+    const depositRequestId = uuidv4(); // Generate unique deposit_request_id
+    const transactionId = uuidv4(); // Generate unique transaction_id
+
+    await addDoc(collection(db, "deposit_requests"), {
+      deposit_request_id: depositRequestId,
+      deposit_amount: parseFloat(amount),
+      deposit_method: "GCash",
+      transaction_id: transactionId,
+      created_at: serverTimestamp(),
+      deposit_transaction_number: transactionNumber,
+      currency: "PHP",
+      status: "processing",
+    });
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error sending deposit transaction:", error);
+    throw new Error("Failed to process your request. Please try again.");
+  }
+};
+
+
+// Fetch deposit requests from Firestore
+export const fetchDepositRequests = async () => {
+  try {
+    const depositCollection = collection(db, "deposit_requests");
+    const snapshot = await getDocs(depositCollection);
+    return snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+  } catch (error) {
+    console.error("Error fetching deposit requests:", error);
+    throw error;
+  }
+};
+
+
+// Fetch deposit requests with optional status filter
+export const fetchFilteredDepositRequests = async (status, startDate, endDate) => {
+  try {
+    const depositCollection = collection(db, "deposit_requests");
+
+    let depositQuery = depositCollection;
+
+    if (status && status !== "All") {
+      depositQuery = query(depositQuery, where("status", "==", status.toLowerCase()));
+    }
+
+    if (startDate && endDate) {
+      depositQuery = query(
+        depositQuery,
+        where("created_at", ">=", Timestamp.fromDate(new Date(startDate))),
+        where("created_at", "<=", Timestamp.fromDate(new Date(endDate)))
+      );
+    }
+
+    const snapshot = await getDocs(depositQuery);
+    return snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+  } catch (error) {
+    console.error("Error fetching filtered deposit requests:", error);
     throw error;
   }
 };
