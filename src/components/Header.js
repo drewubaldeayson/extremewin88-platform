@@ -6,10 +6,12 @@ import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { db } from "../services/firebase";
 import "./Header.css";
 import { useNavigate } from 'react-router-dom';
+import RegistrationModal from "./RegistrationModal";
 
 const Header = () => {
 
   const [isLoginModalVisible, setIsLoginModalVisible] = useState(false);
+  const [isRegistrationModalVisible, setIsRegistrationModalVisible] = useState(false);
   const [playerData, setPlayerData] = useState(null);
   const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
   const [walletAmount, setWalletAmount] = useState(0.0);
@@ -19,6 +21,10 @@ const Header = () => {
 
   const toggleLoginModal = () => {
     setIsLoginModalVisible(!isLoginModalVisible);
+  };
+
+  const toggleRegistrationModal = () => {
+    setIsRegistrationModalVisible(!isRegistrationModalVisible);
   };
 
   const toggleDropdown = () => {
@@ -125,7 +131,7 @@ const Header = () => {
               <button className="login-button" onClick={toggleLoginModal}>
                 Login
               </button>
-              <button className="registration-button">Registration</button>
+              <button className="registration-button"  onClick={toggleRegistrationModal}>Registration</button>
             </>
           ) : (
             <div className="nav-after-login">
@@ -208,6 +214,10 @@ const Header = () => {
       {/* Render Login Modal */}
       {isLoginModalVisible && (
         <LoginModal onClose={toggleLoginModal} />
+      )}
+
+      {isRegistrationModalVisible && (
+        <RegistrationModal onClose={toggleRegistrationModal} />
       )}
     </>
   );

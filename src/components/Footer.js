@@ -29,7 +29,7 @@ const Footer = () => {
           <h3>Contact us if you have any more questions</h3>
           <p>
             <i class="bi bi-envelope-at-fill email-icon"></i>
-            <a href="mailto:extremewin88@gmail.com">extremewin88@gmail.com</a>
+            <a href="mailto:extremewin88co@gmail.com">extremewin88co@gmail.com</a>
           </p>
         </div>
         <div className="footer-section">

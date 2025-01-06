@@ -20,7 +20,6 @@ const GameSection = ({ title, games, providerId, onViewAll  }) => {
         } else {
           setIsUserAuthenticated(false);
         }
-        console.log("User is authenticated:", isUserAuthenticated);
       });
       return () => unsubscribeAuth();
   }, [auth]);
@@ -37,7 +36,7 @@ const GameSection = ({ title, games, providerId, onViewAll  }) => {
           "Content-Type": "application/json",
           "x-igtechcasino-apikey": "677126d265bb35832e54e6d3",
           "x-rapidapi-host": "live-casino-slots-evolution-jili-and-50-plus-provider.p.rapidapi.com",
-          "x-rapidapi-key": "bf58a6fbe1mshe87b23e355bf58ap1ba530jsnd157e37e2a1d",
+          "x-rapidapi-key": "efd5337684msh1329b1d04eb87f9p13f196jsn51afe35a503a",
         },
         body: JSON.stringify({
           userId: "igtechgamingdemo",

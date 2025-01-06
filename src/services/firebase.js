@@ -1,17 +1,17 @@
 // Import the required Firebase libraries
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, query, where, doc, onSnapshot } from "firebase/firestore";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getFirestore, collection, getDocs, query, where, doc, onSnapshot, addDoc } from "firebase/firestore";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword  } from "firebase/auth";
 
 // Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyDssOo432oFRRuIDAZLsyREa3VEVaGuZwQ",
-    authDomain: "extremewin88-9a5d2.firebaseapp.com",
-    projectId: "extremewin88-9a5d2",
-    storageBucket: "extremewin88-9a5d2.firebasestorage.app",
-    messagingSenderId: "84383913086",
-    appId: "1:84383913086:web:6d67aa520284357bb6742f",
-    measurementId: "G-XCQRQJMKSZ"
+  apiKey: "AIzaSyDu2ap7zNmkOYpUBgm0T5eHlSRxjbRZldM",
+  authDomain: "extremewin88-6ec15.firebaseapp.com",
+  projectId: "extremewin88-6ec15",
+  storageBucket: "extremewin88-6ec15.firebasestorage.app",
+  messagingSenderId: "622031742553",
+  appId: "1:622031742553:web:8c73ad700f4622eea07348",
+  measurementId: "G-H10JP5B512"
 };
 
 // Initialize Firebase
@@ -39,7 +39,8 @@ export const signInWithUsername = async (username, password) => {
   try {
     // Query the players collection to find the email associated with the username
     const playersCollection = collection(db, "players");
-    const q = query(playersCollection, where("username", "==", username));
+    const formattedUsername = username.toLowerCase();
+    const q = query(playersCollection, where("username", "==", formattedUsername));
     const snapshot = await getDocs(q);
 
     if (snapshot.empty) {
@@ -52,6 +53,51 @@ export const signInWithUsername = async (username, password) => {
     // Authenticate using email and password
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     return { user: userCredential.user, data: userData }; // Return Firebase user and additional data
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const registerUser = async ({ name, username, password, phone, inviteCode }) => {
+  try {
+    // Check if username already exists
+    const playersCollection = collection(db, "players");
+    const existingUsers = await getDocs(query(playersCollection, where("username", "==", username)));
+    if (!existingUsers.empty) {
+      throw new Error("Username is already taken");
+    }
+
+    if(phone.startsWith("+")){
+      phone = phone.substring(1)
+    }
+
+    if(phone.startsWith("0")){
+      phone = "63" + phone.substring(1);
+    }
+
+    const existingPhoneNumber = await getDocs(query(playersCollection, where("phone", "==", phone)));
+
+    if (!existingPhoneNumber.empty) {
+      throw new Error("Phone Number is already registered");
+    }
+
+    // Create user with email and password in Firebase Auth
+    const email = `${username}@extremewin88.com`; // Generate an email from the username
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+
+    // Add user data to Firestore
+    await addDoc(playersCollection, {
+      uid: userCredential.user.uid,
+      name,
+      username: username.toLowerCase(),
+      email,
+      phone,
+      invite_code: inviteCode || null,
+      wallet_amount: 0,
+      createdAt: new Date().toISOString(),
+    });
+
+    return userCredential.user;
   } catch (error) {
     throw error;
   }

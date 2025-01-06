@@ -24,6 +24,8 @@ const LoginModal = ({ onClose }) => {
     } catch (err) {
        if(err?.message == "Firebase: Error (auth/invalid-credential)."){
         setError("Invalid username or password");
+       }else{
+        setError(err.message);
        }
     } finally {
       setLoading(false);
