@@ -14,7 +14,7 @@ const GameSection = ({ title, games, providerId, onViewAll  }) => {
   const auth = getAuth();
 
   const gameSectionWrapperRef = useRef(null);
-  useRef(() => {
+  useEffect(() => {
     const visibleGames = games.slice(startIndex, startIndex + 10);
     setDisplayedGames(visibleGames);
   }, [startIndex, games]);
@@ -42,7 +42,7 @@ const GameSection = ({ title, games, providerId, onViewAll  }) => {
 
         // Check if we've reached the end of the scroll and reset if needed
         if (scrollLeft + clientWidth >= scrollWidth) {
-          setDisplayedGames((prevGames) => [...prevGames, ...games.slice(startIndex, startIndex + 10)]);
+          //setDisplayedGames((prevGames) => [...prevGames, ...games.slice(startIndex, startIndex + 10)]);
         } else {
           
           wrapper.scrollLeft += 1;  // Scroll by 1px (adjust this for speed)
