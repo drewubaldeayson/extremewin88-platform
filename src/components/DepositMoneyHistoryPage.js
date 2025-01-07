@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import "./DepositMoneyHistoryPage.css";
 import { fetchDepositRequests, fetchFilteredDepositRequests  } from "../services/firebase"; 
 import { DateRangePicker } from "react-date-range";
+import { enUS } from "date-fns/locale"; // or any other locale you need
+
 import "react-date-range/dist/styles.css"; 
 import "react-date-range/dist/theme/default.css";
 
@@ -93,6 +95,7 @@ const DepositHistory = () => {
                   },
                 ]}
                 onChange={handleDateRangeChange}
+                locale={enUS} 
               />
               <div className="date-picker-actions">
                 <button className="apply-button" onClick={applyDateRange}>
@@ -104,9 +107,9 @@ const DepositHistory = () => {
         </div>
         <select className="status-filter" value={statusFilter} onChange={handleFilterChange}>
           <option value="All">All</option>
-          <option value="Processing">Processing</option>
-          <option value="Successful">Successful</option>
-          <option value="Rejected">Rejected</option>
+          <option value="processing">Processing</option>
+          <option value="successful">Successful</option>
+          <option value="rejected">Rejected</option>
         </select>
       </div>
       <div className="history-table">

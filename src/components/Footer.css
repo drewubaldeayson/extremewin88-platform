@@ -14,9 +14,10 @@
   }
   
   .footer-logo {
-    width: 15%;
+    width: 25%;
     height: auto;
     margin-right: 10px;
+    padding-bottom: 3%;
   }
   
   .footer-border-line {

@@ -35,7 +35,13 @@
 
 .game-section-games-wrapper {
   display: flex;
-  align-items: center;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  white-space: nowrap;
+}
+
+.game-section-games-wrapper::-webkit-scrollbar {
+  display: none; 
 }
 
 .scroll-btn {
@@ -57,7 +63,6 @@
 
 .game-section-games {
   display: flex;
-  overflow-x: auto;
   gap: 10px;
   flex-grow: 1;
   padding-bottom: 10px;

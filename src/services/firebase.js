@@ -147,16 +147,19 @@ export const fetchDepositRequests = async () => {
 
 
 // Fetch deposit requests with optional status filter
+// Fetch deposit requests with optional status filter
 export const fetchFilteredDepositRequests = async (status, startDate, endDate) => {
   try {
     const depositCollection = collection(db, "deposit_requests");
 
     let depositQuery = depositCollection;
 
+    // Apply status filter if provided
     if (status && status !== "All") {
       depositQuery = query(depositQuery, where("status", "==", status.toLowerCase()));
     }
 
+    // Apply date range filter if both startDate and endDate are provided
     if (startDate && endDate) {
       depositQuery = query(
         depositQuery,
@@ -165,7 +168,10 @@ export const fetchFilteredDepositRequests = async (status, startDate, endDate) =
       );
     }
 
+    // Fetch the data
     const snapshot = await getDocs(depositQuery);
+
+    // Map and return the results
     return snapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
@@ -175,3 +181,4 @@ export const fetchFilteredDepositRequests = async (status, startDate, endDate) =
     throw error;
   }
 };
+

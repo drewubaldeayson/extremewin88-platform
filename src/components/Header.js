@@ -8,6 +8,7 @@ import "./Header.css";
 import { useNavigate } from 'react-router-dom';
 import RegistrationModal from "./RegistrationModal";
 import DepositMoneyModal from "./DepositMoneyModal";
+import companyLogo from "../assets/icons/extremewin88logo.png";
 
 const Header = () => {
 
@@ -26,6 +27,7 @@ const Header = () => {
   };
 
   const toggleRegistrationModal = () => {
+    setIsLoginModalVisible(false);
     setIsRegistrationModalVisible(!isRegistrationModalVisible);
   };
 
@@ -120,8 +122,7 @@ const Header = () => {
       <header className="header">
         <div className="left-section" onClick={handleRedirectToHome}>
           <div className="logo">
-            <span className="logo-lvs">Extreme</span>
-            <span className="logo-gaming">Win88</span>
+           <img src={companyLogo} alt="ExtremeWin88" className="header-logo" />
           </div>
           <nav className="nav">
             <a onClick={handleRedirectToHome} className="nav-link">
@@ -223,7 +224,7 @@ const Header = () => {
       </header>
       {/* Render Login Modal */}
       {isLoginModalVisible && (
-        <LoginModal onClose={toggleLoginModal} />
+        <LoginModal onClose={toggleLoginModal} onToggleRegistrationModal={toggleRegistrationModal} />
       )}
 
       {isRegistrationModalVisible && (

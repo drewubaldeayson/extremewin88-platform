@@ -1,5 +1,5 @@
 /* Overlay */
-.modal-overlay {
+.deposit-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -12,7 +12,7 @@
     z-index: 1000;
   }
   
-  .modal-container {
+  .deposit-modal-container {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -29,20 +29,20 @@
     color: white;
   }
   
-  .modal-container::-webkit-scrollbar {
+  .deposit-modal-container::-webkit-scrollbar {
     width: 8px;
   }
   
-  .modal-container::-webkit-scrollbar-thumb {
+  .deposit-modal-container::-webkit-scrollbar-thumb {
     background-color: #ccc;
     border-radius: 4px;
   }
   
-  .modal-container::-webkit-scrollbar-thumb:hover {
+  .deposit-modal-container::-webkit-scrollbar-thumb:hover {
     background-color: #aaa;
   }
 
-  .modal-header {
+  .deposit-modal-header {
     display: flex;
     align-items: center;
     margin-bottom: 15px;
@@ -60,7 +60,7 @@
   
   
   /* Close Button */
-  .close-button {
+  .deposit-money-close-button {
     position: absolute;
     top: 20px;
     right: 15px;
@@ -74,7 +74,7 @@
   }
   
   /* Modal Title */
-  .modal-title {
+  .deposit-modal-title {
     padding-left:20px;
     padding-top:10px;
     font-size: 24px;
@@ -108,7 +108,7 @@
   }
   
   /* Subtitle */
-  .modal-subtitle {
+  .deposit-modal-subtitle {
     font-size: 14px;
     color: #9ea3b4;
     margin-bottom: 15px;

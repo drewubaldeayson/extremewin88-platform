@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { signInWithUsername } from "../services/firebase";
+import RegistrationModal from "./RegistrationModal";
 
 import "./LoginModal.css";
 
-const LoginModal = ({ onClose }) => {
+const LoginModal = ({ onClose, onToggleRegistrationModal}) => {
     const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -35,7 +36,7 @@ const LoginModal = ({ onClose }) => {
   return (
     <div className="modal-overlay">
       <div className="modal-container">
-        <button className="close-button" onClick={onClose}>
+        <button className="login-close-button" onClick={onClose}>
           &times;
         </button>
         <h2 className="modal-title">Login</h2>
@@ -65,7 +66,7 @@ const LoginModal = ({ onClose }) => {
         </form>
         <div className="signup-section">
           <p>
-           No account? <a href="#" className="signup-link">Register</a>
+           No account? <a onClick={onToggleRegistrationModal} className="signup-link">Register</a>
           </p>
         </div>
       </div>

@@ -46,13 +46,13 @@ const RegistrationModal = ({ onClose }) => {
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-container">
-        <button className="close-button" onClick={onClose}>
+    <div className="registration-modal-overlay">
+      <div className="registration-modal-container">
+        <button className="registration-close-button" onClick={onClose}>
           &times;
         </button>
-        <h2 className="modal-title">Register To Win!</h2>
-        <p className="modal-subtitle">Welcome to ExtremeWin88</p>
+        <h2 className="registration-modal-title">Register To Win!</h2>
+        <p className="registration-modal-subtitle">Welcome to ExtremeWin88</p>
         <form className="registration-form" onSubmit={handleRegistration}>
           <input
             type="text"

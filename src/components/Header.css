@@ -2,23 +2,34 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 30px; /* Increased padding for better spacing */
+    padding: 5px 15px; /* Increased padding for better spacing */
     background-color: #12172b; /* Dark blue background */
     color: white;
+    height: 80px; 
   }
   
   .left-section {
     display: flex;
     cursor: pointer;
     align-items: center;
+    width: 75%
   }
   
   .logo {
     display: flex;
     align-items: center;
-    font-size: 24px; /* Increased font size for the logo */
+    font-size: 24px; 
     font-weight: bold;
-    margin-right: 30px; /* Added more space between logo and navigation */
+    margin-right: 30px;
+    margin-left:20px;
+    padding-bottom:15px;
+    width: 20%;
+    height: 100%;
+  }
+
+  .logo img{
+    width: 100%; /* Make the logo image fill its container */
+    height: auto;
   }
   
   .logo-lvs {
@@ -195,4 +206,5 @@
     color: white;
     background-color: #12192c;
   }
+  
   

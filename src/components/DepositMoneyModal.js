@@ -52,26 +52,26 @@ const DepositMoneyModal = ({ onClose }) => {
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-container">
-        <button className="close-button" onClick={onClose}>
+    <div className="deposit-modal-overlay">
+      <div className="deposit-modal-container">
+        <button className="deposit-money-close-button" onClick={onClose}>
           &times;
         </button>
 
-        <div className="modal-header">
+        <div className="deposit-modal-header">
           {showGCashInstructions && (
             <button className="back-button" onClick={handleBack}>
               &larr;
             </button>
           )}
-          <h2 className="modal-title">
+          <h2 className="deposit-modal-title">
             Deposit thru {selectedTab}
           </h2>
         </div>
 
         {!showGCashInstructions ? (
           <>
-            <br/><br/>
+            
             <div className="tabs">
               <button
                 className={`tab-button ${selectedTab === "GCash" ? "active" : ""}`}
@@ -80,7 +80,7 @@ const DepositMoneyModal = ({ onClose }) => {
                 GCash
               </button>
             </div>
-            <p className="modal-subtitle">Start Earning and Enjoy the Thrill! Deposit Now and Play!</p>
+            <p className="deposit-modal-subtitle">Start Earning and Enjoy the Thrill! Deposit Now and Play!</p>
             <input
               type="text"
               placeholder="Enter Amount"
@@ -105,7 +105,7 @@ const DepositMoneyModal = ({ onClose }) => {
           </>
         ) : (
           <>
-            <br/><br/><br/>
+            <br/>
             <p className="important-instructions">
                 ⚠️ <strong>Important Deposit Instructions</strong>
                 <br/>
