@@ -79,6 +79,14 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
   }
   
+  .info-card img{
+    width: 100%;
+    height: auto; /* Maintains aspect ratio */
+    max-height: 150px; /* Prevents images from growing too large */
+    border-radius: 10px;
+    object-fit: contain; /* Avoids cropping for smaller images */
+  }
+  
   .info-card h3 {
     font-size: 18px;
     margin: 10px 0;
@@ -88,3 +96,24 @@
     font-size: 14px;
   }
   
+
+  @media (max-width: 768px) {
+    .hero-section {
+      flex-direction: column; /* Stacks the cards vertically for smaller screens */
+      gap: 10px;
+    }
+  
+    .hero-card {
+      height: auto; /* Adjust height for responsiveness */
+    }
+  
+    .cards-section {
+      grid-template-columns: repeat(2, 1fr); /* Two cards per row */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .cards-section {
+      grid-template-columns: 1fr; /* One card per row */
+    }
+  }

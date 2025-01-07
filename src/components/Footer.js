@@ -51,7 +51,7 @@ const Footer = () => {
         </div>
         <div className="footer-section">
           <h3>Reach Us</h3>
-          <a href="https://www.facebook.com/profile.php?id=61568318468259" target="_blank" rel="noopener noreferrer" className="facebook-icon">
+          <a href="https://www.facebook.com/profile.php?id=61559585600764" target="_blank" rel="noopener noreferrer" className="facebook-icon">
             <i class="bi bi-facebook"></i>
           </a>
         </div>
