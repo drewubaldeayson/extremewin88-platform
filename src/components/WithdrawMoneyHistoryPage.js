@@ -1,0 +1,152 @@
+import React, { useState, useEffect, useRef } from "react";
+import "./WithdrawMoneyHistoryPage.css";
+import {  fetchFilteredWithdrawalRequests  } from "../services/firebase"; 
+import { DateRangePicker } from "react-date-range";
+import { enUS } from "date-fns/locale"; // or any other locale you need
+
+import "react-date-range/dist/styles.css"; 
+import "react-date-range/dist/theme/default.css";
+
+const WithdrawMoneyHistoryPage = () => {
+  const [withdraws, setWithdrawals] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [statusFilter, setStatusFilter] = useState("All");
+  const [dateRange, setDateRange] = useState({
+    startDate: null,
+    endDate: null,
+  });
+  const [temporaryDateRange, setTemporaryDateRange] = useState({
+    startDate: new Date(),
+    endDate: new Date(),
+  });
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const datePickerRef = useRef(null);
+
+  useEffect(() => {
+    const loadWithdraws = async () => {
+      try {
+        const data = await fetchFilteredWithdrawalRequests(statusFilter, dateRange.startDate,
+            dateRange.endDate);
+        setWithdrawals(data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error loading withdrawals:", error);
+        setLoading(false);
+      }
+    };
+
+    loadWithdraws();
+  }, [statusFilter, dateRange]);
+
+  const handleFilterChange = (e) => {
+    setStatusFilter(e.target.value);
+  };
+
+  const applyDateRange = () => {
+    setDateRange(temporaryDateRange);
+    setShowDatePicker(false);
+  };
+
+  const handleDateRangeChange = (ranges) => {
+    const { selection } = ranges;
+    setTemporaryDateRange({
+        startDate: selection.startDate,
+        endDate: selection.endDate,
+      });
+  };
+
+  const handleOutsideClick = (e) => {
+    if (datePickerRef.current && !datePickerRef.current.contains(e.target)) {
+      setShowDatePicker(false);
+    }
+  };
+
+  useEffect(() => {
+    if (showDatePicker) {
+      document.addEventListener("mousedown", handleOutsideClick);
+    } else {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [showDatePicker]);
+
+  return (
+    <div className="withdraw-history-container">
+      <h1 className="title">Withdraw History</h1>
+      <div className="filters">
+        <div className="date-range-dropdown">
+          <button
+            className="date-range-picker-toggle"
+            onClick={() => setShowDatePicker(!showDatePicker)}
+          >
+            Select Date Range
+          </button>
+          {showDatePicker && (
+            <div className="date-range-picker-popup" ref={datePickerRef}>
+              <DateRangePicker
+                ranges={[
+                  {
+                    startDate: temporaryDateRange.startDate,
+                    endDate: temporaryDateRange.endDate,
+                    key: "selection",
+                  },
+                ]}
+                onChange={handleDateRangeChange}
+                locale={enUS} 
+              />
+              <div className="date-picker-actions">
+                <button className="apply-button" onClick={applyDateRange}>
+                  Apply
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+        <select className="status-filter" value={statusFilter} onChange={handleFilterChange}>
+          <option value="All">All</option>
+          <option value="processing">Processing</option>
+          <option value="successful">Successful</option>
+          <option value="rejected">Rejected</option>
+        </select>
+      </div>
+      <div className="history-table">
+        <div className="row header">
+          <div className="cell">Status</div>
+          <div className="cell">Amount</div>
+          <div className="cell">Withdraw Method</div>
+          <div className="cell">Account Name</div>
+          <div className="cell">Account Number</div>
+          <div className="cell">Time</div>
+        </div>
+        {loading ? (
+          <div className="loading">Loading...</div>
+        ) : withdraws.length === 0 ? (
+            <div className="no-data">No data records found</div>
+          ): (
+          withdraws.map((withdraw) => (
+            <div className="row" key={withdraw.id}>
+              <div className="cell">{withdraw.status[0].toUpperCase()+withdraw.status.substring(1)}</div>
+              <div className="cell">₱{withdraw.withdraw_amount}</div>
+              <div className="cell">{withdraw.withdraw_method}</div>
+              <div className="cell">{withdraw.account_name}</div>
+              <div className="cell">{withdraw.account_number}</div>
+              <div className="cell">
+                {new Date(withdraw.created_at.seconds * 1000).toLocaleString()}
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+      <div className="pagination">
+        <button className="prev">{"<"}</button>
+        <span className="page-info">Page 1 of 1</span>
+        <button className="next">{">"}</button>
+      </div>
+    </div>
+  );
+};
+
+export default WithdrawMoneyHistoryPage;

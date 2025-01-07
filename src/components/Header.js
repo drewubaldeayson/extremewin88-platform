@@ -3,21 +3,23 @@ import LoginModal from "./LoginModal";
 import { auth } from "../services/firebase";
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
-import { db } from "../services/firebase";
+import { db,fetchPendingWithdrawals } from "../services/firebase";
 import "./Header.css";
 import { useNavigate } from 'react-router-dom';
 import RegistrationModal from "./RegistrationModal";
 import DepositMoneyModal from "./DepositMoneyModal";
 import companyLogo from "../assets/icons/extremewin88logo.png";
+import WithdrawMoneyModal from "./WithdrawMoneyModal";
 
 const Header = () => {
 
   const [isLoginModalVisible, setIsLoginModalVisible] = useState(false);
   const [isRegistrationModalVisible, setIsRegistrationModalVisible] = useState(false);
   const [isDepositMoneyModalVisible, setIsDepositMoneyModalVisible] = useState(false);
+  const [isWithdrawMoneyModalVisible, setIsWithdrawMoneyModalVisible] = useState(false);
   const [playerData, setPlayerData] = useState(null);
   const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
-  const [walletAmount, setWalletAmount] = useState(0.0);
+  const [walletAmount, setWalletAmount] = useState({ current: 0.0, pending: 0.0 });
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const auth = getAuth();
   const navigate = useNavigate();
@@ -37,6 +39,14 @@ const Header = () => {
 
   const toggleDepositMoneyHistoryModal = () => {
     navigate("/deposit-history");
+  }
+
+  const toggleWitdrawMoneyModal = () => {
+    setIsWithdrawMoneyModalVisible(!isWithdrawMoneyModalVisible);
+  }
+
+  const toggleWithdrawMoneyHistoryModal = () => {
+    navigate("/withdraw-history");
   }
 
   const toggleDropdown = () => {
@@ -62,11 +72,21 @@ const Header = () => {
     const playersCollection = collection(db, "players");
     const q = query(playersCollection, where("username", "==", username));
   
-    return onSnapshot(q, (querySnapshot) => {
+    return onSnapshot(q, async (querySnapshot) => {
       if (!querySnapshot.empty) {
-        querySnapshot.forEach((docSnapshot) => {
+        querySnapshot.forEach( async (docSnapshot) => {
           const data = docSnapshot.data();
-          setWalletAmount(data.wallet_amount || 0.0);
+
+          const currentWallet = data.wallet_amount || 0.0;
+
+          const pendingAmount = await fetchPendingWithdrawals(username);
+
+          setWalletAmount({
+            current: currentWallet,
+            pending: pendingAmount,
+          });
+
+          console.log("PENDING AMOUNT IS ", username);
         });
       } else {
         console.error("No document found for the provided username!");
@@ -149,7 +169,11 @@ const Header = () => {
               <div className="deposit-btn-wrapper">
                 <div className="wallet-dropdown-container">
                   <select className="wallet-dropdown" disabled>
-                    <option value="EW">Wallet ₱: {walletAmount.toLocaleString()}</option>
+                    <option value="EW">Wallet: ₱{(walletAmount.current - walletAmount.pending).toLocaleString()} 
+                    {/* <i>{walletAmount.pending > 0 && 
+                        ` (₱${walletAmount.pending.toLocaleString()})`}  </i> */}
+                        
+                        </option>
                   </select>
                 </div>
               </div>
@@ -173,6 +197,7 @@ const Header = () => {
                       <path d="M20 22H4V20C4 17.2386 6.23858 15 9 15H15C17.7614 15 20 17.2386 20 20V22ZM12 13C8.68629 13 6 10.3137 6 7C6 3.68629 8.68629 1 12 1C15.3137 1 18 3.68629 18 7C18 10.3137 15.3137 13 12 13Z"></path>
                     </svg>
                   </span>
+                  {playerData.username}
                   <span className="three-dots">
                     <svg
                       stroke="currentColor"
@@ -192,13 +217,13 @@ const Header = () => {
                     <a onClick={toggleDepositMoneyModal} className="dropdown-item">
                       Deposit
                     </a>
-                    <a href="#withdraw" className="dropdown-item">
+                    <a onClick={toggleWitdrawMoneyModal} className="dropdown-item">
                       Withdraw
                     </a>
                     <a onClick={toggleDepositMoneyHistoryModal} className="dropdown-item">
                       Deposit History
                     </a>
-                    <a href="#withdraw-history" className="dropdown-item">
+                    <a onClick={toggleWithdrawMoneyHistoryModal}  className="dropdown-item">
                       Withdraw History
                     </a>
                     <a href="#betting-history" className="dropdown-item">
@@ -233,6 +258,10 @@ const Header = () => {
 
       {isDepositMoneyModalVisible && (
         <DepositMoneyModal onClose={toggleDepositMoneyModal} />
+      )}
+
+      {isWithdrawMoneyModalVisible && (
+        <WithdrawMoneyModal onClose={toggleWitdrawMoneyModal} />
       )}
 
     </>

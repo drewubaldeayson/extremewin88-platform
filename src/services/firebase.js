@@ -129,6 +129,45 @@ export const sendDepositTransaction = async ({ amount, transactionNumber }) => {
   }
 };
 
+// Handle withdrawal requests
+export const sendWithdrawalTransaction = async ({method, amount, accountNumber, accountName, username}) => {
+  try {
+    const withdrawCollection = collection(db, "withdrawal_requests");
+
+    const existingRequestQuery = query(
+      withdrawCollection,
+      where("status", "==", "processing"),
+      where("username", "==", username)
+    );
+    const existingSnapshot = await getDocs(existingRequestQuery);
+
+    if (!existingSnapshot.empty) {
+      throw new Error("You already have a pending withdrawal request. We'll make sure to process your previous request before doing another transaction.");
+    }
+
+    const withdrawRequestId = uuidv4(); // Generate unique withdraw_request_id
+    const transactionId = uuidv4(); // Generate unique transaction_id
+
+    await addDoc(collection(db, "withdrawal_requests"), {
+      withdraw_request_id: withdrawRequestId,
+      withdraw_amount: parseFloat(amount),
+      withdraw_method: method,
+      transaction_id: transactionId,
+      created_at: serverTimestamp(),
+      account_number: accountNumber,
+      account_name: accountName,
+      currency: "PHP",
+      status: "processing",
+      username: username
+    });
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error sending deposit transaction:", error);
+    throw new Error(error.message);
+  }
+};
+
 
 // Fetch deposit requests from Firestore
 export const fetchDepositRequests = async () => {
@@ -146,7 +185,6 @@ export const fetchDepositRequests = async () => {
 };
 
 
-// Fetch deposit requests with optional status filter
 // Fetch deposit requests with optional status filter
 export const fetchFilteredDepositRequests = async (status, startDate, endDate) => {
   try {
@@ -182,3 +220,60 @@ export const fetchFilteredDepositRequests = async (status, startDate, endDate) =
   }
 };
 
+
+export const fetchFilteredWithdrawalRequests = async (status, startDate, endDate) => {
+  try {
+    const depositCollection = collection(db, "withdrawal_requests");
+
+    let withdrawalQuery = depositCollection;
+
+    // Apply status filter if provided
+    if (status && status !== "All") {
+      withdrawalQuery = query(withdrawalQuery, where("status", "==", status.toLowerCase()));
+    }
+
+    // Apply date range filter if both startDate and endDate are provided
+    if (startDate && endDate) {
+      withdrawalQuery = query(
+        withdrawalQuery,
+        where("created_at", ">=", Timestamp.fromDate(new Date(startDate))),
+        where("created_at", "<=", Timestamp.fromDate(new Date(endDate)))
+      );
+    }
+
+    // Fetch the data
+    const snapshot = await getDocs(withdrawalQuery);
+
+    // Map and return the results
+    return snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+  } catch (error) {
+    console.error("Error fetching filtered withdrawal requests:", error);
+    throw error;
+  }
+};
+
+
+export const fetchPendingWithdrawals = async (username) => {
+  const withdrawCollection = collection(db, "withdrawal_requests");
+
+  const existingRequestQuery = query(
+    withdrawCollection,
+    where("status", "==", "processing"),
+    where("username", "==", username)
+  );
+
+  const existingSnapshot = await getDocs(existingRequestQuery);
+  let pendingAmount = 0;
+
+  if (!existingSnapshot.empty) {
+    existingSnapshot.forEach((doc) => {
+      const data = doc.data();
+      pendingAmount += data.withdraw_amount || 0;
+    });
+  }
+
+  return pendingAmount;
+};
