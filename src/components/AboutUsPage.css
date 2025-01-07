@@ -46,7 +46,7 @@
   }
   
   .join-button {
-    background: linear-gradient(255deg, #00b7ff, #8d53e9);
+   background: #FFDE59;
     color: #fff;
     border: none;
     text-decoration: none;
@@ -57,6 +57,6 @@
   }
   
   .join-button:hover {
-    background-color: #009acd;
+    background: linear-gradient(to right, #f0c51a, #FFDE59);
   }
   

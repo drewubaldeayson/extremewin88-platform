@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { fetchProviders, fetchGamesByProvider } from "../services/firebase"
+import { fetchProviders, fetchGamesByProvider, db,fetchPendingWithdrawals } from "../services/firebase"
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { collection, query, where, onSnapshot } from "firebase/firestore";
 import "./GamesList.css";
 import "./HomeComponent.css";
 import GameSection from "./GameSection.js";
@@ -17,6 +18,8 @@ const HomePage = () => {
   const [isMaximized, setIsMaximized] = useState(false);
   const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
   const [isLoginModalVisible, setIsLoginModalVisible] = useState(false);
+  const [walletAmount, setWalletAmount] = useState({ current: 0.0, pending: 0.0 });
+  const [userId, setUserId] = useState("");
   const auth = getAuth();
 
   useEffect(() => {
@@ -24,6 +27,11 @@ const HomePage = () => {
       const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
         if (user) {
           setIsUserAuthenticated(true);
+          const playerData = JSON.parse(localStorage.getItem("playerData"));
+          setUserId(playerData.userId)
+          const unsubscribeWallet = listenToWalletAmount(playerData.username);
+  
+          return () => unsubscribeWallet();
         } else {
           setIsUserAuthenticated(false);
         }
@@ -81,11 +89,11 @@ const HomePage = () => {
           "x-rapidapi-key": "efd5337684msh1329b1d04eb87f9p13f196jsn51afe35a503a",
         },
         body: JSON.stringify({
-          userId: "igtechgamingdemo",
+          userId: userId,
           gameId: gameUid,
           lang: "en",
-          money: 100000,
-          home_url: "https://igtechgaming.com/",
+          money: (walletAmount.current - walletAmount.pending),
+          home_url: "https://extremewin88.com/",
           platform: 1,
         }),
       });
@@ -101,6 +109,32 @@ const HomePage = () => {
   const toggleMaximize = () => {
     setIsMaximized(!isMaximized);
   };
+
+    const listenToWalletAmount = (username) => {
+      const playersCollection = collection(db, "players");
+      const q = query(playersCollection, where("username", "==", username));
+    
+      return onSnapshot(q, async (querySnapshot) => {
+        if (!querySnapshot.empty) {
+          querySnapshot.forEach( async (docSnapshot) => {
+            const data = docSnapshot.data();
+  
+            const currentWallet = data.wallet_amount || 0.0;
+  
+            const pendingAmount = await fetchPendingWithdrawals(username);
+  
+            setWalletAmount({
+              current: currentWallet,
+              pending: pendingAmount,
+            });
+  
+          });
+        } else {
+          console.error("No document found for the provided username!");
+        }
+      });
+    };
+  
 
 
   if (viewAllProvider) {

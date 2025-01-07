@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./DepositMoneyModal.css";
 import Swal from "sweetalert2";
-import { sendDepositTransaction } from "../services/firebase"; // Import the function
+import { sendDepositTransaction } from "../services/firebase";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import gcashTransferImage from "../assets/images/gcash.png";
 
 const DepositMoneyModal = ({ onClose }) => {
@@ -9,6 +10,8 @@ const DepositMoneyModal = ({ onClose }) => {
   const [amount, setAmount] = useState("");
   const [showGCashInstructions, setShowGCashInstructions] = useState(false);
   const [transactionNumber, setTransactionNumber] = useState("");
+  const [username, setUserName] = useState("");
+  const auth = getAuth();
 
   const handleTabChange = (tab) => {
     setSelectedTab(tab);
@@ -37,7 +40,7 @@ const DepositMoneyModal = ({ onClose }) => {
     }
 
     try {
-      await sendDepositTransaction({ amount, transactionNumber });
+      await sendDepositTransaction({ amount, transactionNumber, username });
 
       Swal.fire("Success", "Your deposit request has been submitted!", "success").then(() => {
         onClose(); // Close the modal after success
@@ -50,6 +53,19 @@ const DepositMoneyModal = ({ onClose }) => {
   const handleBack = () => {
     setShowGCashInstructions(false);
   };
+
+  useEffect(() => {
+        // Listen for changes in Firebase authentication state
+    const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const playerData = JSON.parse(localStorage.getItem("playerData"));
+        setUserName(playerData.username)
+        return true;
+      }
+    });
+
+    return () => unsubscribeAuth();
+  }, [auth]);
 
   return (
     <div className="deposit-modal-overlay">
@@ -82,7 +98,7 @@ const DepositMoneyModal = ({ onClose }) => {
             </div>
             <p className="deposit-modal-subtitle">Start Earning and Enjoy the Thrill! Deposit Now and Play!</p>
             <input
-              type="text"
+              type="number"
               placeholder="Enter Amount"
               value={amount}
               onChange={handleAmountChange}

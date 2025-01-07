@@ -30,21 +30,21 @@ const WithdrawMoneyModal = ({ onClose }) => {
     setAmount(e.target.value);
   };
 
-    const listenToWalletAmount = (username) => {
-      const playersCollection = collection(db, "players");
-      const q = query(playersCollection, where("username", "==", username));
-    
-      return onSnapshot(q, (querySnapshot) => {
-        if (!querySnapshot.empty) {
-          querySnapshot.forEach((docSnapshot) => {
-            const data = docSnapshot.data();
-            setWalletAmount(data.wallet_amount || 0.0);
-          });
-        } else {
-          console.error("No document found for the provided username!");
-        }
-      });
-    };
+  const listenToWalletAmount = (username) => {
+    const playersCollection = collection(db, "players");
+    const q = query(playersCollection, where("username", "==", username));
+  
+    return onSnapshot(q, (querySnapshot) => {
+      if (!querySnapshot.empty) {
+        querySnapshot.forEach((docSnapshot) => {
+          const data = docSnapshot.data();
+          setWalletAmount(data.wallet_amount || 0.0);
+        });
+      } else {
+        console.error("No document found for the provided username!");
+      }
+    });
+  };
   
     useEffect(() => {
       // Listen for changes in Firebase authentication state

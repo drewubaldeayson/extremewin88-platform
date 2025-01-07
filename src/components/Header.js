@@ -86,7 +86,6 @@ const Header = () => {
             pending: pendingAmount,
           });
 
-          console.log("PENDING AMOUNT IS ", username);
         });
       } else {
         console.error("No document found for the provided username!");
@@ -137,6 +136,14 @@ const Header = () => {
     navigate('/'); 
   };
 
+  const handleRedirectToBettingHistory = () => {
+    navigate('/betting-history'); 
+  };
+
+  const handleRedirectToPromotions = () => {
+    navigate('/promotions'); 
+  };
+
   return (
     <>
       <header className="header">
@@ -151,7 +158,7 @@ const Header = () => {
             <a onClick={handleRedirectToHome} className="nav-link">
               Slots
             </a>
-            <a onClick={handleRedirectToHome} className="nav-link">
+            <a onClick={handleRedirectToPromotions} className="nav-link">
               Promotions
             </a>
           </nav>
@@ -226,10 +233,10 @@ const Header = () => {
                     <a onClick={toggleWithdrawMoneyHistoryModal}  className="dropdown-item">
                       Withdraw History
                     </a>
-                    <a href="#betting-history" className="dropdown-item">
+                    <a onClick={handleRedirectToBettingHistory} className="dropdown-item">
                       Betting History
                     </a>
-                    <a href="#promotion" className="dropdown-item">
+                    <a onClick={handleRedirectToPromotions} className="dropdown-item">
                       Promotion
                     </a>
                     <a href="#profile" className="dropdown-item">

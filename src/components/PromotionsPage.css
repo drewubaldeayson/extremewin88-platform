@@ -1,0 +1,83 @@
+.promotions-container {
+  text-align: center;
+  font-family: Arial, sans-serif;
+  color: white;
+  background-color: #090F1E;
+  padding: 20px;
+}
+
+.promotions-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.promotions-header h2 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+}
+
+.promotions-header p {
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+.promotions-play-now-btn {
+  background-color: #FFDE59;
+  color: black;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.promotions-play-now-btn:hover {
+  background: linear-gradient(to right, #f0c51a, #FFDE59);
+}
+
+.promotions-games p {
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+
+.promotion-containers {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+
+.promotion-box {
+  width: 280px;
+  margin: 10px;
+  padding: 1px;
+  background: linear-gradient(110deg, #1e283f, #0c111c99);
+  border-radius: 5px;
+  box-shadow: 0 0 10px #0000004d;
+  animation: slideInUp 1.5s ease-out;
+  box-shadow: #00000040 0 54px 55px, #0000001f 0 -12px 30px, #0000001f 0 4px 6px, #0000002b 0 12px 13px, #00000017 0 -3px 5px;
+}
+
+.promotion-image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+img, svg {
+  vertical-align: middle;
+}
+
+.promotion-data h3 {
+  font-size: 1.5rem;
+  margin-top: 10px;
+}
+
+.promotion-data p {
+  font-size: .8rem;
+  margin-top: 5px; 
+  letter-spacing: 1px;
+}

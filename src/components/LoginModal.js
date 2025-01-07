@@ -5,7 +5,7 @@ import RegistrationModal from "./RegistrationModal";
 import "./LoginModal.css";
 
 const LoginModal = ({ onClose, onToggleRegistrationModal}) => {
-    const [username, setUsername] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);

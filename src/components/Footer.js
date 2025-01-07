@@ -28,7 +28,7 @@ const Footer = () => {
         <div className="footer-section">
           <h3>Contact us if you have any more questions</h3>
           <p>
-            <i class="bi bi-envelope-at-fill email-icon"></i>
+            <i className="bi bi-envelope-at-fill email-icon"></i>
             <a href="mailto:extremewin88co@gmail.com">extremewin88co@gmail.com</a>
           </p>
         </div>
@@ -52,7 +52,7 @@ const Footer = () => {
         <div className="footer-section">
           <h3>Reach Us</h3>
           <a href="https://www.facebook.com/profile.php?id=61559585600764" target="_blank" rel="noopener noreferrer" className="facebook-icon">
-            <i class="bi bi-facebook"></i>
+            <i className="bi bi-facebook"></i>
           </a>
         </div>
       </div>

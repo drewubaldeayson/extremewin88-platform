@@ -46,8 +46,8 @@
   }
   
   .play-now-button {
-    background-image: linear-gradient(255deg, #00b7ff, #8d53e9);
-    color: white;
+    background-color: #FFDE59;
+    color: black;
     border-radius: 4px;
     padding: 10px 40px;
     border-radius: 5px;
@@ -61,7 +61,7 @@
   }
   
   .play-now-button:hover {
-    background-color: #005bb5;
+    background: linear-gradient(to right, #f0c51a, #FFDE59);
   }
   
   .cards-section {

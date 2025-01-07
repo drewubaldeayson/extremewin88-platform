@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import "./GameSection.css";
+import { collection, query, where, onSnapshot } from "firebase/firestore";
+import { db,fetchPendingWithdrawals } from "../services/firebase";
 import LoginModal from "./LoginModal.js";
 
 const GameSection = ({ title, games, providerId, onViewAll  }) => {
@@ -11,6 +13,8 @@ const GameSection = ({ title, games, providerId, onViewAll  }) => {
   const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
   const [isLoginModalVisible, setIsLoginModalVisible] = useState(false);
   const [displayedGames, setDisplayedGames] = useState(games.slice(0, 10));
+  const [walletAmount, setWalletAmount] = useState({ current: 0.0, pending: 0.0 });
+  const [userId, setUserId] = useState("");
   const auth = getAuth();
 
   const gameSectionWrapperRef = useRef(null);
@@ -53,6 +57,47 @@ const GameSection = ({ title, games, providerId, onViewAll  }) => {
     return () => clearInterval(scrollInterval);  // Clean up interval on component unmount
   }, [games]);
 
+  const listenToWalletAmount = (username) => {
+    const playersCollection = collection(db, "players");
+    const q = query(playersCollection, where("username", "==", username));
+  
+    return onSnapshot(q, async (querySnapshot) => {
+      if (!querySnapshot.empty) {
+        querySnapshot.forEach( async (docSnapshot) => {
+          const data = docSnapshot.data();
+
+          const currentWallet = data.wallet_amount || 0.0;
+
+          const pendingAmount = await fetchPendingWithdrawals(username);
+
+          setWalletAmount({
+            current: currentWallet,
+            pending: pendingAmount,
+          });
+
+        });
+      } else {
+        console.error("No document found for the provided username!");
+      }
+    });
+  };
+
+
+  useEffect(() => {
+        // Listen for changes in Firebase authentication state
+    const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const playerData = JSON.parse(localStorage.getItem("playerData"));
+        setUserId(playerData.userId)
+        const unsubscribeWallet = listenToWalletAmount(playerData.username);
+
+        return () => unsubscribeWallet();
+      }
+    });
+
+    return () => unsubscribeAuth();
+  }, [auth]);
+
   const toggleLoginModal = () => {
     setIsLoginModalVisible(!isLoginModalVisible);
   };
@@ -68,11 +113,11 @@ const GameSection = ({ title, games, providerId, onViewAll  }) => {
           "x-rapidapi-key": "efd5337684msh1329b1d04eb87f9p13f196jsn51afe35a503a",
         },
         body: JSON.stringify({
-          userId: "igtechgamingdemo",
+          userId: userId,
           gameId: gameUid,
           lang: "en",
-          money: 100000,
-          home_url: "https://igtechgaming.com/",
+          money: (walletAmount.current - walletAmount.pending),
+          home_url: "https://extremewin88.com/",
           platform: 1,
         }),
       });

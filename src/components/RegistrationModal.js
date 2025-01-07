@@ -104,7 +104,7 @@ const RegistrationModal = ({ onClose }) => {
           {error && <p className="error">{error}</p>}
 
           <div className="captcha-section">
-            <div class="h-captcha" data-sitekey="dd885e3c-c2a4-4558-a262-424636f2e31a"></div>
+            <div className="h-captcha" data-sitekey="dd885e3c-c2a4-4558-a262-424636f2e31a"></div>
           </div>
 
           <div className="terms-section">

@@ -28,7 +28,7 @@
   }
   
   .tab.active {
-    background-color: #007bff;
+    background-color: #FFDE59;
   }
   
   .filters {
@@ -115,23 +115,23 @@
   
   .date-range-picker-toggle {
     padding: 10px;
-    background-color: #007bff;
-    color: white;
+    background:  #FFDE59;
+    color: black;
     border: none;
     border-radius: 4px;
     cursor: pointer;
   }
   
   .date-range-picker-toggle:hover {
-    background-color: #0056b3;
+    background-color: linear-gradient(to right, #f0c51a, #FFDE59);
   }
   
 
 
   .apply-button {
     padding: 10px 20px; /* Increased padding for a more prominent look */
-    background-color: #007bff; /* Blue color */
-    color: white;
+    background-color: #FFDE59; /* Blue color */
+    color: black;
     border: none;
     border-radius: 4px;
     font-size: 14px; /* Adjust font size if needed */
@@ -140,11 +140,11 @@
   }
   
   .apply-button:hover {
-    background-color: #0056b3; /* Darker blue for hover effect */
+    background-color: linear-gradient(to right, #f0c51a, #FFDE59);
   }
   
   .apply-button:active {
-    background-color: #004494; /* Slightly darker blue for active effect */
+    background-color: linear-gradient(to right, #f0c51a, #FFDE59);
   }
   
 

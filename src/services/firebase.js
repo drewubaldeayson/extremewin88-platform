@@ -96,6 +96,7 @@ export const registerUser = async ({ name, username, password, phone, inviteCode
       invite_code: inviteCode || null,
       wallet_amount: 0,
       createdAt: new Date().toISOString(),
+      userId: userCredential.user.uid
     });
 
     return userCredential.user;
@@ -106,7 +107,7 @@ export const registerUser = async ({ name, username, password, phone, inviteCode
 
 
 // Handle deposit requests
-export const sendDepositTransaction = async ({ amount, transactionNumber }) => {
+export const sendDepositTransaction = async ({ amount, transactionNumber, username }) => {
   try {
     const depositRequestId = uuidv4(); // Generate unique deposit_request_id
     const transactionId = uuidv4(); // Generate unique transaction_id
@@ -119,6 +120,7 @@ export const sendDepositTransaction = async ({ amount, transactionNumber }) => {
       created_at: serverTimestamp(),
       deposit_transaction_number: transactionNumber,
       currency: "PHP",
+      username: username,
       status: "processing",
     });
 
@@ -276,4 +278,86 @@ export const fetchPendingWithdrawals = async (username) => {
   }
 
   return pendingAmount;
+};
+
+
+// Fetch betting history list with optional status filter
+export const fetchFilteredBettingHistoryList = async (gameProviderFilter, startDate, endDate, username) => {
+  try {
+    const bettingHistoryCollection = collection(db, "betting_history");
+
+    // Base query for betting history with username filter
+    let bettingQuery = query(bettingHistoryCollection, where("username", "==", username));
+
+    // Apply date range filters if provided
+    if (startDate && endDate) {
+      bettingQuery = query(
+        bettingQuery,
+        where("created_at", ">=", Timestamp.fromDate(new Date(startDate))),
+        where("created_at", "<=", Timestamp.fromDate(new Date(endDate)))
+      );
+    }
+
+    // Fetch betting history data
+    const bettingSnapshot = await getDocs(bettingQuery);
+    const bettingData = bettingSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    if (!bettingData.length) return [];
+
+    // Fetch game list data
+    const gameListCollection = collection(db, "game_list");
+    const gameListSnapshot = await getDocs(gameListCollection);
+    const gameList = gameListSnapshot.docs.reduce((map, doc) => {
+      const data = doc.data();
+      map[data.game_uid] = data.provider_uid;
+      return map;
+    }, {});
+
+    // Filter betting history by game provider if provided
+    // const filteredData = bettingData.filter((record) => {
+    //   const provider = gameList[record.game_uid] || "Unknown";
+    //   return !gameProviderFilter || provider === gameProviderFilter;
+    // });
+
+     // Group and aggregate data
+     const aggregatedData = bettingData.reduce((acc, record) => {
+      const provider = gameList[record.game_uid] || "Unknown";
+      const betAmount = parseFloat(record.bet_amount);
+      const winAmount = parseFloat(record.win_amount);
+      const key = provider;
+
+      if (!acc[key]) {
+        acc[key] = {
+          id: record.id,
+          created_at: record.created_at,
+          game_provider: provider,
+          bet_count: 0,
+          total_bet_amount: 0,
+          total_win_lose_amount: 0,
+        };
+      }
+
+      acc[key].bet_count += 1;
+      acc[key].total_bet_amount += betAmount;
+      acc[key].total_win_lose_amount += winAmount - betAmount;
+
+      return acc;
+    }, {});
+
+    if (gameProviderFilter && gameProviderFilter !== "All") {
+      return Object.values(aggregatedData).filter(
+        (data) => data.game_provider === gameProviderFilter
+      );
+    }
+
+    // Convert aggregated data to array format
+    return Object.values(aggregatedData);
+
+  } catch (error) {
+    console.error("Error fetching filtered betting history requests:", error);
+    throw error;
+  }
 };

@@ -140,8 +140,8 @@
   
   /* Deposit Button */
   .deposit-button {
-    background: linear-gradient(to right, #6a5af9, #2d9ff3);
-    color: white;
+    background: #FFDE59;
+    color: black;
     border: none;
     padding: 10px 0;
     width: 100%;
@@ -155,7 +155,7 @@
   }
   
   .deposit-button:hover {
-    background: linear-gradient(to right, #5a4ed3, #2582d6);
+    background: linear-gradient(to right, #f0c51a, #FFDE59);
   }
 
  .important-instructions{
