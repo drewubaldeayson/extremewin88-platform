@@ -81,3 +81,47 @@ img, svg {
   margin-top: 5px; 
   letter-spacing: 1px;
 }
+
+.bonus-images-section {
+  display: flex;
+  justify-content: center; /* Distribute space evenly between images */
+  align-items: center; /* Align images vertically */
+  gap: 50px; /* Add spacing between images */
+  margin: 40px auto; /* Center the section vertically and horizontally */
+  padding: 0 20px; /* Add padding to prevent images from touching the screen edges */
+  max-width: 1200px; /* Restrict the container's maximum width */
+  flex-wrap: wrap; /* Ensure responsiveness for smaller screens */
+}
+
+.bonus-image {
+  flex: 1; /* Allow each image to take equal width */
+  max-width: 33.33%; /* Set a max width for images to control size */
+  min-width: 200px; /* Set a minimum width for smaller screens */
+}
+
+.bonus-image img {
+  width: 100%; /* Scale image to fit its container */
+  height: auto; /* Maintain the aspect ratio */
+  border-radius: 8px; /* Optional: Slight rounding of corners */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* Add shadow for depth */
+}
+
+
+.opportunity-section {
+  text-align: center;
+  margin-top: 40px;
+  padding: 20px;
+  background-color: #090F1E;
+  color: white;
+}
+
+.opportunity-section h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.opportunity-section p {
+  font-size: 1rem;
+  line-height: 1.8;
+}

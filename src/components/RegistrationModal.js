@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { registerUser, signInWithUsername } from "../services/firebase";
 
 import "./RegistrationModal.css";
 
-const RegistrationModal = ({ onClose }) => {
+const RegistrationModal = ({ onClose, inviteCodeFromURL }) => {
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -44,6 +44,10 @@ const RegistrationModal = ({ onClose }) => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    setInviteCode(inviteCodeFromURL);
+  }, [inviteCodeFromURL]);
 
   return (
     <div className="registration-modal-overlay">

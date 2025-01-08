@@ -35,22 +35,51 @@ const PromotionalHighlights = () => {
       {/* Bottom Cards Section */}
       <div className="cards-section">
         <div className="info-card">
-          <h3>Casino</h3>
-          <p>More than 180 Games!</p>
+          <div className="card-content">
+            <div className="text-content">
+              <h3>Casino</h3>
+              <p>More than 180 Games!</p>
+            </div>
+            <div className="image-content">
+              <img src="https://lvsgaming.com/assets/C-C2T1ZCGE.png" alt="Casino" />
+            </div>
+          </div>
         </div>
         <div className="info-card">
-          <h3>Slots</h3>
-          <p>Fly High, Win Big!</p>
+          <div className="card-content">
+            <div className="text-content">
+              <h3>Slots</h3>
+              <p>Fly High, Win Big!</p>
+            </div>
+            <div className="image-content">
+              <img src="https://lvsgaming.com/assets/slotnew-BluT622Z.png" alt="Slots" />
+            </div>
+          </div>
         </div>
         <div className="info-card">
-          <h3>Table & Cards</h3>
-          <p>Master Your Precision!</p>
+          <div className="card-content">
+            <div className="text-content">
+              <h3>Table & Cards</h3>
+              <p>Master Your Precision!</p>
+            </div>
+            <div className="image-content">
+              <img src="https://lvsgaming.com/assets/cardnew-iM0idOYX.png" alt="Table & Cards" />
+            </div>
+          </div>
         </div>
         <div className="info-card">
-          <h3>Fishing</h3>
-          <p>Master Your Precision!</p>
+          <div className="card-content">
+            <div className="text-content">
+              <h3>Fishing</h3>
+              <p>Master Your Precision!</p>
+            </div>
+            <div className="image-content">
+              <img src="https://lvsgaming.com/assets/fishingnew-CV0N4uG_.png" alt="Fishing" />
+            </div>
+          </div>
         </div>
       </div>
+
     </div>
   );
 };

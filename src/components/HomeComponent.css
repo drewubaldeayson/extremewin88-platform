@@ -37,24 +37,25 @@
   
   .all-games-header h3 {
     color: #ffffff;
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     padding-left:10px;
 
   }
   
   .all-games-header .back-btn {
-    background-color: #f39c12;
-    color: #ffffff;
+    background-color: #FFDE59;
+    color: black;
     border: none;
     padding: 10px 30px;
     border-radius: 5px;
+    font-weight: bold;
     cursor: pointer;
     font-size: 1rem;
     transition: background-color 0.3s;
   }
   
   .all-games-header .back-btn:hover {
-    background-color: #ffcc00;
+    background-color: linear-gradient(to right, #f0c51a, #FFDE59);
   }
   
   .all-games-list {

@@ -10,6 +10,7 @@ import DepositMoneyHistoryPage from './components/DepositMoneyHistoryPage';
 import WithdrawMoneyHistoryPage from './components/WithdrawMoneyHistoryPage';
 import BettingHistoryPage from './components/BettingHistoryPage';
 import PromotionsPage from './components/PromotionsPage';
+import Profile from './components/Profile';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/withdraw-history" element={<WithdrawMoneyHistoryPage />} />
           <Route path="/betting-history" element={<BettingHistoryPage />} />
           <Route path="/promotions" element={<PromotionsPage />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
         <Footer/>
       </div>

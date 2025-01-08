@@ -72,43 +72,89 @@
   }
   
   .info-card {
-    background-color: #1c2238;
+    background-color: #1c2238; /* Solid background color initially */
     border-radius: 10px;
     text-align: center;
-    padding: 20px;
+    padding: 15px 20px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease; /* Smooth transitions */
+  }
+
+  .info-card:hover {
+    transform: translateY(-5px); /* Lift the card up on hover */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+    background: linear-gradient(135deg, #2c3342, #1c2238); /* Apply gradient on hover */
   }
   
-  .info-card img{
-    width: 100%;
-    height: auto; /* Maintains aspect ratio */
-    max-height: 150px; /* Prevents images from growing too large */
-    border-radius: 10px;
-    object-fit: contain; /* Avoids cropping for smaller images */
+  
+  .card-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%; 
+  }
+
+  .text-content {
+    flex: 1;
+    text-align: left;
+    padding-right: 20px;
   }
   
+  .image-content img {
+    transform-origin: center;
+    transform: perspective(400px) rotateY(20deg); /* Initial 3D rotation */
+    transition: transform 0.3s ease; /* Smooth transition for transform effect */
+    width: 70px;
+    height: 70px;
+  }
+
+  /* Add the hover effect for the image */
+  .info-card:hover .image-content img {
+    transform: perspective(400px) rotateY(20deg) scale(1.1) translateX(5px); /* Slight scale and movement */
+  }
+
   .info-card h3 {
     font-size: 18px;
     margin: 10px 0;
+    text-align: left;
   }
   
   .info-card p {
     font-size: 14px;
+    text-align: left;
   }
   
 
   @media (max-width: 768px) {
+    .cards-section {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  
+    .card-content {
+      flex-direction: column; /* Stack the text and image vertically for smaller screens */
+      align-items: flex-start;
+    }
+  
+    .text-content {
+      padding-right: 0;
+    }
+
     .hero-section {
       flex-direction: column; /* Stacks the cards vertically for smaller screens */
       gap: 10px;
     }
+
+    .image-content img {
+      max-height: 150px;
+    }
   
     .hero-card {
       height: auto; /* Adjust height for responsiveness */
-    }
-  
-    .cards-section {
-      grid-template-columns: repeat(2, 1fr); /* Two cards per row */
     }
   }
   

@@ -1,7 +1,30 @@
-import React from "react";
-import "./PromotionsPage.css"; // Optional: Include CSS for styling
+import React, { useState } from "react";
+import "./PromotionsPage.css";
+import "./FullScreenModal.css";
+import { useNavigate } from 'react-router-dom';
+
+const FullScreenModal = ({ imageSrc, onClose }) => {
+  return (
+    <div className="fullscreen-container" onClick={onClose}>
+      <img src={imageSrc} alt="Full Screen" className="fullscreen-image" />
+    </div>
+  );
+};
 
 const PromotionsPage = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentImage, setCurrentImage] = useState("");
+  const navigate = useNavigate();
+
+  const openFullScreen = (imageSrc) => {
+    setCurrentImage(imageSrc);
+    setIsModalOpen(true);
+  };
+
+  const closeFullScreen = () => {
+    setIsModalOpen(false);
+  };
+
   const promotions = [
     {
       title: "Slots",
@@ -25,6 +48,11 @@ const PromotionsPage = () => {
     }
   ];
 
+  const handleRedirectToHome = () => {
+    navigate('/'); 
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <div className="promotions-container">
       <header className="promotions-header">
@@ -35,7 +63,7 @@ const PromotionsPage = () => {
           transactions, and top-notch customer support. Whether you’re a casual player or a
           seasoned pro, ExtremeWin88 has something for everyone.
         </p>
-        <button className="promotions-play-now-btn">PLAY NOW</button>
+        <button className="promotions-play-now-btn" onClick={handleRedirectToHome}>PLAY NOW</button>
       </header>
 
       <section className="promotions-games">
@@ -55,6 +83,29 @@ const PromotionsPage = () => {
             </div>
           ))}
         </div>
+      </section>
+
+      <section className="opportunity-section">
+        <h2>Seize the Opportunity<br />to Make Your Dreams Come True</h2>
+        <p>
+          Experience the joy of winning big and living your dream life.<br />
+          Your dreams are within reach—unleash the power of possibility and take the first step towards achieving your goals.
+        </p>
+      </section>
+
+      <section className="bonus-images-section">
+        <div className="bonus-image">
+          <img src="https://lvsgaming.com/assets/promo1-DTmoQwsC.png" alt="Welcome Bonus" onClick={() => openFullScreen("https://lvsgaming.com/assets/promo1-DTmoQwsC.png")}/>
+        </div>
+        <div className="bonus-image">
+          <img src="https://lvsgaming.com/assets/promo2-BsA_eced.png" alt="General Rules" onClick={() => openFullScreen("https://lvsgaming.com/assets/promo2-BsA_eced.png")}/>
+        </div>
+        <div className="bonus-image">
+          <img src="https://lvsgaming.com/assets/promo3-D405XuwJ.png" alt="Refer & Earn" onClick={() => openFullScreen("https://lvsgaming.com/assets/promo3-D405XuwJ.png")}/>
+        </div>
+        {isModalOpen && (
+          <FullScreenModal imageSrc={currentImage} onClose={closeFullScreen} />
+        )}
       </section>
     </div>
   );

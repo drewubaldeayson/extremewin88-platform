@@ -21,6 +21,7 @@ const Header = () => {
   const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
   const [walletAmount, setWalletAmount] = useState({ current: 0.0, pending: 0.0 });
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [inviteCodeFromURL, setInviteCodeFromURL] = useState("");
   const auth = getAuth();
   const navigate = useNavigate();
 
@@ -39,6 +40,7 @@ const Header = () => {
 
   const toggleDepositMoneyHistoryModal = () => {
     navigate("/deposit-history");
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   const toggleWitdrawMoneyModal = () => {
@@ -47,6 +49,7 @@ const Header = () => {
 
   const toggleWithdrawMoneyHistoryModal = () => {
     navigate("/withdraw-history");
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   const toggleDropdown = () => {
@@ -94,6 +97,9 @@ const Header = () => {
   };
 
   useEffect(() => {
+
+
+
     // Listen for changes in Firebase authentication state
     const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -101,11 +107,18 @@ const Header = () => {
         setIsUserAuthenticated(true);
         const playerData = JSON.parse(localStorage.getItem("playerData"));
         const unsubscribeWallet = listenToWalletAmount(playerData.username);
-
         // Cleanup wallet listener on component unmount or logout
         return () => unsubscribeWallet();
       } else {
         setIsUserAuthenticated(false);
+                
+        // Check the URL for 'invite-code' and open registration modal if it exists
+        const urlParams = new URLSearchParams(window.location.search);
+        const inviteCode = urlParams.get("code");
+        if (inviteCode) {
+            setInviteCodeFromURL(inviteCode);
+            setIsRegistrationModalVisible(true);
+        }
       }
     });
 
@@ -134,21 +147,29 @@ const Header = () => {
 
   const handleRedirectToHome = () => {
     navigate('/'); 
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleRedirectToBettingHistory = () => {
     navigate('/betting-history'); 
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleRedirectToPromotions = () => {
     navigate('/promotions'); 
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleRedirectToProfile= () => {
+    navigate('/profile'); 
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
     <>
       <header className="header">
-        <div className="left-section" onClick={handleRedirectToHome}>
-          <div className="logo">
+        <div className="left-section" >
+          <div className="logo" onClick={handleRedirectToHome}>
            <img src={companyLogo} alt="ExtremeWin88" className="header-logo" />
           </div>
           <nav className="nav">
@@ -237,9 +258,9 @@ const Header = () => {
                       Betting History
                     </a>
                     <a onClick={handleRedirectToPromotions} className="dropdown-item">
-                      Promotion
+                      Promotions
                     </a>
-                    <a href="#profile" className="dropdown-item">
+                    <a onClick={handleRedirectToProfile} className="dropdown-item">
                       Profile
                     </a>
                     <button
@@ -260,7 +281,7 @@ const Header = () => {
       )}
 
       {isRegistrationModalVisible && (
-        <RegistrationModal onClose={toggleRegistrationModal} />
+        <RegistrationModal onClose={toggleRegistrationModal} inviteCodeFromURL={inviteCodeFromURL} />
       )}
 
       {isDepositMoneyModalVisible && (

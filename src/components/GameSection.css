@@ -17,8 +17,8 @@
 }
 
 .game-section-title {
-  font-size: 18px;
-  margin-left:40px;
+  font-size: 20px;
+  margin-left:10px;
   color: #fff;
   font-weight: bold;
 }
@@ -35,6 +35,10 @@
 
 .game-section-games-wrapper {
   display: flex;
+  padding-left:5px;
+  margin-left:10px;
+  margin-right:5px;
+  padding-right:5px;
   overflow-x: auto;
   scroll-behavior: smooth;
   white-space: nowrap;

@@ -1,7 +1,7 @@
 // Import the required Firebase libraries
 import { initializeApp } from "firebase/app";
-import { Timestamp, getFirestore, collection, getDocs, query, where, doc, onSnapshot, addDoc, serverTimestamp  } from "firebase/firestore";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword  } from "firebase/auth";
+import { Timestamp, getFirestore, collection, getDocs, query, where, doc, getDoc, addDoc, serverTimestamp, updateDoc  } from "firebase/firestore";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword,  updatePassword as fbUpdatePassword  } from "firebase/auth";
 import { v4 as uuidv4 } from "uuid"; 
 
 // Firebase configuration
@@ -358,6 +358,53 @@ export const fetchFilteredBettingHistoryList = async (gameProviderFilter, startD
 
   } catch (error) {
     console.error("Error fetching filtered betting history requests:", error);
+    throw error;
+  }
+};
+
+
+export const updatePassword = async (email, oldPassword, newPassword) => {
+  try {
+    // Reauthenticate the user
+    const userCredential = await signInWithEmailAndPassword(auth, email, oldPassword);
+
+    // Update the password in Firebase Auth
+    await fbUpdatePassword(userCredential.user, newPassword);
+
+    // Update the password in the Firestore database (optional)
+    const userDoc = doc(db, 'players', userCredential.user.uid);
+    await updateDoc(userDoc, { password: newPassword });
+
+    return true;
+  } catch (error) {
+    // Check the error code and provide specific feedback
+    if (error.code === "auth/wrong-password") {
+      throw new Error("The current password is incorrect. Please try again.");
+    } else if (error.code === "auth/invalid-credential") {
+      throw new Error("The current password is incorrect. Please try again.");
+    } else if (error.code === "auth/user-not-found") {
+      throw new Error("User not found. Please check your email.");
+    } else {
+      throw error; // Rethrow the error for other cases
+    }
+  }
+};
+
+// Fetch player details by email or userId
+export const fetchPlayerDetails = async (username) => {
+  try {
+    const playersCollection = collection(db, 'players');
+    const q = query(playersCollection, where('username', '==', username));
+    const snapshot = await getDocs(q);
+
+    if (snapshot.empty) {
+      throw new Error('Player details not found.');
+    }
+
+    const playerData = snapshot.docs[0].data(); // Get the first matching document
+
+    return playerData;// Return player details
+  } catch (error) {
     throw error;
   }
 };

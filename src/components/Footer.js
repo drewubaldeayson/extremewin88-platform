@@ -8,14 +8,17 @@ const Footer = () => {
 
   const handleRedirectToAbout = () => {
     navigate('/about-us'); 
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleRedirectToPrivacyPolicy = () => {
     navigate('/privacy-policy'); 
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleRedirectToTerms = () => {
     navigate('/terms-and-conditions'); 
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (

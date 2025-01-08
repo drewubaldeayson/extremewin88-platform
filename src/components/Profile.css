@@ -1,0 +1,173 @@
+.profile-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #090F1E;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+.profile-info {
+    flex: 1;
+    max-width: 60%;
+    margin-right: 20px;
+    background-color: #1C2238;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+/* Title styling */
+.profile-info h3 {
+    margin-bottom: 20px;
+    font-size: 18px;
+    color: #ffffff;
+    text-align: left;
+}
+
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.profile-icon {
+    font-size: 50px;
+    color: orange;
+    margin-right: 15px;
+}
+
+.profile-username {
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+}
+
+.profile-section .profile-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.profile-label {
+    font-size: 18px;
+    color: #a9b3c1;
+    text-align: left;
+    flex: 1;
+}
+
+.profile-value {
+    font-size: 18px;
+    color: #ffffff;
+    text-align: right;
+    flex: 1;
+}
+
+.profile-value a {
+    cursor: pointer;
+}
+
+
+/* Referral section */
+.referral-section h3 {
+    font-size: 16px;
+    color: white;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.referral-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.referral-row a {
+    color: #FFDE59;
+    text-decoration: none;
+    font-size: 18px;
+    text-align: right;
+}
+
+.referral-row a:hover {
+    text-decoration: underline;
+}
+
+
+.password-change-subtitle {
+    font-size: 14px;
+    color: #a9b3c1;
+    padding-bottom: 20px;
+}
+
+
+.profile-section h3, .referral-section h3 {
+margin-bottom: 10px;
+}
+
+.referral-section a {
+color: #FFDE59;
+text-decoration: none;
+overflow-x: auto;
+    white-space: nowrap;
+    letter-spacing: 2px;
+}
+  
+.password-change {
+    flex: 1;
+    max-width: 40%;
+    background-color: #1C2238;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 0 auto; /* Center the section horizontally */
+    text-align: center; /* Center text inside */
+}
+  
+  .password-change h3 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #ffffff;
+  }
+  
+  .password-change p {
+    font-size: 14px;
+    color: #B0B3C3;
+    margin-bottom: 20px;
+  }
+  
+  .password-change input {
+    display: block;
+    width: calc(100% - 20px);
+    margin: 20px auto;
+    padding: 10px;
+    background-color: #121828;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    outline: none;
+  }
+  
+  .password-change input::placeholder {
+    color: #A0AEC0;
+  }
+  
+  .password-change button {
+    padding: 10px 20px;
+    margin-top:15px;
+    width: 150px;
+    background-color: #FFDE59;
+    color: black;
+    border: none;
+    border-radius: 6px;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .password-change button:hover {
+    background: linear-gradient(to right, #f0c51a, #FFDE59);
+  }
