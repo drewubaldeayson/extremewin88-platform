@@ -1,0 +1,52 @@
+.carousel-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+    background-color: #090e1d;
+    overflow: hidden; 
+  }
+  
+  .arrow-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    z-index: 10;
+  }
+
+
+
+    .carousel {
+        display: flex;
+        gap: 16px;
+        align-items: center; 
+      }
+  
+  .provider-item {
+    flex: 0 0 auto;
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    cursor: pointer;
+    display: flex;
+    align-items: center; /* Vertically center the logo */
+    justify-content: center; /* Horizontally center the logo */
+  }
+  
+  .provider-logo {
+    max-width: 100%; /* Ensure the logo fits within the box */
+    max-height: 100%; /* Prevent the logo from exceeding the box height */
+    filter: grayscale(1); /* Make the logo grayscale by default */
+    transition: filter 0.3s ease, transform 0.3s ease; /* Add smooth transition for hover effect */
+  }
+  
+  .provider-item:hover .provider-logo {
+    filter: grayscale(0); /* Remove grayscale on hover */
+    transform: scale(1.1); /* Slightly scale up the logo */
+  }
+  

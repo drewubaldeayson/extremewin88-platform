@@ -150,6 +150,11 @@ const Header = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const handleRedirectToSlots = () => {
+    navigate('/slots'); 
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   const handleRedirectToBettingHistory = () => {
     navigate('/betting-history'); 
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -176,7 +181,7 @@ const Header = () => {
             <a onClick={handleRedirectToHome} className="nav-link">
               Home
             </a>
-            <a onClick={handleRedirectToHome} className="nav-link">
+            <a onClick={handleRedirectToSlots} className="nav-link">
               Slots
             </a>
             <a onClick={handleRedirectToPromotions} className="nav-link">

@@ -113,6 +113,15 @@
     color: #9ea3b4;
     margin-bottom: 15px;
   }
+
+  /* Subtitle */
+  .withdraw-modal-note {
+    font-size: 14px;
+    color: red;;
+    margin-bottom:20px;
+    text-align: left !important;
+    padding-left:10px;
+  }
   
 
   /* Amount Buttons */
@@ -160,6 +169,7 @@
 
  .important-instructions{
     text-align: left;
+    padding-left: 10px;
  }
   
 
@@ -199,7 +209,7 @@
     width: 100%;
     max-width: calc(100% - 20px); /* Prevents it from touching the edges of the container */
     padding: 10px;
-    margin: 0 auto 15px; /* Adds bottom margin and centers it */
+    margin: 0 auto 10px; /* Adds bottom margin and centers it */
     border: 1px solid #ddd; /* A lighter border for better visibility */
     border-radius: 5px;
     background-color: white;

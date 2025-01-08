@@ -61,12 +61,9 @@
   .all-games-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 60px; /* Adds consistent spacing between rows and columns */
-    padding-top: 30px; /* Optional: Add padding to the grid container */
-    padding-bottom: 30px;
-    padding-right:40px;
-    padding-left:10px;
-    max-width: 100%; /* Prevents grid from overflowing */
+    gap: 20px; /* Adds consistent spacing between rows and columns */
+    padding: 30px 10px 30px 40px;
+    max-width: 100%;
     box-sizing: border-box; /* Ensures padding is included in the total width */
   }
   

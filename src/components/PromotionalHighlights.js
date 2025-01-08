@@ -1,12 +1,36 @@
 import React from "react";
 import "./PromotionalHighlights.css";
-import promotionalImage1 from "../assets/images/2025-promotional-gif.gif";;
+import promotionalImage1 from "../assets/images/2025-promotional-gif.gif";
+import { useNavigate } from 'react-router-dom';
 
 const PromotionalHighlights = () => {
+  const navigate = useNavigate();
+
+  const handleRedirectToSlots = () => {
+    navigate('/slots'); 
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleRedirectToFishing = () => {
+    navigate('/fishing'); 
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  
+  const handleRedirectToTableCards = () => {
+    navigate('/tablecards'); 
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleRedirectToCasino = () => {
+    navigate('/casino');
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <div className="dashboard">
       <div className="hero-section">
-        <div className="hero-card">
+        <div className="hero-card" onClick={handleRedirectToSlots}>
           <img
             src="https://backend.lvsgaming.com/uploads/1735781780379_313893339.png"
             alt="Table and Card"
@@ -24,7 +48,7 @@ const PromotionalHighlights = () => {
             alt="Casino"
             className="hero-image"
           />
-          <div className="hero-content">
+          <div className="hero-content" onClick={handleRedirectToCasino}>
             <h2>Casino</h2>
             <p>Your Game, Your Luck, Your Jackpot Awaits!</p>
             <button className="play-now-button">Play Now</button>
@@ -34,7 +58,7 @@ const PromotionalHighlights = () => {
 
       {/* Bottom Cards Section */}
       <div className="cards-section">
-        <div className="info-card">
+        <div className="info-card" onClick={handleRedirectToCasino}>
           <div className="card-content">
             <div className="text-content">
               <h3>Casino</h3>
@@ -45,7 +69,7 @@ const PromotionalHighlights = () => {
             </div>
           </div>
         </div>
-        <div className="info-card">
+        <div className="info-card" onClick={handleRedirectToSlots}>
           <div className="card-content">
             <div className="text-content">
               <h3>Slots</h3>
@@ -56,7 +80,7 @@ const PromotionalHighlights = () => {
             </div>
           </div>
         </div>
-        <div className="info-card">
+        <div className="info-card"  onClick={handleRedirectToTableCards}>
           <div className="card-content">
             <div className="text-content">
               <h3>Table & Cards</h3>
@@ -67,7 +91,7 @@ const PromotionalHighlights = () => {
             </div>
           </div>
         </div>
-        <div className="info-card">
+        <div className="info-card"  onClick={handleRedirectToFishing}>
           <div className="card-content">
             <div className="text-content">
               <h3>Fishing</h3>

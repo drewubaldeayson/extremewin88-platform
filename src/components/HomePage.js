@@ -6,6 +6,7 @@ import "./GamesList.css";
 import "./HomeComponent.css";
 import GameSection from "./GameSection.js";
 import LoginModal from "./LoginModal.js";
+import SearchButton from './SearchButton';
 
 const HomePage = () => {
   const [providers, setProviders] = useState([]);
@@ -19,6 +20,7 @@ const HomePage = () => {
   const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
   const [isLoginModalVisible, setIsLoginModalVisible] = useState(false);
   const [walletAmount, setWalletAmount] = useState({ current: 0.0, pending: 0.0 });
+  const [searchQuery, setSearchQuery] = useState('');
   const [userId, setUserId] = useState("");
   const auth = getAuth();
 
@@ -110,31 +112,34 @@ const HomePage = () => {
     setIsMaximized(!isMaximized);
   };
 
-    const listenToWalletAmount = (username) => {
-      const playersCollection = collection(db, "players");
-      const q = query(playersCollection, where("username", "==", username));
-    
-      return onSnapshot(q, async (querySnapshot) => {
-        if (!querySnapshot.empty) {
-          querySnapshot.forEach( async (docSnapshot) => {
-            const data = docSnapshot.data();
+  const listenToWalletAmount = (username) => {
+    const playersCollection = collection(db, "players");
+    const q = query(playersCollection, where("username", "==", username));
   
-            const currentWallet = data.wallet_amount || 0.0;
-  
-            const pendingAmount = await fetchPendingWithdrawals(username);
-  
-            setWalletAmount({
-              current: currentWallet,
-              pending: pendingAmount,
-            });
-  
+    return onSnapshot(q, async (querySnapshot) => {
+      if (!querySnapshot.empty) {
+        querySnapshot.forEach( async (docSnapshot) => {
+          const data = docSnapshot.data();
+
+          const currentWallet = data.wallet_amount || 0.0;
+
+          const pendingAmount = await fetchPendingWithdrawals(username);
+
+          setWalletAmount({
+            current: currentWallet,
+            pending: pendingAmount,
           });
-        } else {
-          console.error("No document found for the provided username!");
-        }
-      });
-    };
+
+        });
+      } else {
+        console.error("No document found for the provided username!");
+      }
+    });
+  };
   
+  const filteredGames = allGames.filter((game) =>
+    game.game_name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
 
   if (viewAllProvider) {
@@ -151,8 +156,11 @@ const HomePage = () => {
               Back
             </button>
           </div>
+          <div className="search-container">
+            <SearchButton searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+          </div>
           <div className="all-games-list">
-            {allGames.map((game) => (
+            {filteredGames.map((game) => (
               <div key={game.game_uid} className="game-card" onClick={() => handleGameClick(game.game_uid)}>
                 <img src={game.game_launcher_icon} alt={game.game_name} />
                 <p>{game.game_name}</p>

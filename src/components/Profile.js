@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Profile.css';
 import { updatePassword, fetchPlayerDetails} from '../services/firebase';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged, reload } from "firebase/auth";
 import Swal from "sweetalert2";
 
 const Profile = () => {
@@ -11,6 +11,7 @@ const Profile = () => {
         name: '',
         phone: '',
         email: '',
+        username: '',
         referralLink: '',
     });
 
@@ -30,8 +31,9 @@ const Profile = () => {
             return;
         }
         try {
-            await updatePassword(profile.email, passwords.oldPassword, passwords.newPassword);
+            await updatePassword(username, profile.email, passwords.oldPassword, passwords.newPassword);
             Swal.fire("Success", "Password updated successfully!", "success");
+            window.location.reload(); 
         } catch (error) {
             Swal.fire("Error",error.message, "error");
         }

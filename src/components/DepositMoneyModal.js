@@ -22,7 +22,12 @@ const DepositMoneyModal = ({ onClose }) => {
   };
 
   const handleAmountChange = (e) => {
-    setAmount(e.target.value);
+    if(e.target.value > 50000){
+      Swal.fire("Error", "Maximum deposit amount is Php 50,000.", "error");
+    }else{
+      setAmount(e.target.value);
+    }
+    
   };
 
   const handleDeposit = () => {
@@ -30,6 +35,12 @@ const DepositMoneyModal = ({ onClose }) => {
       Swal.fire("Error", "Please enter a valid deposit amount.", "error");
       return;
     }
+
+    if(amount < 100){
+      Swal.fire("Error", "Minimum deposit amount is Php 100.", "error");
+      return;
+    }
+
     setShowGCashInstructions(true);
   };
 
@@ -104,8 +115,9 @@ const DepositMoneyModal = ({ onClose }) => {
               onChange={handleAmountChange}
               className="amount-input"
             />
+            <div className="withdraw-modal-note">Note: Minimum of Php 100 and Maximum of Php 50,000 per deposit</div>
             <div className="amount-buttons">
-              {[50, 100, 500, 1000, 1500, 2000, 5000, 10000].map((value) => (
+              {[50, 100, 500, 1000, 1500, 2000, 5000, 10000, 50000].map((value) => (
                 <button
                   key={value}
                   className="amount-button"
@@ -137,6 +149,9 @@ const DepositMoneyModal = ({ onClose }) => {
                 <br/>
                 After successfully completing the payment, kindly note down the reference or transaction number. Once done, submit the transaction details to us to confirm your payment.
                 <br />
+                <br/>
+                <strong className="important-note">Please note! The use of words such as "bet", "ExtremeWin88", or "gambling" in the reference section is strictly prohibited when transferring money.</strong>
+                <br/>
                 <br/>
                 Thank you for choosing a seamless payment experience with us!
             </p>

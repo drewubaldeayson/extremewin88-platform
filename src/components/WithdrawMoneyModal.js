@@ -27,7 +27,11 @@ const WithdrawMoneyModal = ({ onClose }) => {
   };
 
   const handleAmountChange = (e) => {
-    setAmount(e.target.value);
+    if(e.target.value > 50000){
+      Swal.fire("Error", "Maximum deposit amount is Php 50,000.", "error");
+    }else{
+      setAmount(e.target.value);
+    }
   };
 
   const listenToWalletAmount = (username) => {
@@ -67,6 +71,11 @@ const WithdrawMoneyModal = ({ onClose }) => {
     if (!amount || isNaN(amount) || amount <= 0) {
         Swal.fire("Error", "Please enter a valid withdrawal amount.", "error");
         return;
+    }
+
+    if(amount < 500){
+      Swal.fire("Error", "Minimum withdrawal amount is Php 500.", "error");
+      return;
     }
 
     if(amount > walletAmount){
@@ -142,8 +151,9 @@ const WithdrawMoneyModal = ({ onClose }) => {
               onChange={handleAmountChange}
               className="amount-input"
             />
+           <div className="withdraw-modal-note">Note: Minimum of Php 500 and Maximum of Php 50,000 per withdrawal</div>
             <div className="amount-buttons">
-              {[50, 100, 500, 1000, 1500, 2000, 5000, 10000].map((value) => (
+              {[50, 100, 500, 1000, 1500, 2000, 5000, 10000, 50000].map((value) => (
                 <button
                   key={value}
                   className="amount-button"

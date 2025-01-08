@@ -2,6 +2,14 @@
   text-align: center;
 }
 
+body {
+  background: #090f1e;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Ensures padding and border are included in width/height calculations */
+  overflow-x: hidden;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

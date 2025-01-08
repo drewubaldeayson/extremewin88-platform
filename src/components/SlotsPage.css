@@ -1,0 +1,120 @@
+.slots-page{
+    background-color: #090e1d;
+}
+
+/* Wrapper for the list */
+.games-wrapper {
+    width: 100%;
+    display: flex;
+    
+    flex-wrap: wrap;
+    align-items: start;
+    gap: 15px; /* Spacing between list items */
+    padding: 30px 20px 30px 20px;
+    box-sizing: border-box;
+  }
+  
+  .games-wrapper > li {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom:15px;
+    width: calc((100% - 15px * 7) / 8); /* Adjusts for 8 items per row with margin */
+    margin-bottom: 15px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    border-radius: 8px;
+  }
+
+  /* Remove extra margin from the last items in each row */
+    .games-wrapper > li:nth-child(8n) {
+        margin-right: 0; /* This removes the margin on the right of the last item in each row */
+    }
+  
+
+  /* Image styles */
+  .games-wrapper > li > img:nth-of-type(1) {
+    width: 100%;
+    border-radius: 30px;
+  }
+  
+  /* Game info and button styling */
+  .games-wrapper > li > div.game {
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    -webkit-box-align: center;
+    width: 100%;
+    height: 30px;
+    position: absolute;
+    bottom: 23px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 0 0 8px 8px;
+    color: white;
+    text-align: center;
+    padding: 5px;
+  }
+  
+  .games-wrapper > li > div.game > button {
+    width: 80%;
+    height: 30px;
+    border-radius: 7px;
+    background: #2e2b51;
+    color: white;
+    font-weight: normal;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+  }
+  
+  .games-wrapper > li > div.game > span {
+    font-size: 14px;
+    text-transform: capitalize;
+    color: #fff;
+    padding: 0 3px;
+    text-shadow: 0.1em 0.1em 0.2em black;
+  }
+  
+  /* Online count styling */
+  .games-wrapper > li > div.online {
+    display: flex;
+    width:100%;
+    -webkit-box-align: center;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3px;
+    height:20px;;
+    color: white;
+  }
+  
+  .games-wrapper > li > div.online > span {
+    font-size: 12px;
+    text-transform: capitalize;
+    color: #c5caf2;
+    text-shadow: 0.1em 0.1em 0.2em black;
+  }
+  
+  /* Hover effects */
+  .games-wrapper > li:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  }
+  
+  .favorite-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+  }
+  
+   .games-wrapper > li > div.online > div {
+    width: 5px;
+    height: 5px;
+    background-color: #1fff20;
+    border-radius: 50%;
+    margin-right: 5px;
+    -webkit-animation: online-breathe 1s infinite ease-out;
+    animation: online-breathe 1s infinite ease-out;
+}

@@ -363,17 +363,32 @@ export const fetchFilteredBettingHistoryList = async (gameProviderFilter, startD
 };
 
 
-export const updatePassword = async (email, oldPassword, newPassword) => {
+export const updatePassword = async (username, email, oldPassword, newPassword) => {
   try {
+
+    const playersCollection = collection(db, "players");
+    const q = query(playersCollection, where("username", "==", username));
+    const snapshot = await getDocs(q);
+
+    if (snapshot.empty) {
+      throw new Error("User not found. Please check the username.");
+    }
+
+    const userDoc = snapshot.docs[0]; // First matching document
+    const userData = userDoc.data();
+
+    if (userData.password !== oldPassword) {
+      throw new Error("The current password is incorrect. Please try again.");
+    }
+
     // Reauthenticate the user
     const userCredential = await signInWithEmailAndPassword(auth, email, oldPassword);
 
     // Update the password in Firebase Auth
     await fbUpdatePassword(userCredential.user, newPassword);
 
-    // Update the password in the Firestore database (optional)
-    const userDoc = doc(db, 'players', userCredential.user.uid);
-    await updateDoc(userDoc, { password: newPassword });
+    const userRef = doc(db, "players", userDoc.id);
+    await updateDoc(userRef, { password: newPassword });
 
     return true;
   } catch (error) {

@@ -64,23 +64,26 @@
   }
   
   .login-button {
-    background-color: #2b2b2b;
-    color: white;
+    background-color: #FFDE59;
+    color:black;
     border: none;
     padding: 10px 20px; /* Increased button size */
     font-size: 18px; /* Medium text for buttons */
     border-radius: 4px;
     cursor: pointer;
+    font-weight: bold;
+
     transition: background-color 0.3s ease;
   }
   
   .login-button:hover {
-    background-color: #444444;
+    background: linear-gradient(to right, #f0c51a, #FFDE59);
+   
   }
   
   .registration-button {
-    background-color: #00c853;
-    color: white;
+    background-color: #FFDE59;
+    color:black;
     border: none;
     padding: 10px 20px; /* Increased button size */
     font-size: 18px; /* Medium text for buttons */
@@ -91,7 +94,7 @@
   }
   
   .registration-button:hover {
-    background-color: #00a844;
+    background: linear-gradient(to right, #f0c51a, #FFDE59);
   }
   
 
