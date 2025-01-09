@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { fetchProviders, fetchGamesByProvider } from "../services/firebase";
+import { fetchProviders, fetchGamesByProviderByGameType } from "../services/firebase";
 import "./GameProviderCarousel.css";
 
-const GameProviderCarousel = ({ onGamesFetched }) => {
+const GameProviderCarousel = ({ onGamesFetched, providerType}) => {
   const [providers, setProviders] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -11,14 +11,19 @@ const GameProviderCarousel = ({ onGamesFetched }) => {
     const loadProviders = async () => {
       try {
         const fetchedProviders = await fetchProviders();
-        setProviders(fetchedProviders);
+        // Fetch and filter providers that have Table Games
+        const providersWithTableGames = [];
 
-        // Automatically fetch games for "Fachai" after providers are loaded
-        const fachaiProvider = fetchedProviders.find(
-          (provider) => provider.provider_name === "Fachai"
-        );
-        if (fachaiProvider) {
-          fetchGames(fachaiProvider.provider_uid);
+        for (const provider of fetchedProviders) {
+          const games = await fetchGamesByProviderByGameType(provider.provider_uid, providerType);
+          if (games.length > 0) {
+            providersWithTableGames.push(provider);
+          }
+        }
+
+        setProviders(providersWithTableGames);
+        if (providersWithTableGames.length > 0) {
+          fetchGames(providersWithTableGames[0].provider_uid);
         }
       } catch (error) {
         console.error("Error fetching providers:", error);
@@ -38,9 +43,8 @@ const GameProviderCarousel = ({ onGamesFetched }) => {
 
   const fetchGames = async (providerId) => {
     try {
-      const games = await fetchGamesByProvider(providerId);
+      const games = await fetchGamesByProviderByGameType(providerId, providerType);
       onGamesFetched(games);
-      console.log(`Games for provider ${providerId}:`, games);
     } catch (error) {
       console.error("Error fetching games:", error);
     }

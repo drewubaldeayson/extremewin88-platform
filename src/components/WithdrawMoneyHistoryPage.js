@@ -25,7 +25,6 @@ const WithdrawMoneyHistoryPage = () => {
   useEffect(() => {
     const loadWithdraws = async () => {
       try {
-        console.log("Fetching withdrawals with status:", statusFilter, dateRange);
         const data = await fetchFilteredWithdrawalRequests(statusFilter, dateRange.startDate,
             dateRange.endDate);
         setWithdrawals(data);

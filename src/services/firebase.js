@@ -22,8 +22,23 @@ export const auth = getAuth(app);
 
 // Fetch all providers from "game_providers" collection
 export const fetchProviders = async () => {
-  const providerCollection = collection(db, "game_providers");
-  const snapshot = await getDocs(providerCollection);
+  const providersRef = collection(db, "game_providers");
+  const q = query(providersRef);
+  const querySnapshot = await getDocs(q);
+
+  let providers = [];
+  querySnapshot.forEach((doc) => {
+    providers.push(doc.data());
+  });
+
+  return providers;
+};
+
+// Fetch all games from casino providers
+export const fetchCasinoGames = async () => {
+  const gamesCollection = collection(db, "game_list");
+  const q = query(gamesCollection, where("provider_uid", "in", ["dream_gaming", "sa_gaming", "evolution_live"]));
+  const snapshot = await getDocs(q);
   return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 };
 
@@ -33,6 +48,19 @@ export const fetchGamesByProvider = async (providerUid) => {
   const q = query(gamesCollection, where("provider_uid", "==", providerUid));
   const snapshot = await getDocs(q);
   return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+};
+
+export const fetchGamesByProviderByGameType = async (providerUid, gameType) => {
+  const gamesCollection = collection(db, "game_list");
+  const q = query(gamesCollection, where("provider_uid", "==", providerUid), where("game_type", "==", gameType));
+  const querySnapshot = await getDocs(q);
+
+  let games = [];
+  querySnapshot.forEach((doc) => {
+    games.push(doc.data());
+  });
+
+  return games;
 };
 
 // Firebase Auth: Sign in with username and password

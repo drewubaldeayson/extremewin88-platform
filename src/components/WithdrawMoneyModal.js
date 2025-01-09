@@ -57,7 +57,6 @@ const WithdrawMoneyModal = ({ onClose }) => {
           const playerData = JSON.parse(localStorage.getItem("playerData"));
           const unsubscribeWallet = listenToWalletAmount(playerData.username);
           setUserName(playerData.username)
-          console.log("USER NAME ", playerData.username)
   
           // Cleanup wallet listener on component unmount or logout
           return () => unsubscribeWallet();

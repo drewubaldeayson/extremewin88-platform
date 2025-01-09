@@ -118,3 +118,38 @@
     -webkit-animation: online-breathe 1s infinite ease-out;
     animation: online-breathe 1s infinite ease-out;
 }
+
+
+/* THIS IS FOR CASINO CSS */
+
+.casino-games-wrapper {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  gap: 15px; /* Spacing between list items */
+  padding: 30px 20px 30px 20px;
+  box-sizing: border-box;
+}
+
+.casino-games-wrapper > li {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+  width: calc((100% - 15px * 2) / 3); /* Adjust for 3 items per row with gaps */
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+/* Remove extra margin from the last item in each row */
+.casino-games-wrapper > li:nth-child(3n) {
+  margin-right: 0; /* This removes the margin on the right of the last item in each row */
+}
+
+/* Image styles */
+.casino-games-wrapper > li > img:nth-of-type(1) {
+  width: 100%;
+  border-radius: 8px;
+}

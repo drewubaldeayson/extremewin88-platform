@@ -3,7 +3,7 @@ import PromotionalHighlights from "./PromotionalHighlights";
 import GameProviderCarousel from "./GameProviderCarousel";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
-import { db, fetchPendingWithdrawals } from "../services/firebase"
+import { db, fetchCasinoGames, fetchPendingWithdrawals } from "../services/firebase"
 import SearchButton from './SearchButton';
 import LoginModal from "./LoginModal.js";
 import './SlotsPage.css';
@@ -23,9 +23,19 @@ const CasinoPage = () => {
     const auth = getAuth();
     const [progressBarKey, setProgressBarKey] = useState(0);
 
-    const handleGameFetch = (fetchedGames) => {
-        setAllGames(fetchedGames);
+    const fetchGames = async () => {
+        try {
+          const fetchedGames = await fetchCasinoGames();
+          setAllGames(fetchedGames);
+        } catch (error) {
+          console.error("Error fetching games:", error);
+        }
     };
+
+    useEffect(() => {
+       fetchGames();
+    }, []);
+    
 
     const filteredGames = allGames.filter((game) =>
         game.game_name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -173,19 +183,14 @@ const CasinoPage = () => {
     return (
         <div className="slots-page">
             <PromotionalHighlights />
-            <GameProviderCarousel onGamesFetched={handleGameFetch} />
-
-            <div className="search-container">
-                <SearchButton searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-            </div>
-            <ul className="games-wrapper">
+            <ul className="casino-games-wrapper">
                 {filteredGames.map((game) => (
                 <li key={game.game_uid} data-id={game.game_uid} data-provider={game.game_provider} data-name={game.game_name}  onClick={() => handleGameClick(game.game_uid)}>
                     <img src={game.game_launcher_icon} alt={game.game_name} />
                     <img className="favorite-btn" data-id={game.game_uid} src="https://rollem88.com/assets/images/icon/favorite.svg?v=0.0.99" alt="favorite" />
                     <div className="game">
                         <span>{game.game_name}</span>
-                        <span>{game.provider_uid}</span>
+                        <span>{game.provider_uid.replace(/_/g, " ")}</span>
                     </div>
                     <div className="online">
                         <div></div>
