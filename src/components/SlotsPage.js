@@ -173,7 +173,7 @@ const SlotsPage = () => {
     return (
         <div className="slots-page">
             <PromotionalHighlights />
-            <GameProviderCarousel onGamesFetched={handleGameFetch} providerType="Slot Game" />
+            <GameProviderCarousel  className="game-provider-carousel-slots" onGamesFetched={handleGameFetch} providerType="Slot Game" />
 
             <div className="search-container">
                 <SearchButton searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
@@ -185,7 +185,7 @@ const SlotsPage = () => {
                     <img className="favorite-btn" data-id={game.game_uid} src="https://rollem88.com/assets/images/icon/favorite.svg?v=0.0.99" alt="favorite" />
                     <div className="game">
                         <span>{game.game_name}</span>
-                        <span>{game.provider_uid.replace(/_/g, " ")}</span>
+                        <span className="game-provider-name">{game.provider_uid.replace(/_/g, " ")}</span>
                     </div>
                     <div className="online">
                         <div></div>

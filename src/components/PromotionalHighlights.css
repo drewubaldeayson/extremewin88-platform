@@ -131,13 +131,34 @@
   
 
   @media (max-width: 768px) {
+    .hero-section{
+      display:none;
+
+    }
+
+    .hero-content h2 {
+      display:none;
+    }
+
+    .hero-content p {
+      display:none;
+    }
+    .hero-content button {
+      width:100%;
+    }
+    
+
     .cards-section {
       grid-template-columns: repeat(2, 1fr);
     }
   
     .card-content {
-      flex-direction: column; /* Stack the text and image vertically for smaller screens */
       align-items: flex-start;
+    }
+
+      /* Add the hover effect for the image */
+    .info-card:hover .image-content img {
+      transform: perspective(400px) rotateY(20deg) scale(1.1) translateX(5px); /* Slight scale and movement */
     }
   
     .text-content {

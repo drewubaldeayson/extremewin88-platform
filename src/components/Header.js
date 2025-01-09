@@ -21,12 +21,17 @@ const Header = () => {
   const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
   const [walletAmount, setWalletAmount] = useState({ current: 0.0, pending: 0.0 });
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isHamburgerDropdownOpen, setIsHamburgerDropdownOpen] = useState(false);
   const [inviteCodeFromURL, setInviteCodeFromURL] = useState("");
   const auth = getAuth();
   const navigate = useNavigate();
 
   const toggleLoginModal = () => {
     setIsLoginModalVisible(!isLoginModalVisible);
+  };
+
+  const toggleHamburgerDropdown = () => {
+    setIsHamburgerDropdownOpen(!isHamburgerDropdownOpen);
   };
 
   const toggleRegistrationModal = () => {
@@ -170,9 +175,14 @@ const Header = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const handleRedirectToNewsPage= () => {
+    navigate('/news'); 
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <>
-      <header className="header">
+      <header className="header header-desktop-version">
         <div className="left-section" >
           <div className="logo" onClick={handleRedirectToHome}>
            <img src={companyLogo} alt="ExtremeWin88" className="header-logo" />
@@ -186,6 +196,9 @@ const Header = () => {
             </a>
             <a onClick={handleRedirectToPromotions} className="nav-link">
               Promotions
+            </a>
+            <a onClick={handleRedirectToNewsPage} className="nav-link">
+              News
             </a>
           </nav>
         </div>
@@ -280,6 +293,53 @@ const Header = () => {
           )}
         </div>
       </header>
+
+      <header className="header header-mobile-version">
+        <div className="mobile-header">
+          <div className="mobile-logo" onClick={() => handleRedirectToHome('/')}>
+            <img src={companyLogo} alt="ExtremeWin88" className="mobile-header-logo" />
+          </div>
+          <div className="mobile-nav">
+          <button
+              className="sidebar-toggle"
+              onClick={toggleHamburgerDropdown}
+            >
+              <svg
+                className="hamburger-icon"
+                stroke="currentColor"
+                fill="currentColor"
+                strokeWidth="0"
+                viewBox="0 0 512 512"
+                fontSize="1.5rem"
+                height="1em"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M64 384h384v-42.666H64V384zm0-106.666h384v-42.667H64v42.667zM64 128v42.665h384V128H64z"></path>
+              </svg>
+            </button>
+            <div className={`slide-menu ${isHamburgerDropdownOpen ? 'open' : ''}`}>
+              <button className="close-menu" onClick={toggleHamburgerDropdown}>
+                &times;
+              </button>
+              <a onClick={() =>window.location.href = "/"} className="nav-link">
+                Home
+              </a>
+              <a onClick={() => window.location.href = "/slots"} className="nav-link">
+                Slots
+              </a>
+              <a onClick={() => window.location.href = "/promotions"} className="nav-link">
+                Promotions
+              </a>
+            </div>
+
+            {/* Overlay when menu is open */}
+            {isHamburgerDropdownOpen && <div className="menu-overlay" onClick={toggleHamburgerDropdown}></div>}
+          </div>
+        </div>
+      </header>
+
+
       {/* Render Login Modal */}
       {isLoginModalVisible && (
         <LoginModal onClose={toggleLoginModal} onToggleRegistrationModal={toggleRegistrationModal} />

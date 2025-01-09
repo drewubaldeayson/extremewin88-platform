@@ -11,6 +11,7 @@ import DepositMoneyHistoryPage from './components/DepositMoneyHistoryPage';
 import WithdrawMoneyHistoryPage from './components/WithdrawMoneyHistoryPage';
 import BettingHistoryPage from './components/BettingHistoryPage';
 import PromotionsPage from './components/PromotionsPage';
+import NewsPage from './components/NewsPage';
 import Profile from './components/Profile';
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -53,6 +54,7 @@ function App() {
           <Route path="/casino" element={<CasinoPage />} />
           <Route path="/tablecards" element={<TableCardsPage />} />
           <Route path="/fishing" element={<FishingPage />} />
+          <Route path="/news" element={<NewsPage />} />
         </Routes>
         <Footer/>
       </div>

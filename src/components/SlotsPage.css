@@ -153,3 +153,23 @@
   width: 100%;
   border-radius: 8px;
 }
+
+
+@media (max-width: 768px) {
+  .games-wrapper > li {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom:15px;
+    width: calc((100% - 15px * 2) / 3); /* Adjusts for 8 items per row with margin */
+    margin-bottom: 15px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    border-radius: 8px;
+  }
+
+  .games-wrapper > li > div.game {
+    display:none;
+  }
+
+}

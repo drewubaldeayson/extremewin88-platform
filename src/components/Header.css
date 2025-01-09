@@ -212,3 +212,123 @@
   }
   
   
+.header-desktop-version {
+  display: flex;
+}
+
+.header-mobile-version {
+  display: none;
+}
+
+.sidebar-toggle {
+  border: none;
+  outline: none;
+  padding: 12px;
+  background-color: transparent;
+  color: #fff; /* Makes the SVG icon white */
+  display: none; /* Initially hidden, shown via media query */
+}
+
+/* Hamburger Icon Animation */
+.hamburger-icon {
+  transition: transform 0.3s ease;
+  font-size: 2rem;
+}
+
+.sidebar-toggle.active .hamburger-icon {
+  transform: rotate(90deg);
+}
+
+
+/* Mobile version visible on smaller screens */
+@media (max-width: 768px) {
+  .header-desktop-version {
+    display: none;
+  }
+
+  .header-mobile-version {
+    display: block;
+  }
+
+  .mobile-header {
+    display: flex;
+    justify-content: space-between;
+    margin-top:15px; 
+  }
+
+
+  .mobile-logo img {
+    height: 50px;
+  }
+  /* Hamburger Button */
+  .sidebar-toggle {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: white;
+    display:block;
+  }
+
+  .hamburger-icon {
+    font-size: 2rem;
+  }
+
+  /* Slide-in Menu */
+  .slide-menu {
+    position: fixed;
+    top: 0;
+    right: -100%; /* Initially hidden off-screen */
+    height: 100%;
+    width: 50%;
+    max-width: 300px;
+    background-color: #12172b;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+    text-align:left;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    transition: right 0.3s ease-in-out;
+    z-index: 1001;
+  }
+
+  .slide-menu.open {
+    right: 0; /* Slide in when open */
+  }
+
+  .nav-link {
+    padding: 15px 10px;
+    color: white;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .nav-link:hover {
+    background-color: #374151;
+  }
+
+  /* Close Menu Button */
+  .close-menu {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2.0rem;
+    cursor: pointer;
+    /* margin-right: 15px; */
+    align-self: flex-end;
+  }
+
+  /* Overlay Effect */
+  .menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+  }
+}
