@@ -15,11 +15,16 @@ const WithdrawMoneyModal = ({ onClose }) => {
   const [showDepositMethodInstructions, setShowWithdrawalMethodInstructions] = useState(false);
   const [accountNumber, setAccountNumber] = useState("");
   const [accountName, setAccountName] = useState("");
+  const [bankName, setBankName] = useState("");
   const [username, setUserName] = useState("");
   const auth = getAuth();
   
   const handleTabChange = (tab) => {
     setSelectedTab(tab);
+  };
+
+  const handleBankChange = (event) => {
+    setBankName(event.target.value);
   };
 
   const handleAmountClick = (value) => {
@@ -98,8 +103,13 @@ const WithdrawMoneyModal = ({ onClose }) => {
       return;
     }
 
+    if(selectedTab == "Bank" && bankName == ""){
+      Swal.fire("Error", "Please select a bank first", "error");
+      return;
+    }
+
     try {
-      await sendWithdrawalTransaction({method, amount, accountNumber, accountName, username });
+      await sendWithdrawalTransaction(selectedTab, amount, accountNumber, accountName, username, bankName );
 
       Swal.fire("Success", "Your withdrawal request has been submitted!", "success").then(() => {
         onClose(); // Close the modal after success
@@ -141,6 +151,24 @@ const WithdrawMoneyModal = ({ onClose }) => {
               >
                 GCash
               </button>
+              <button
+                className={`tab-button ${selectedTab === "Maya" ? "active" : ""}`}
+                onClick={() => handleTabChange("Maya")}
+              >
+                Maya
+              </button>
+              <button
+                className={`tab-button ${selectedTab === "GrabPay" ? "active" : ""}`}
+                onClick={() => handleTabChange("GrabPay")}
+              >
+                GrabPay
+              </button>
+              <button
+                className={`tab-button ${selectedTab === "Bank" ? "active" : ""}`}
+                onClick={() => handleTabChange("Bank")}
+              >
+                Bank
+              </button>
             </div>
             <p className="withdraw-modal-subtitle">Enjoy withdrawing your wins everyday!</p>
             <input
@@ -180,6 +208,59 @@ const WithdrawMoneyModal = ({ onClose }) => {
             </p>
 
             <br/>
+            {selectedTab == "Bank" && 
+              <select
+                name="philippine_banks"
+                id="philippine_banks"
+                value={bankName}
+                 className="amount-input"
+                onChange={handleBankChange}
+              >
+                <option value="" disabled>
+                  -- Choose a Bank --
+                </option>
+                <option value="BDO Unibank">BDO Unibank</option>
+                <option value="Bank of the Philippine Islands">
+                  Bank of the Philippine Islands (BPI)
+                </option>
+                <option value="Metropolitan Bank and Trust Company">
+                  Metropolitan Bank and Trust Company (Metrobank)
+                </option>
+                <option value="Philippine National Bank">
+                  Philippine National Bank (PNB)
+                </option>
+                <option value="Land Bank of the Philippines">
+                  Land Bank of the Philippines (Landbank)
+                </option>
+                <option value="Rizal Commercial Banking Corporation">
+                  Rizal Commercial Banking Corporation (RCBC)
+                </option>
+                <option value="Security Bank Corporation">
+                  Security Bank Corporation
+                </option>
+                <option value="Union Bank of the Philippines">
+                  Union Bank of the Philippines (UnionBank)
+                </option>
+                <option value="East West Banking Corporation">
+                  East West Banking Corporation (EastWest Bank)
+                </option>
+                <option value="China Banking Corporation">
+                  China Banking Corporation (China Bank)
+                </option>
+                <option value="Philippine Savings Bank">
+                  Philippine Savings Bank (PSB)
+                </option>
+                <option value="Development Bank of the Philippines">
+                  Development Bank of the Philippines
+                </option>
+                <option value="Robinsons Bank Corporation">
+                  Robinsons Bank Corporation
+                </option>
+                <option value="Asia United Bank Corporation">
+                  Asia United Bank Corporation
+                </option>
+              </select>}
+             {selectedTab == "Bank" && <br/>}
             <input
               type="text"
               placeholder="Enter Account Name"

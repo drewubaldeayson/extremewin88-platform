@@ -108,7 +108,7 @@ const DepositHistory = () => {
         <select className="status-filter" value={statusFilter} onChange={handleFilterChange}>
           <option value="All">All</option>
           <option value="processing">Processing</option>
-          <option value="successful">Successful</option>
+          <option value="success">Successful</option>
           <option value="rejected">Rejected</option>
         </select>
       </div>
@@ -127,7 +127,11 @@ const DepositHistory = () => {
           ): (
           deposits.map((deposit) => (
             <div className="row" key={deposit.id}>
-              <div className="cell">{deposit.status[0].toUpperCase()+deposit.status.substring(1)}</div>
+             <div 
+                className={`cell ${deposit.status[0].toUpperCase() + deposit.status.substring(1) === "Success" ? "green" : deposit.status[0].toUpperCase() + deposit.status.substring(1) === "Processing" ? "yellow" :"red"}`}
+              >
+                {deposit.status[0].toUpperCase() + deposit.status.substring(1)}
+              </div>
               <div className="cell">₱{deposit.deposit_amount}</div>
               <div className="cell">{deposit.deposit_method}</div>
               <div className="cell">{deposit.deposit_transaction_number}</div>

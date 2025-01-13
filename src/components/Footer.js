@@ -21,6 +21,26 @@ const Footer = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const handleRedirectToSlots = () => {
+    navigate('/slots'); 
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleRedirectToCasino = () => {
+    navigate('/casino'); 
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleRedirectToTableCards = () => {
+    navigate('/tablecards'); 
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleRedirectToFishing = () => {
+    navigate('/fishing'); 
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <footer className="footer">
       <div className="footer-top-border">
@@ -46,10 +66,10 @@ const Footer = () => {
         <div className="footer-section">
           <h3>Categories</h3>
           <ul>
-            <li>Popular</li>
-            <li>Casino</li>
-            <li>Fishing</li>
-            <li>Slot</li>
+            <li onClick={handleRedirectToCasino}>Casino</li>
+            <li onClick={handleRedirectToSlots}>Slots</li>
+            <li onClick={handleRedirectToTableCards}>Table & Cards</li>
+            <li onClick={handleRedirectToFishing}>Fishing</li>
           </ul>
         </div>
         <div className="footer-section">
@@ -59,6 +79,72 @@ const Footer = () => {
           </a>
         </div>
       </div>
+      <div class="new-footer-container3"> 
+        <div class="footer-swiper-wrapper">
+                        <a class="footer-swiper-slide" >
+                            <img src="https://bigwin69.site/assets/images/provider/footer/ybt.png" alt=""/>
+                        </a>
+                                            <a class="footer-swiper-slide" >
+                            <img src="https://bigwin69.site/assets/images/provider/footer/pplay.png" alt=""/>
+                        </a>
+                                            <a class="footer-swiper-slide" >
+                            <img src="https://bigwin69.site/assets/images/provider/footer/awc.png" alt=""/>
+                        </a>
+                                            <a class="footer-swiper-slide" >
+                            <img src="https://bigwin69.site/assets/images/provider/footer/evo.png" alt=""/>
+                        </a>
+                                            <a class="footer-swiper-slide" >
+                            <img src="https://bigwin69.site/assets/images/provider/footer/sa.png" alt=""/>
+                        </a>
+                                            <a class="footer-swiper-slide" >
+                            <img src="https://bigwin69.site/assets/images/provider/footer/dg.png" alt=""/>
+                        </a>
+                                                                <a class="footer-swiper-slide" >
+                            <img src="https://bigwin69.site/assets/images/provider/footer/pplay.png" alt=""/>
+                        </a>
+                                            <a class="footer-swiper-slide" >
+                            <img src="https://bigwin69.site/assets/images/provider/footer/fc.png" alt=""/>
+                        </a>
+                                            <a class="footer-swiper-slide" >
+                            <img src="https://bigwin69.site/assets/images/provider/footer/bpg.png" alt=""/>
+                        </a>
+                                            <a class="footer-swiper-slide" >
+                            <img src="https://bigwin69.site/assets/images/provider/footer/op.png" alt=""/>
+                        </a>
+                                            <a class="footer-swiper-slide" >
+                            <img src="https://bigwin69.site/assets/images/provider/footer/hs.png" alt=""/>
+                        </a>
+                                            <a class="footer-swiper-slide" >
+                            <img src="https://bigwin69.site/assets/images/provider/footer/pgs.png" alt=""/>
+                        </a>
+                                            <a class="footer-swiper-slide" >
+                            <img src="https://bigwin69.site/assets/images/provider/footer/bng.png" alt=""/>
+                        </a>
+                                            <a class="footer-swiper-slide" >
+                            <img src="https://bigwin69.site/assets/images/provider/footer/cq9.png" alt=""/>
+                        </a>
+                                            <a class="footer-swiper-slide" >
+                            <img src="https://bigwin69.site/assets/images/provider/footer/jili.png" alt=""/>
+                        </a>
+                                            <a class="footer-swiper-slide" >
+                            <img src="https://bigwin69.site/assets/images/provider/footer/nt.png" alt=""/>
+                        </a>
+                                            <a class="footer-swiper-slide" >
+                            <img src="https://bigwin69.site/assets/images/provider/footer/ns.png" alt=""/>
+                        </a>
+                                            <a class="footer-swiper-slide" >
+                            <img src="https://bigwin69.site/assets/images/provider/footer/nlc.png" alt=""/>
+                        </a>
+                                            <a class="footer-swiper-slide" >
+                            <img src="https://bigwin69.site/assets/images/provider/footer/relax.png" alt=""/>
+                        </a>
+                                            <a class="footer-swiper-slide" >
+                            <img src="https://bigwin69.site/assets/images/provider/footer/v5g.png" alt=""/>
+                        </a>
+                                    
+                  </div>
+              </div>
+      
     </footer>
   );
 };

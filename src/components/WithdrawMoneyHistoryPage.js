@@ -108,7 +108,7 @@ const WithdrawMoneyHistoryPage = () => {
         <select className="status-filter" value={statusFilter} onChange={handleFilterChange}>
           <option value="All">All</option>
           <option value="processing">Processing</option>
-          <option value="successful">Successful</option>
+          <option value="success">Successful</option>
           <option value="rejected">Rejected</option>
         </select>
       </div>
@@ -128,7 +128,8 @@ const WithdrawMoneyHistoryPage = () => {
           ): (
           withdraws.map((withdraw) => (
             <div className="row" key={withdraw.id}>
-              <div className="cell">{withdraw.status[0].toUpperCase()+withdraw.status.substring(1)}</div>
+              <div   className={`cell ${withdraw.status[0].toUpperCase() + withdraw.status.substring(1) === "Success" ? "green" : withdraw.status[0].toUpperCase() + withdraw.status.substring(1) === "Processing" ? "yellow" :"red"}`}
+               >{withdraw.status[0].toUpperCase()+withdraw.status.substring(1)}</div>
               <div className="cell">₱{withdraw.withdraw_amount}</div>
               <div className="cell">{withdraw.withdraw_method}</div>
               <div className="cell">{withdraw.account_name}</div>

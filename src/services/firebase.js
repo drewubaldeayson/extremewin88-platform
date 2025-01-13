@@ -1,6 +1,6 @@
 // Import the required Firebase libraries
 import { initializeApp } from "firebase/app";
-import { Timestamp, getFirestore, collection, getDocs, query, where, doc, getDoc, addDoc, serverTimestamp, updateDoc  } from "firebase/firestore";
+import { Timestamp, getFirestore, collection, getDocs, query, where, doc, getDoc, addDoc, serverTimestamp, updateDoc, orderBy  } from "firebase/firestore";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword,  updatePassword as fbUpdatePassword  } from "firebase/auth";
 import { v4 as uuidv4 } from "uuid"; 
 
@@ -160,7 +160,7 @@ export const sendDepositTransaction = async ({ amount, transactionNumber, userna
 };
 
 // Handle withdrawal requests
-export const sendWithdrawalTransaction = async ({method, amount, accountNumber, accountName, username}) => {
+export const sendWithdrawalTransaction = async (method, amount, accountNumber, accountName, username, bankName) => {
   try {
     const withdrawCollection = collection(db, "withdrawal_requests");
 
@@ -178,10 +178,12 @@ export const sendWithdrawalTransaction = async ({method, amount, accountNumber, 
     const withdrawRequestId = uuidv4(); // Generate unique withdraw_request_id
     const transactionId = uuidv4(); // Generate unique transaction_id
 
+    let withdrawMethod =  method == "Bank" ? method + " - " +bankName : method
+
     await addDoc(collection(db, "withdrawal_requests"), {
       withdraw_request_id: withdrawRequestId,
       withdraw_amount: parseFloat(amount),
-      withdraw_method: method,
+      withdraw_method: withdrawMethod,
       transaction_id: transactionId,
       created_at: serverTimestamp(),
       account_number: accountNumber,
@@ -227,12 +229,26 @@ export const fetchFilteredDepositRequests = async (status, startDate, endDate) =
       depositQuery = query(depositQuery, where("status", "==", status.toLowerCase()));
     }
 
+    
+    // Convert startDate and endDate to proper Timestamp values
+    const start = Timestamp.fromDate(new Date(new Date().setHours(0, 0, 0, 0))); // Start of the day
+    const end = Timestamp.fromDate(new Date(new Date().setHours(23, 59, 59, 999))); // End of the day
+  
+
     // Apply date range filter if both startDate and endDate are provided
     if (startDate && endDate) {
       depositQuery = query(
         depositQuery,
         where("created_at", ">=", Timestamp.fromDate(new Date(startDate))),
-        where("created_at", "<=", Timestamp.fromDate(new Date(endDate)))
+        where("created_at", "<=", Timestamp.fromDate(new Date(endDate))),
+        orderBy("created_at", "desc") 
+      );
+    }else{
+      depositQuery = query(
+        depositQuery,
+        where("created_at", ">=", start),
+        where("created_at", "<=", end),
+        orderBy("created_at", "desc") 
       );
     }
 
@@ -262,12 +278,25 @@ export const fetchFilteredWithdrawalRequests = async (status, startDate, endDate
       withdrawalQuery = query(withdrawalQuery, where("status", "==", status.toLowerCase()));
     }
 
+    // Convert startDate and endDate to proper Timestamp values
+    const start = Timestamp.fromDate(new Date(new Date().setHours(0, 0, 0, 0))); // Start of the day
+    const end = Timestamp.fromDate(new Date(new Date().setHours(23, 59, 59, 999))); // End of the day
+  
+
     // Apply date range filter if both startDate and endDate are provided
     if (startDate && endDate) {
       withdrawalQuery = query(
         withdrawalQuery,
         where("created_at", ">=", Timestamp.fromDate(new Date(startDate))),
-        where("created_at", "<=", Timestamp.fromDate(new Date(endDate)))
+        where("created_at", "<=", Timestamp.fromDate(new Date(endDate))),
+        orderBy("created_at", "desc") 
+      );
+    }else{
+      withdrawalQuery = query(
+        withdrawalQuery,
+        where("created_at", ">=", start),
+        where("created_at", "<=", end),
+        orderBy("created_at", "desc") 
       );
     }
 

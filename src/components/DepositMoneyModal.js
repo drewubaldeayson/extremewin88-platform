@@ -3,7 +3,11 @@ import "./DepositMoneyModal.css";
 import Swal from "sweetalert2";
 import { sendDepositTransaction } from "../services/firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import gcashTransferImage from "../assets/images/gcash.png";
+import gCashQrCodeImage from "../assets/images/gcash.png";
+import mayaQrCodeImage from "../assets/images/mayaQrCode.png";
+import bankQrCodeImage from "../assets/images/bankQrCode.png";
+import grabPayQrCodeImage from "../assets/images/grabPayQrCode.png";
+import { useNavigate } from 'react-router-dom';
 
 const DepositMoneyModal = ({ onClose }) => {
   const [selectedTab, setSelectedTab] = useState("GCash");
@@ -12,6 +16,7 @@ const DepositMoneyModal = ({ onClose }) => {
   const [transactionNumber, setTransactionNumber] = useState("");
   const [username, setUserName] = useState("");
   const auth = getAuth();
+  const navigate = useNavigate();
 
   const handleTabChange = (tab) => {
     setSelectedTab(tab);
@@ -56,6 +61,8 @@ const DepositMoneyModal = ({ onClose }) => {
       Swal.fire("Success", "Your deposit request has been submitted!", "success").then(() => {
         onClose(); // Close the modal after success
       });
+
+      navigate('/deposit-history'); 
     } catch (error) {
       Swal.fire("Error", error.message, "error");
     }
@@ -106,6 +113,25 @@ const DepositMoneyModal = ({ onClose }) => {
               >
                 GCash
               </button>
+              <button
+                className={`tab-button ${selectedTab === "Maya" ? "active" : ""}`}
+                onClick={() => handleTabChange("Maya")}
+              >
+                Maya
+              </button>
+              <button
+                className={`tab-button ${selectedTab === "GrabPay" ? "active" : ""}`}
+                onClick={() => handleTabChange("GrabPay")}
+              >
+                GrabPay
+              </button>
+              <button
+                className={`tab-button ${selectedTab === "Bank" ? "active" : ""}`}
+                onClick={() => handleTabChange("Bank")}
+              >
+                Bank
+              </button>
+              
             </div>
             <p className="deposit-modal-subtitle">Start Earning and Enjoy the Thrill! Deposit Now and Play!</p>
             <input
@@ -138,59 +164,25 @@ const DepositMoneyModal = ({ onClose }) => {
                 ⚠️ <strong>Important Deposit Instructions</strong>
                 <br/>
                 <br />
-                Please proceed with the payment using one of the following methods:
+                After you scan the QR Code below from your {selectedTab} account, ensure the amount <strong>₱{amount}</strong> is entered correctly.
                 <br />
                 <br/>
-                <strong>1. Send Money:</strong> Enter the following GCash number in your GCash app to send the amount <strong>₱{amount}</strong> directly.
-                <br />
-                <br/>
-                <strong>2. Scan QR Code:</strong> Alternatively, you can scan the QR code below to make the payment. Ensure the amount <strong>₱{amount}</strong> is entered correctly.
-                <br />
-                <br/>
-                After successfully completing the payment, kindly note down the reference or transaction number. Once done, submit the transaction details to us to confirm your payment.
+                  After successfully completing the payment, kindly note down the reference or transaction number. Once done, click the 'Save' button to confirm your payment.
                 <br />
                 <br/>
                 <strong className="important-note">Please note! The use of words such as "bet", "ExtremeWin88", or "gambling" in the reference section is strictly prohibited when transferring money.</strong>
-                <br/>
-                <br/>
-                Thank you for choosing a seamless payment experience with us!
-            </p>
 
-            <div className="gcash-details">
-              <h3>1. GCash Number</h3>
-              <br/>
-              <table className="gcash-table">
-                <tbody>
-                <tr>
-                    <td className="gcash-label">GCash</td>
-                    <td className="gcash-value">
-                    <span id="gcash-number">0961 783 7182</span>
-                    <button
-                        className="copy-button"
-                        onClick={() => {
-                        const text = document.getElementById("gcash-number").textContent;
-                        navigator.clipboard.writeText(text).then(() => {
-                            alert("GCash number copied!");
-                        });
-                        }}
-                    >
-                        📋
-                    </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td className="gcash-label">Price Amount</td>
-                    <td className="gcash-value">₱{amount}</td>
-                </tr>
-                </tbody>
-            </table>
-            </div>
+            </p>
             <br/>
             <div className="gcash-qr">
-                <h3>2. GCash QR</h3>
+                <h3>QR Code</h3>
+                <p><i>If you are using mobile device to deposit, you can screenshot/save this QR Code image below, then upload it to your {selectedTab} account when paying.</i></p>
                 <br/>
                 <div className="qr-container">
-                    <img src={gcashTransferImage} alt="GCash QR Code" className="qr-code" />
+                  {selectedTab == "GCash" &&  <img src={gCashQrCodeImage} alt="GCash QR Code" className="qr-code" />}
+                  {selectedTab == "Maya" &&  <img src={mayaQrCodeImage} alt="Maya QR Code" className="qr-code" />}
+                  {selectedTab == "GrabPay" &&  <img src={grabPayQrCodeImage} alt="GrabPay QR Code" className="qr-code" />}
+                  {selectedTab == "Bank" &&  <img src={bankQrCodeImage} alt="Bank QR Code" className="qr-code" />}
                 </div>
             </div>
             <br/>
