@@ -12,7 +12,9 @@
     gap: 20px; 
 }
   
-
+.new-footer-wrapper{
+  display:none;
+}
 
 .all-games-page {
     padding: 20px;
@@ -95,3 +97,119 @@
     margin-top: 5px;
     font-size: 20px;
   }
+
+
+.mb-20{
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .new-footer-wrapper {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      background-color: #1c2238;
+      border-radius:10px;
+      text-transform: uppercase;
+      font-weight: normal;
+      color:white;
+      margin-bottom: 50px;
+      box-sizing: border-box;
+  }
+
+  .new-footer-intro > li > div > div > span:first-of-type {
+    font-size: 12px;
+    text-transform: uppercase;
+  }
+
+  .new-footer-intro > li > div > div {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    
+  }
+
+  .new-footer-intro > li > div > div > span {
+    color: #fff;
+  }
+
+  .new-footer-intro > li > div > div {
+    width: calc(85% - 10px);
+    display: flex;
+    text-align: left;
+    flex-direction: column;
+  }
+
+  .new-footer-intro > li > div {
+    display: flex;
+    align-items: flex-start;
+    align-items: center;
+    box-sizing: border-box;
+    width: 50%;
+  }
+
+  .new-footer-intro > li > div > img {
+    width: 15%;
+    margin-right: 10px;
+  }
+
+  .new-footer-intro > li > div > div > span:first-of-type {
+    font-size: 12px;
+    text-transform: uppercase;
+  }
+
+  .new-footer-intro > li > div > div > span {
+    color: #fff;
+  }
+
+  .new-footer-intro > li > div > div > span:last-of-type {
+    font-size: 10px;
+    color: #9a9a9a;
+  }
+
+  .new-footer-intro {
+    display: flex;
+    padding: 0 20px;
+    flex-direction: column;
+  }
+
+  .new-footer-intro > li {
+    display: flex;
+    margin-bottom: 20px;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap; 
+  }
+
+  .new-footer-intro > li:first-of-type > img {
+  width: 30%;
+  }
+
+  .new-footer-intro > li:first-of-type > div {
+  display: flex;
+  }
+
+  .new-footer-intro > li:first-of-type > div > a:not(:last-of-type) {
+  margin-right: 5px;
+  }
+
+  .new-footer-intro > li:first-of-type > div > a {
+    display: flex;
+  }
+  
+  .all-games-section{
+    padding:0px;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+
+  .all-games-header h3 {
+    font-size: 17px;
+  }
+
+  .all-games-header .back-btn {
+    font-size: 12px;
+    padding: 8px 20px;
+  }
+}

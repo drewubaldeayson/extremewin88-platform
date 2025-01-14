@@ -239,6 +239,9 @@
   transform: rotate(90deg);
 }
 
+.mb-8{
+  margin-bottom: 8px;
+}
 
 /* Mobile version visible on smaller screens */
 @media (max-width: 768px) {
@@ -330,5 +333,45 @@
     width: 100%;
     background: rgba(0, 0, 0, 0.5);
     z-index: 1000;
+  }
+
+  .mobile-logout-button{
+    border-style: none;
+    background: none;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    text-align: left;
+    font-weight: 400; /* Match font weight */
+    width: 100%;
+    cursor: pointer;
+    color: white;
+    background-color: transparent;
+  }
+
+  .tabs{
+    overflow: auto;
+    justify-content: unset;
+  }
+
+  .mobile-nav{
+    display:flex;
+  }
+
+  .wallet-dropdown{
+    padding:0px;
+    margin-right:10px;
+    overflow:auto;
+    font-size:9px;
+  }
+
+  .wallet-dropdown-container{
+    display:flex;
+    flex-direction: column;
+    font-size:12px;
+    text-align: left;
+   
+  }
+  .deposit-btn-wrapper{
+    background-color: transparent;
   }
 }

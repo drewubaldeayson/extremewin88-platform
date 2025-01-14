@@ -95,7 +95,7 @@ const WithdrawMoneyHistoryPage = () => {
                   },
                 ]}
                 onChange={handleDateRangeChange}
-                locale={enUS} 
+                locale={enUS}
               />
               <div className="date-picker-actions">
                 <button className="apply-button" onClick={applyDateRange}>
@@ -114,11 +114,11 @@ const WithdrawMoneyHistoryPage = () => {
       </div>
       <div className="history-table">
         <div className="row header">
-          <div className="cell">Status</div>
-          <div className="cell">Amount</div>
-          <div className="cell">Withdraw Method</div>
-          <div className="cell">Account Name</div>
-          <div className="cell">Account Number</div>
+          <div className="cell text-xs">Status</div>
+          <div className="cell text-xs">Amount</div>
+          <div className="cell cell-overflow text-xs">Withdraw Method</div>
+          <div className="cell cell-overflow text-xs">Account Name</div>
+          <div className="cell cell-overflow text-xs">Account Number</div>
           <div className="cell">Time</div>
         </div>
         {loading ? (
@@ -131,10 +131,10 @@ const WithdrawMoneyHistoryPage = () => {
               <div   className={`cell ${withdraw.status[0].toUpperCase() + withdraw.status.substring(1) === "Success" ? "green" : withdraw.status[0].toUpperCase() + withdraw.status.substring(1) === "Processing" ? "yellow" :"red"}`}
                >{withdraw.status[0].toUpperCase()+withdraw.status.substring(1)}</div>
               <div className="cell">₱{withdraw.withdraw_amount}</div>
-              <div className="cell">{withdraw.withdraw_method}</div>
-              <div className="cell">{withdraw.account_name}</div>
-              <div className="cell">{withdraw.account_number}</div>
-              <div className="cell">
+              <div className="cell cell-overflow">{withdraw.withdraw_method}</div>
+              <div className="cell cell-overflow">{withdraw.account_name}</div>
+              <div className="cell cell-overflow">{withdraw.account_number}</div>
+              <div className="cell cell-overflow">
                 {new Date(withdraw.created_at.seconds * 1000).toLocaleString()}
               </div>
             </div>

@@ -1,12 +1,12 @@
 .carousel-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    position: relative;
-    background-color: #090e1d;
-    overflow: hidden; 
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+  background-color: #090e1d;
+  overflow: hidden; 
+}
   
   .arrow-button {
     background-color: transparent;
@@ -50,15 +50,8 @@
     transform: scale(1.1); /* Slightly scale up the logo */
   }
   
-  @media (max-width: 768px) {
-    .provider-item {
-      flex: 0 0 auto;
-      width: 10%;
-      height: 10%;
-      text-align: center;
-      cursor: pointer;
-      display: flex;
-      align-items: center; /* Vertically center the logo */
-      justify-content: center; /* Horizontally center the logo */
-    }
+@media (max-width: 768px) {
+  .carousel-container{
+    display:none;
   }
+}

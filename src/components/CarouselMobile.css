@@ -1,0 +1,29 @@
+/* Carousel.css */
+
+.carousel-mobile {
+    display: none; /* Use Flexbox */
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    height:120px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* margin-left:20px; */
+    /* margin-right:20px; */
+}
+  
+.carousel-image-mobile {
+
+    height: auto; /* Maintain aspect ratio */
+    object-fit: contain; /* Ensure the image fills the container */
+    transition: opacity 1s ease-in-out;
+    width: calc(100% - 40px);
+    height: auto;
+    border-radius: 10px;
+  
+}
+
+@media (max-width: 768px) {
+    .carousel-mobile {
+        display: flex; /* Use Flexbox */
+    }
+}

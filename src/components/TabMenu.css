@@ -1,0 +1,29 @@
+.tab-menu-container {
+    display: flex;
+    justify-content: center;
+    background-color: #12172b; /* Adjust to your theme */
+    padding: 15px 0 15px 0;
+    margin-bottom:20px;
+    display:none;
+}
+
+.tab-menu {
+list-style: none;
+display: flex;
+gap: 30px;
+margin: 0;
+padding: 0;
+}
+
+.tab-menu li a {
+text-decoration: none;
+color: white;
+font-weight: bold;
+font-size: 14px;
+transition: color 0.3s ease;
+}
+
+.tab-menu li a:hover {
+color: #f3a847; /* Highlight color for hover effect */
+}
+  

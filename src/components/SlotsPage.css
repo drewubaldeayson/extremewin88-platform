@@ -156,6 +156,17 @@
 
 
 @media (max-width: 768px) {
+
+  .casino-games-wrapper > li {
+    display: flex;
+    flex-wrap: wrap;
+    width: calc((100% * 2) / 1); /* Adjust for 3 items per row with gaps */
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    border-radius: 8px;
+  }
+
   .games-wrapper > li {
     display: flex;
     flex-wrap: wrap;
@@ -170,6 +181,10 @@
 
   .games-wrapper > li > div.game {
     display:none;
+  }
+
+  .games-wrapper {
+    /* padding: 30px 0px 30px 0px; */
   }
 
 }

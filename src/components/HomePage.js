@@ -307,6 +307,45 @@ const HomePage = () => {
         }
         return null;
       })}
+      <div className="new-footer-wrapper">
+        <ul className="new-footer-intro">
+        <li className="mb-20">
+            <div>
+                <img src="https://bigwin69.site/assets/images/footer/circle-safe.svg?v=0.0.54" alt=""/>
+                <div>
+                    <span>SAFE &amp; SECURE</span>
+                    <span>Online Environment</span>
+                </div>
+            </div>
+            <div>
+                <img src="https://bigwin69.site/assets/images/footer/circle-rating.svg?v=0.0.54" alt=""/>
+                <div>
+                    <span>A+ rating review</span>
+                    <span>Top review sites.</span>
+                </div>
+            </div>
+        </li>
+
+        <li>
+            <div>
+                <img src="https://bigwin69.site/assets/images/footer/circle-best-bonus.svg?v=0.0.54" alt=""/>
+                <div>
+                    <span>BEST BONUSES</span>
+                    <span>Every Qualifying Deposit</span>
+                </div>
+            </div>
+            <div>
+                <img src="https://bigwin69.site/assets/images/footer/circle-fastest-payout.svg?v=0.0.54" alt=""/>
+                <div>
+                    <span>FASTEST PAYOUTS</span>
+                    <span>Winnings Paid In Minutes</span>
+                </div>
+            </div>
+        </li>
+
+        </ul>
+      </div>
+ 
     </div>
   );
 };

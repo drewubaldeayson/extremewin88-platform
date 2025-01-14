@@ -167,3 +167,80 @@
 .red {
  color: red;
 }
+
+.rdrDefinedRangesWrapper {
+  display: none;
+}
+
+.cell-overflow{
+  overflow: auto;
+}
+
+@media (max-width: 768px) {
+  .tabs{
+    overflow: auto;
+    justify-content: unset;
+  }
+
+  .filters {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .history-table {
+    width: 100%;
+    font-size: 12px; /* Smaller font size for mobile */
+  }
+
+  .row {
+    padding: 8px 0; /* Reduced padding for smaller screens */
+  }
+
+  .cell {
+    text-align: center;
+    font-size: 10px; /* Smaller font size for mobile */
+    padding: 8px; /* Reduced padding */
+  }
+
+  .pagination {
+    flex-direction: row;
+  }
+
+  .prev, .next {
+    width: 10%;
+    padding: 8px; /* Smaller padding */
+    font-size: 12px; /* Smaller font size */
+  }
+
+  .page-info {
+    font-size: 12px; /* Smaller font size for page info */
+  }
+
+  .date-range-picker-popup {
+    width: 100%;
+  }
+
+  .date-range-dropdown {
+    width: 100%;
+  }
+
+  .apply-button {
+    width: 100%;
+    font-size: 12px; /* Smaller font size for mobile */
+  }
+
+  .status-filter{
+    margin-top:20px;
+  }
+
+  .date-range-picker-popup {
+   
+    transform: translate(-3%, 0%); 
+    
+  }
+
+  .rdrCalendarWrapper {
+    font-size: 11px;
+  }
+  
+}

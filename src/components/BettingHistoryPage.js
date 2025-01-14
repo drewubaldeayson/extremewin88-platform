@@ -113,6 +113,7 @@ const BettingHistoryPage = () => {
                 ]}
                 onChange={handleDateRangeChange}
                 locale={enUS} 
+                
               />
               <div className="date-picker-actions">
                 <button className="apply-button" onClick={applyDateRange}>

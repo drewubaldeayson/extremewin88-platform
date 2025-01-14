@@ -134,8 +134,8 @@ const DepositHistory = () => {
               </div>
               <div className="cell">₱{deposit.deposit_amount}</div>
               <div className="cell">{deposit.deposit_method}</div>
-              <div className="cell">{deposit.deposit_transaction_number}</div>
-              <div className="cell">
+              <div className="cell cell-overflow">{deposit.deposit_transaction_number}</div>
+              <div className="cell cell-overflow">
                 {new Date(deposit.created_at.seconds * 1000).toLocaleString()}
               </div>
             </div>

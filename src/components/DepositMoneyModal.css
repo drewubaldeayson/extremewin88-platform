@@ -258,3 +258,10 @@
   .copy-button:hover {
     color: #aaa;
   }
+
+@media (max-width: 768px) {
+  .tabs{
+    overflow: auto;
+    justify-content: unset;
+  }
+}

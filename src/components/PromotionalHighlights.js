@@ -2,6 +2,8 @@ import React from "react";
 import "./PromotionalHighlights.css";
 import promotionalImage1 from "../assets/images/2025-promotional-gif.gif";
 import { useNavigate } from 'react-router-dom';
+import TabMenu from "./TabMenu";
+import CarouselMobile from "./CarouselMobile";
 
 const PromotionalHighlights = () => {
   const navigate = useNavigate();
@@ -16,7 +18,6 @@ const PromotionalHighlights = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  
   const handleRedirectToTableCards = () => {
     navigate('/tablecards'); 
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -29,6 +30,7 @@ const PromotionalHighlights = () => {
 
   return (
     <div className="dashboard">
+      {/* HERO SECTION FOR DESKTOP ONLY */}
       <div className="hero-section">
         <div className="hero-card" onClick={handleRedirectToSlots}>
           <img
@@ -56,7 +58,7 @@ const PromotionalHighlights = () => {
         </div>
       </div>
 
-      {/* Bottom Cards Section */}
+      {/* PROVIDERS LIST FOR DESKTOP ONLY*/}
       <div className="cards-section">
         <div className="info-card" onClick={handleRedirectToCasino}>
           <div className="card-content">
@@ -95,7 +97,7 @@ const PromotionalHighlights = () => {
           <div className="card-content">
             <div className="text-content">
               <h3>Fishing</h3>
-              <p>Master Your Precision!</p>
+              <p>Showcase Your Fishing Skills!</p>
             </div>
             <div className="image-content">
               <img src="https://lvsgaming.com/assets/fishingnew-CV0N4uG_.png" alt="Fishing" />
@@ -103,6 +105,9 @@ const PromotionalHighlights = () => {
           </div>
         </div>
       </div>
+
+      {/* HERO SECTION FOR MOBILE VIEW MENU ONLY */}
+      <CarouselMobile/>
 
     </div>
   );

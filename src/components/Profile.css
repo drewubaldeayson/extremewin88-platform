@@ -171,3 +171,93 @@ overflow-x: auto;
   .password-change button:hover {
     background: linear-gradient(to right, #f0c51a, #FFDE59);
   }
+
+
+/* Media Queries for Mobile Responsiveness */
+@media (max-width: 768px) {
+    .profile-container {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .profile-info, .password-change {
+        max-width: 100%;
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+
+    .profile-section .profile-row {
+        flex-direction: column;
+        margin-bottom: 10px;
+    }
+
+    .profile-label, .profile-value {
+        font-size: 16px;
+        text-align: left;
+    }
+
+    .password-change {
+        margin:unset;
+    }
+
+    .password-change input {
+        width: calc(100% - 6%);
+        margin: 10px 0;
+    }
+
+    .password-change button {
+        width: 100%;
+    }
+
+
+    .referral-row .profile-label {
+        text-align: left; /* Ensures the label is aligned to the left */
+    }
+
+    .referral-row {
+        text-align: left;
+        margin-top:30px;
+        display: block; /* Make the referral row block-level, so it takes the full width */
+        margin-bottom: 10px; /* Space between referral row and the next section */
+    }
+    
+    .referral-row a {
+        text-align: left; 
+        color: #FFDE59;
+        text-decoration: none;
+        font-size: 18px;
+        text-align: left; /* Align text to the left */
+        word-wrap: break-word; /* Ensure long text breaks appropriately */
+        overflow-wrap: break-word; /* Ensure long text breaks appropriately */
+        word-break: break-all; /* Force long words to break at any character */
+        white-space: normal; /* Allow the text to wrap */
+        display: block; /* Make the link block-level, forcing it onto a new line */
+        margin-top: 10px; /* Add some spacing above the link */
+    }
+    
+    .profile-info {
+        text-align: left;
+    }
+    .profile-section .profile-row {
+        flex-direction: unset;
+        text-align: left; /* Ensure text inside each row is left-aligned */
+    }
+    
+    .profile-label {
+        text-align: left; 
+    }
+
+    .profile-value {
+        text-align: right; 
+    }
+
+    .password-change {
+        max-width: 100%; /* Make password change section take up the full width on mobile */
+        margin: 0; /* Remove extra margin */
+    }
+
+    .password-change button {
+        width: 100%; /* Make the button take up the full width on mobile */
+    }
+
+}

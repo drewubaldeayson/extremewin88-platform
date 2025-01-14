@@ -7,6 +7,8 @@ import { db, fetchPendingWithdrawals } from "../services/firebase"
 import SearchButton from './SearchButton';
 import LoginModal from "./LoginModal.js";
 import './SlotsPage.css';
+import ScrollableMenuMobile from "./ScrollableMenuMobile.js";
+import TabMenu from "./TabMenu.js";
 
 const TableCardsPage = () => {
     const [allGames, setAllGames] = useState([]);
@@ -172,8 +174,12 @@ const TableCardsPage = () => {
 
     return (
         <div className="slots-page">
-            <PromotionalHighlights />
+            {/* PROVIDERS LIST FOR MOBILE VIEW MENU */}
+            <TabMenu />
+            { /* FOR DESKTOP */}
             <GameProviderCarousel onGamesFetched={handleGameFetch} providerType="Table Game"/>
+            { /* FOR MOBILE */}
+            <ScrollableMenuMobile className="game-provider-carousel-slots" onGamesFetched={handleGameFetch} providerType="Table Game" />
 
             <div className="search-container">
                 <SearchButton searchQuery={searchQuery} setSearchQuery={setSearchQuery} />

@@ -27,6 +27,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   const toggleLoginModal = () => {
+    toggleHamburgerDropdown();
     setIsLoginModalVisible(!isLoginModalVisible);
   };
 
@@ -35,24 +36,29 @@ const Header = () => {
   };
 
   const toggleRegistrationModal = () => {
+    toggleHamburgerDropdown();
     setIsLoginModalVisible(false);
     setIsRegistrationModalVisible(!isRegistrationModalVisible);
   };
 
   const toggleDepositMoneyModal = () => {
+    toggleHamburgerDropdown();
     setIsDepositMoneyModalVisible(!isDepositMoneyModalVisible);
   }
 
   const toggleDepositMoneyHistoryModal = () => {
+    toggleHamburgerDropdown();
     navigate("/deposit-history");
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   const toggleWitdrawMoneyModal = () => {
+    toggleHamburgerDropdown();
     setIsWithdrawMoneyModalVisible(!isWithdrawMoneyModalVisible);
   }
 
   const toggleWithdrawMoneyHistoryModal = () => {
+    toggleHamburgerDropdown();
     navigate("/withdraw-history");
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
@@ -161,6 +167,7 @@ const Header = () => {
   };
 
   const handleRedirectToBettingHistory = () => {
+    toggleHamburgerDropdown();
     navigate('/betting-history'); 
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -171,6 +178,7 @@ const Header = () => {
   };
 
   const handleRedirectToProfile= () => {
+    toggleHamburgerDropdown();
     navigate('/profile'); 
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -300,7 +308,23 @@ const Header = () => {
             <img src={companyLogo} alt="ExtremeWin88" className="mobile-header-logo" />
           </div>
           <div className="mobile-nav">
-          <button
+              <div className="deposit-btn-wrapper">
+                <div className="wallet-dropdown-container">
+                <span className="mb-8">
+                  ID: {playerData?.username 
+                    ? playerData.username.length > 8 
+                      ? `${playerData.username.slice(0, 8)}...` 
+                      : playerData.username 
+                    : ""}
+                </span>
+                  <span>₱{(walletAmount.current - walletAmount.pending).toLocaleString()} 
+                    {/* <i>{walletAmount.pending > 0 && 
+                        ` (₱${walletAmount.pending.toLocaleString()})`}  </i> */}
+                        
+                        </span>
+                </div>
+              </div>
+            <button
               className="sidebar-toggle"
               onClick={toggleHamburgerDropdown}
             >
@@ -331,6 +355,42 @@ const Header = () => {
               <a onClick={() => window.location.href = "/promotions"} className="nav-link">
                 Promotions
               </a>
+              {!isUserAuthenticated && (<>
+                <a onClick={toggleLoginModal} className="nav-link">
+                        Login
+                </a>
+                <a onClick={toggleRegistrationModal} className="nav-link">
+                        Register
+                </a>
+                </>)
+              }
+              {isUserAuthenticated && (<>
+                <a onClick={toggleDepositMoneyModal} className="nav-link">
+                  Deposit
+                </a>
+                <a onClick={toggleWitdrawMoneyModal} className="nav-link">
+                  Withdraw
+                </a>
+                <a onClick={toggleDepositMoneyHistoryModal} className="nav-link">
+                  Deposit History
+                </a>
+                <a onClick={toggleWithdrawMoneyHistoryModal}  className="nav-link">
+                  Withdraw History
+                </a>
+                <a onClick={handleRedirectToBettingHistory} className="nav-link">
+                  Betting History
+                </a>
+                <a onClick={handleRedirectToProfile} className="nav-link">
+                  Profile
+                </a>
+                <button
+                  className="mobile-logout-button nav-link"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </button>
+              </>)}
+
             </div>
 
             {/* Overlay when menu is open */}

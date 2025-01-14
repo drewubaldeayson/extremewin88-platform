@@ -1,0 +1,78 @@
+.scrollable-menu {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #080E1C; /* Adjust to your theme */
+    padding: 3px;
+    position: relative;
+}
+  
+.scrollable-menu-container {
+    overflow-x: auto;
+    display: flex;
+    
+    flex: 1;
+    scrollbar-width: none; /* Hide scrollbar in Firefox */
+    -ms-overflow-style: none; /* Hide scrollbar in IE */
+}
+  
+.scrollable-menu-container::-webkit-scrollbar {
+    display: none; /* Hide scrollbar in Chrome/Safari */
+}
+  
+.scrollable-menu-provider-list {
+display: flex;
+list-style: none;
+margin: 0;
+padding: 5px;
+gap: 20px;
+}
+
+
+
+
+.mobile-provider-item {
+flex: 0 0 auto; /* Prevent items from shrinking */
+cursor: pointer;
+transition: transform 0.3s ease;
+}
+
+.mobile-provider-item:hover {
+transform: scale(1.1); /* Slight zoom on hover */
+}
+
+.mobile-provider-logo {
+    height: 65px;
+    width: 85px;
+border-radius: 10px;
+border: 2px solid #ffffff;
+object-fit: contain;
+}
+
+.mobile-arrow {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.mobile-arrow:hover {
+color: #f3a847;
+}
+
+.mobile-left-arrow {
+margin-right: 10px;
+}
+
+.mobile-right-arrow {
+margin-left: 10px;
+}
+  
+
+@media (max-width: 768px) {
+
+    .scrollable-menu{
+        display:flex;
+    }
+
+}

@@ -128,13 +128,19 @@
     font-size: 14px;
     text-align: left;
   }
+
   
 
-  @media (max-width: 768px) {
-    .hero-section{
+@media (max-width: 768px) {
+
+    .tab-menu-container{
+      display:flex !important;
+    }
+
+    .hero-section, .cards-section{
       display:none;
 
-    }
+    } 
 
     .hero-content h2 {
       display:none;

@@ -7,6 +7,7 @@ import { db, fetchCasinoGames, fetchPendingWithdrawals } from "../services/fireb
 import SearchButton from './SearchButton';
 import LoginModal from "./LoginModal.js";
 import './SlotsPage.css';
+import TabMenu from "./TabMenu.js";
 
 const CasinoPage = () => {
     const [allGames, setAllGames] = useState([]);
@@ -182,7 +183,8 @@ const CasinoPage = () => {
 
     return (
         <div className="slots-page">
-            <PromotionalHighlights />
+             {/* PROVIDERS LIST FOR MOBILE VIEW MENU */}
+             <TabMenu />
             <ul className="casino-games-wrapper">
                 {filteredGames.map((game) => (
                 <li key={game.game_uid} data-id={game.game_uid} data-provider={game.game_provider} data-name={game.game_name}  onClick={() => handleGameClick(game.game_uid)}>
