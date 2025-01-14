@@ -308,22 +308,24 @@ const Header = () => {
             <img src={companyLogo} alt="ExtremeWin88" className="mobile-header-logo" />
           </div>
           <div className="mobile-nav">
+            {isUserAuthenticated && (
               <div className="deposit-btn-wrapper">
                 <div className="wallet-dropdown-container">
-                <span className="mb-8">
-                  ID: {playerData?.username 
-                    ? playerData.username.length > 8 
-                      ? `${playerData.username.slice(0, 8)}...` 
-                      : playerData.username 
-                    : ""}
-                </span>
-                  <span>₱{(walletAmount.current - walletAmount.pending).toLocaleString()} 
-                    {/* <i>{walletAmount.pending > 0 && 
-                        ` (₱${walletAmount.pending.toLocaleString()})`}  </i> */}
+                  <span className="mb-8">
+                    ID: {playerData?.username 
+                      ? playerData.username.length > 8 
+                        ? `${playerData.username.slice(0, 8)}...` 
+                        : playerData.username 
+                      : ""}
+                  </span>
+                    <span>₱{(walletAmount.current - walletAmount.pending).toLocaleString()} 
+                      {/* <i>{walletAmount.pending > 0 && 
+                          ` (₱${walletAmount.pending.toLocaleString()})`}  </i> */}
                         
                         </span>
                 </div>
               </div>
+            )}
             <button
               className="sidebar-toggle"
               onClick={toggleHamburgerDropdown}
