@@ -100,7 +100,7 @@ const HomePage = () => {
               "Content-Type": "application/json",
               "x-igtechcasino-apikey": "677126d265bb35832e54e6d3",
               "x-rapidapi-host": "live-casino-slots-evolution-jili-and-50-plus-provider.p.rapidapi.com",
-              "x-rapidapi-key": "efd5337684msh1329b1d04eb87f9p13f196jsn51afe35a503a",
+              "x-rapidapi-key": "8369852d85msh22d517e3367939ap10d24bjsn9a90b0f65d69",
               },
               body: JSON.stringify({
               userId: userId,

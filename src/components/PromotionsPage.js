@@ -3,6 +3,9 @@ import "./PromotionsPage.css";
 import "./FullScreenModal.css";
 import { useNavigate } from 'react-router-dom';
 import BottomNavBar from "./BottomNavBar";
+import promotion20Image from "../assets/images/promotion_20.png";
+import promotion10Image from "../assets/images/promotion_10.png";
+import promotion5Image from "../assets/images/promotion_5.png";
 
 const FullScreenModal = ({ imageSrc, onClose }) => {
   return (
@@ -30,17 +33,17 @@ const PromotionsPage = () => {
     {
       title: "PALDO! 20% (DAILY RELOAD)",
       description: "20% Daily Reload Bonus: Claim this bonus during deposit. A turnover requirement applies, calculated as (Deposit x 1) + (Bonus x 12). This must be met before withdrawals are allowed.",
-      imageUrl: "https://wfl.stobjs.com/article/1736754342796752060.jpeg"
+      imageUrl: promotion20Image
     },
     {
       title: "PALDO! 10% (DAILY RELOAD)",
       description: "10% Daily Reload Bonus: Claim this bonus during deposit. A turnover requirement applies, calculated as (Deposit x 1) + (Bonus x 8). This must be met before withdrawals are allowed.",
-      imageUrl: "https://wfl.stobjs.com/article/1736754256896135334.jpeg"
+      imageUrl: promotion10Image
     },
     {
       title: "PALDO! 5% (DAILY RELOAD)",
       description: "5% Daily Reload Bonus: Claim this bonus during deposit. A turnover requirement applies, calculated as (Deposit x 1) + (Bonus x 5). This must be met before withdrawals are allowed.",
-      imageUrl: "https://wfl.stobjs.com/article/17367544401548570410.jpeg"
+      imageUrl: promotion5Image
     }
   ];
 
