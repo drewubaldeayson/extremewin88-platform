@@ -6,6 +6,7 @@ import { enUS } from "date-fns/locale"; // or any other locale you need
 
 import "react-date-range/dist/styles.css"; 
 import "react-date-range/dist/theme/default.css";
+import BottomNavBar from "./BottomNavBar";
 
 const DepositHistory = () => {
   const [deposits, setDeposits] = useState([]);
@@ -75,78 +76,81 @@ const DepositHistory = () => {
 
   return (
     <div className="deposit-history-container">
-      <h1 className="title">Deposit History</h1>
-      <div className="filters">
-        <div className="date-range-dropdown">
-          <button
-            className="date-range-picker-toggle"
-            onClick={() => setShowDatePicker(!showDatePicker)}
-          >
-            Select Date Range
-          </button>
-          {showDatePicker && (
-            <div className="date-range-picker-popup" ref={datePickerRef}>
-              <DateRangePicker
-                ranges={[
-                  {
-                    startDate: temporaryDateRange.startDate,
-                    endDate: temporaryDateRange.endDate,
-                    key: "selection",
-                  },
-                ]}
-                onChange={handleDateRangeChange}
-                locale={enUS} 
-              />
-              <div className="date-picker-actions">
-                <button className="apply-button" onClick={applyDateRange}>
-                  Apply
-                </button>
+      <div className="p-20">
+        <h1 className="title">Deposit History</h1>
+        <div className="filters">
+          <div className="date-range-dropdown">
+            <button
+              className="date-range-picker-toggle"
+              onClick={() => setShowDatePicker(!showDatePicker)}
+            >
+              Select Date Range
+            </button>
+            {showDatePicker && (
+              <div className="date-range-picker-popup" ref={datePickerRef}>
+                <DateRangePicker
+                  ranges={[
+                    {
+                      startDate: temporaryDateRange.startDate,
+                      endDate: temporaryDateRange.endDate,
+                      key: "selection",
+                    },
+                  ]}
+                  onChange={handleDateRangeChange}
+                  locale={enUS} 
+                />
+                <div className="date-picker-actions">
+                  <button className="apply-button" onClick={applyDateRange}>
+                    Apply
+                  </button>
+                </div>
               </div>
-            </div>
+            )}
+          </div>
+          <select className="status-filter" value={statusFilter} onChange={handleFilterChange}>
+            <option value="All">All</option>
+            <option value="processing">Processing</option>
+            <option value="success">Successful</option>
+            <option value="rejected">Rejected</option>
+          </select>
+        </div>
+        <div className="history-table">
+          <div className="row header">
+            <div className="cell">Status</div>
+            <div className="cell">Amount</div>
+            <div className="cell">Deposit Method</div>
+            <div className="cell">Reference Number</div>
+            <div className="cell">Time</div>
+          </div>
+          {loading ? (
+            <div className="loading">Loading...</div>
+          ) : deposits.length === 0 ? (
+              <div className="no-data">No data records found</div>
+            ): (
+            deposits.map((deposit) => (
+              <div className="row" key={deposit.id}>
+              <div 
+                  className={`cell ${deposit.status[0].toUpperCase() + deposit.status.substring(1) === "Success" ? "green" : deposit.status[0].toUpperCase() + deposit.status.substring(1) === "Processing" ? "yellow" :"red"}`}
+                >
+                  {deposit.status[0].toUpperCase() + deposit.status.substring(1)}
+                </div>
+                <div className="cell">₱{deposit.deposit_amount}</div>
+                <div className="cell">{deposit.deposit_method}</div>
+                <div className="cell cell-overflow">{deposit.deposit_transaction_number}</div>
+                <div className="cell cell-overflow">
+                  {new Date(deposit.created_at.seconds * 1000).toLocaleString()}
+                </div>
+              </div>
+            ))
           )}
         </div>
-        <select className="status-filter" value={statusFilter} onChange={handleFilterChange}>
-          <option value="All">All</option>
-          <option value="processing">Processing</option>
-          <option value="success">Successful</option>
-          <option value="rejected">Rejected</option>
-        </select>
-      </div>
-      <div className="history-table">
-        <div className="row header">
-          <div className="cell">Status</div>
-          <div className="cell">Amount</div>
-          <div className="cell">Deposit Method</div>
-          <div className="cell">Reference Number</div>
-          <div className="cell">Time</div>
+        <div className="pagination">
+          <button className="prev">{"<"}</button>
+          <span className="page-info">Page 1 of 1</span>
+          <button className="next">{">"}</button>
         </div>
-        {loading ? (
-          <div className="loading">Loading...</div>
-        ) : deposits.length === 0 ? (
-            <div className="no-data">No data records found</div>
-          ): (
-          deposits.map((deposit) => (
-            <div className="row" key={deposit.id}>
-             <div 
-                className={`cell ${deposit.status[0].toUpperCase() + deposit.status.substring(1) === "Success" ? "green" : deposit.status[0].toUpperCase() + deposit.status.substring(1) === "Processing" ? "yellow" :"red"}`}
-              >
-                {deposit.status[0].toUpperCase() + deposit.status.substring(1)}
-              </div>
-              <div className="cell">₱{deposit.deposit_amount}</div>
-              <div className="cell">{deposit.deposit_method}</div>
-              <div className="cell cell-overflow">{deposit.deposit_transaction_number}</div>
-              <div className="cell cell-overflow">
-                {new Date(deposit.created_at.seconds * 1000).toLocaleString()}
-              </div>
-            </div>
-          ))
-        )}
       </div>
-      <div className="pagination">
-        <button className="prev">{"<"}</button>
-        <span className="page-info">Page 1 of 1</span>
-        <button className="next">{">"}</button>
-      </div>
+      <BottomNavBar/>
     </div>
   );
 };

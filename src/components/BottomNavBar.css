@@ -1,0 +1,52 @@
+/* BottomNavBar.css */
+
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    color: white;
+    background-color: #1c2238;
+    border-top: 1px solid #1c2238;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
+    z-index: 10;
+  }
+  
+  /* Hide the navigation bar by default */
+  .bottom-nav {
+    display: none;
+  }
+  
+  /* Show the navigation bar only on small screens (mobile) */
+  @media (max-width: 768px) {
+    .bottom-nav {
+      display: flex;
+    }
+ 
+  }
+  
+  .nav-item {
+    text-align: center;
+    flex: 1;
+    cursor: pointer;
+    color: white;
+    font-size: 12px;
+    transition: color 0.3s ease;
+  }
+  
+  .nav-item:hover {
+    color: white;
+  }
+  
+  .nav-icon {
+    font-size: 20px;
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .nav-label {
+    font-size: 12px;
+  }
+  

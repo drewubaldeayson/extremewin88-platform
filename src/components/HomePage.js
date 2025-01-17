@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { fetchProviders, fetchGamesByProvider, db,fetchPendingWithdrawals } from "../services/firebase"
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
@@ -17,6 +17,7 @@ const HomePage = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [gameLaunchUrl, setGameLaunchUrl] = useState("");
   const [isMaximized, setIsMaximized] = useState(false);
+  const iframeRef = useRef(null);
   const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
   const [isLoginModalVisible, setIsLoginModalVisible] = useState(false);
   const [walletAmount, setWalletAmount] = useState({ current: 0.0, pending: 0.0 });
@@ -143,7 +144,22 @@ const HomePage = () => {
   };
 
   const toggleMaximize = () => {
-    setIsMaximized(!isMaximized);
+    const iframe = iframeRef.current;
+    if (iframe) {
+      if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+        // If the document is in full screen, exit full screen
+        document.exitFullscreen?.() ||
+        document.webkitExitFullscreen?.() ||
+        document.mozCancelFullScreen?.() ||
+        document.msExitFullscreen?.();
+      } else {
+        // Request full screen on the iframe
+        iframe.requestFullscreen?.() ||
+        iframe.webkitRequestFullscreen?.() ||
+        iframe.mozRequestFullScreen?.() ||
+        iframe.msRequestFullscreen?.();
+      }
+    }
   };
 
   const listenToWalletAmount = (username) => {
@@ -250,6 +266,7 @@ const HomePage = () => {
               ) : (
 
                   <iframe
+                      ref={iframeRef}
                       src={gameLaunchUrl}
                       title="Game Launch"
                       className={isMaximized ? "maximized" : ""}

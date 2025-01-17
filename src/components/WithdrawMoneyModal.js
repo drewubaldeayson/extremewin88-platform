@@ -4,7 +4,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { db } from "../services/firebase";
 import Swal from "sweetalert2";
-import { sendWithdrawalTransaction } from "../services/firebase"; // Import the function
+import { sendWithdrawalTransaction, getOngoingPromotionsForUser } from "../services/firebase"; // Import the function
 import gcashTransferImage from "../assets/images/gcash.png";
 
 const WithdrawMoneyModal = ({ onClose }) => {
@@ -18,6 +18,7 @@ const WithdrawMoneyModal = ({ onClose }) => {
   const [bankName, setBankName] = useState("");
   const [username, setUserName] = useState("");
   const auth = getAuth();
+  const [ongoingPromotions, setOngoingPromotions] = useState([]);
   
   const handleTabChange = (tab) => {
     setSelectedTab(tab);
@@ -62,6 +63,13 @@ const WithdrawMoneyModal = ({ onClose }) => {
           const playerData = JSON.parse(localStorage.getItem("playerData"));
           const unsubscribeWallet = listenToWalletAmount(playerData.username);
           setUserName(playerData.username)
+
+          const fetchPromotions = async () => {
+            const ongoingPromotions = await getOngoingPromotionsForUser(playerData.username);
+            setOngoingPromotions(ongoingPromotions);
+          };
+      
+          fetchPromotions();
   
           // Cleanup wallet listener on component unmount or logout
           return () => unsubscribeWallet();
@@ -69,9 +77,18 @@ const WithdrawMoneyModal = ({ onClose }) => {
       });
   
       return () => unsubscribeAuth(); // Cleanup auth listener on component unmount
-    }, [auth]);
+    }, [auth,username]);
 
   const handleWithdrawal = () => {
+
+    if(ongoingPromotions.length > 0){
+      if(parseFloat(ongoingPromotions[0].turnover_remaining) > 0){
+        Swal.fire("Error", `You still need to wager ₱${ongoingPromotions[0].turnover_remaining.toFixed(2)} before you can withdraw. Please complete your turnover requirement to proceed.`, "error");
+        return;
+      }
+    }
+
+    
     if (!amount || isNaN(amount) || amount <= 0) {
         Swal.fire("Error", "Please enter a valid withdrawal amount.", "error");
         return;
@@ -92,7 +109,6 @@ const WithdrawMoneyModal = ({ onClose }) => {
   };
 
   const handleSendTransaction = async () => {
-
     if (!accountName) {
         Swal.fire("Error", "Please enter your account name.", "error");
         return;
@@ -180,7 +196,7 @@ const WithdrawMoneyModal = ({ onClose }) => {
             />
            <div className="withdraw-modal-note">Note: Minimum of Php 500 and Maximum of Php 50,000 per withdrawal</div>
             <div className="amount-buttons">
-              {[50, 100, 500, 1000, 1500, 2000, 5000, 10000, 50000].map((value) => (
+              {[500, 1000, 1500, 2000, 5000, 10000, 25000, 50000].map((value,) => (
                 <button
                   key={value}
                   className="amount-button"
@@ -190,6 +206,14 @@ const WithdrawMoneyModal = ({ onClose }) => {
                 </button>
               ))}
             </div>
+            {
+              ongoingPromotions.length > 0 ? ( 
+              <div>
+                {ongoingPromotions.map((promo) => (
+                  <p className="yellow">Turnover requirement is ₱{promo.turnover_remaining} remaining before withdrawal.</p>
+                ))}
+              </div>
+            ): (<></>)}
             <button className="withdraw-button" onClick={handleWithdrawal}>
               Withdraw
             </button>
@@ -204,7 +228,7 @@ const WithdrawMoneyModal = ({ onClose }) => {
                 Please carefully enter your account number for us to process your withdrawal correctly.
                 <br />
                 <br/>
-                Thank you for choosing a seamless payment experience with us!
+                Please note that your withdrawal request may take some time to reflect to your {selectedTab} account, but rest assured it will be processed promptly.
             </p>
 
             <br/>

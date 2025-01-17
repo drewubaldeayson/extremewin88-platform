@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PromotionalHighlights from "./PromotionalHighlights";
 import GameProviderCarousel from "./GameProviderCarousel";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -8,6 +8,7 @@ import SearchButton from './SearchButton';
 import LoginModal from "./LoginModal.js";
 import './SlotsPage.css';
 import TabMenu from "./TabMenu.js";
+import BottomNavBar from "./BottomNavBar.js";
 
 const CasinoPage = () => {
     const [allGames, setAllGames] = useState([]);
@@ -15,6 +16,7 @@ const CasinoPage = () => {
     const [onlineUsers, setOnlineUsers] = useState({});
     const [gameLaunchUrl, setGameLaunchUrl] = useState("");
     const [isMaximized, setIsMaximized] = useState(false);
+    const iframeRef = useRef(null);
     const [isGameLoading, setIsGameLoading] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
     const [isLoginModalVisible, setIsLoginModalVisible] = useState(false);
@@ -57,7 +59,22 @@ const CasinoPage = () => {
     
 
     const toggleMaximize = () => {
-        setIsMaximized(!isMaximized);
+        const iframe = iframeRef.current;
+        if (iframe) {
+          if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+            // If the document is in full screen, exit full screen
+            document.exitFullscreen?.() ||
+            document.webkitExitFullscreen?.() ||
+            document.mozCancelFullScreen?.() ||
+            document.msExitFullscreen?.();
+          } else {
+            // Request full screen on the iframe
+            iframe.requestFullscreen?.() ||
+            iframe.webkitRequestFullscreen?.() ||
+            iframe.mozRequestFullScreen?.() ||
+            iframe.msRequestFullscreen?.();
+          }
+        }
     };
 
     const startLoading = async(gameUid) => {
@@ -184,7 +201,9 @@ const CasinoPage = () => {
     return (
         <div className="slots-page">
              {/* PROVIDERS LIST FOR MOBILE VIEW MENU */}
-             <TabMenu />
+            <TabMenu />
+            {/* CATEGORIES LIST FOR DESKTOP VIEW MENU */}
+            <PromotionalHighlights/>
             <ul className="casino-games-wrapper">
                 {filteredGames.map((game) => (
                 <li key={game.game_uid} data-id={game.game_uid} data-provider={game.game_provider} data-name={game.game_name}  onClick={() => handleGameClick(game.game_uid)}>
@@ -215,6 +234,7 @@ const CasinoPage = () => {
                         ) : (
 
                             <iframe
+                                ref={iframeRef}
                                 src={gameLaunchUrl}
                                 title="Game Launch"
                                 className={isMaximized ? "maximized" : ""}
@@ -240,6 +260,7 @@ const CasinoPage = () => {
                 {isLoginModalVisible && (
                 <LoginModal onClose={toggleLoginModal} />
                 )}
+            <BottomNavBar/>
         </div>
     );
 };

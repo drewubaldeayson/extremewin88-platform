@@ -357,6 +357,9 @@ const Header = () => {
               <a onClick={() => window.location.href = "/promotions"} className="nav-link">
                 Promotions
               </a>
+              <a onClick={() => window.location.href = "/news"} className="nav-link">
+                News
+              </a>
               {!isUserAuthenticated && (<>
                 <a onClick={toggleLoginModal} className="nav-link">
                         Login

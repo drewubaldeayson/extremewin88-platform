@@ -1,9 +1,13 @@
 .terms-conditions-container {
     font-family: Arial, sans-serif;
-    padding: 20px;
+
     color: #fff;
     background-color: #090F1E;
   }
+
+.p-20{
+  padding: 20px;
+}
   
   .terms-conditions-container h1,  .terms-conditions-container h2 {
     color: white;
@@ -33,3 +37,19 @@
     background-color: #009acd;
   }
   
+@media (max-width: 768px) {
+  .terms-conditions-container h1{
+    font-size:24px; 
+  }
+
+  .terms-conditions-container h2 {
+    font-size: 18px;
+    text-align: left;
+  }
+
+  .terms-conditions-container p {
+    font-size: 16px;
+    text-align: left;
+  }
+
+}

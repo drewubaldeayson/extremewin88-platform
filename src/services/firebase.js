@@ -113,6 +113,23 @@ export const registerUser = async ({ name, username, password, phone, inviteCode
     // Create user with email and password in Firebase Auth
     const email = `${username}@extremewin88.com`; // Generate an email from the username
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const generateReferralCode = () => {
+      const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      const numbers = '0123456789';
+      
+      const letterPart = letters.charAt(Math.floor(Math.random() * letters.length)) +
+                         letters.charAt(Math.floor(Math.random() * letters.length)) +
+                         letters.charAt(Math.floor(Math.random() * letters.length));
+      
+      const numberPart = numbers.charAt(Math.floor(Math.random() * numbers.length)) +
+                         numbers.charAt(Math.floor(Math.random() * numbers.length)) +
+                         numbers.charAt(Math.floor(Math.random() * numbers.length)) +
+                         numbers.charAt(Math.floor(Math.random() * numbers.length));
+    
+      return letterPart + numberPart;
+    };
+    
+    
 
     // Add user data to Firestore
     await addDoc(playersCollection, {
@@ -124,7 +141,8 @@ export const registerUser = async ({ name, username, password, phone, inviteCode
       invite_code: inviteCode || null,
       wallet_amount: 0,
       createdAt: new Date().toISOString(),
-      userId: userCredential.user.uid
+      userId: userCredential.user.uid,
+      referral_code: generateReferralCode()
     });
 
     return userCredential.user;
@@ -135,7 +153,7 @@ export const registerUser = async ({ name, username, password, phone, inviteCode
 
 
 // Handle deposit requests
-export const sendDepositTransaction = async ({ amount, transactionNumber, username }) => {
+export const sendDepositTransaction = async ({ amount, transactionNumber, username, promotion}) => {
   try {
     const depositRequestId = uuidv4(); // Generate unique deposit_request_id
     const transactionId = uuidv4(); // Generate unique transaction_id
@@ -150,6 +168,7 @@ export const sendDepositTransaction = async ({ amount, transactionNumber, userna
       currency: "PHP",
       username: username,
       status: "processing",
+      promotion: promotion
     });
 
     return { success: true };
@@ -478,5 +497,31 @@ export const fetchPlayerDetails = async (username) => {
     return playerData;// Return player details
   } catch (error) {
     throw error;
+  }
+};
+
+
+export const getOngoingPromotionsForUser = async (username) => {
+  try {
+    const promotionsCollection = collection(db, "ongoing_promotions");
+    const q = query(promotionsCollection, where("username", "==", username), where("status", "==", "ongoing"));
+
+    const querySnapshot = await getDocs(q);
+
+    // If no promotions are found
+    if (querySnapshot.empty) {
+      return [];
+    }
+
+    // Extract promotions data
+    const promotions = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    return promotions; // Return the list of promotions
+  } catch (error) {
+    console.error("Error fetching ongoing promotions:", error);
+    return [];
   }
 };

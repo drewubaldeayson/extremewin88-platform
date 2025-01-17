@@ -1,12 +1,20 @@
 .about-us-container {
     font-family: Arial, sans-serif;
-    padding: 20px;
     color: #fff;
     background-color: #090F1E;
+  }
+
+
+  .p-20{
+    padding:20px;
   }
   
   .about-us-container h1,   .about-us-container h2 {
     color: white;
+  }
+
+  .about-us-container h1{
+    margin:20px;
   }
   
   .about-us-sections {
@@ -60,3 +68,42 @@
     background: linear-gradient(to right, #f0c51a, #FFDE59);
   }
   
+@media (max-width: 768px) {
+  .about-us-container h1{
+    font-size: 24px;
+  }
+
+  .about-us-sections {
+    display: flex;
+    flex-direction: column;
+  }
+
+
+  .about-us-mission p{
+    text-align: left;
+    font-size: 16px;
+  }
+
+  .about-us-container h2 {
+    font-size: 18px;
+    text-align: left;
+  }
+
+  .about-us-offer > p{
+    text-align: left;
+    font-size: 16px;
+  }
+
+  .about-us-why-choose > ul{
+    text-align: left;
+  }
+
+  .about-us-contact > p{
+    text-align: left;
+    font-size: 16px;
+  }
+
+  .about-us-why-choose li {
+    font-size: 16px;
+  }
+}

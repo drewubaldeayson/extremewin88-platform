@@ -258,6 +258,25 @@
   .copy-button:hover {
     color: #aaa;
   }
+.promotions-note{
+  font-size: 12px;
+  text-align: left;
+  text-decoration: none;
+  padding-bottom:30px;
+}
+
+.promotions-section{
+  margin-bottom:15px;
+  text-align: left;
+  font-weight:300;
+  padding-left: 12px;
+}
+
+.no-deco{
+  text-decoration: none;
+  color:#FFDE59;
+  
+}
 
 @media (max-width: 768px) {
   .tabs{

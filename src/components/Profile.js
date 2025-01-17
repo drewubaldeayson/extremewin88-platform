@@ -3,6 +3,7 @@ import './Profile.css';
 import { updatePassword, fetchPlayerDetails} from '../services/firebase';
 import { getAuth, onAuthStateChanged, reload } from "firebase/auth";
 import Swal from "sweetalert2";
+import BottomNavBar from './BottomNavBar';
 
 const Profile = () => {
     const [username, setUsername] = useState("");
@@ -71,7 +72,7 @@ const Profile = () => {
               phone: playerDetails.phone,
               email: playerDetails.email,
               username: playerDetails.username,
-              referralLink: `https://extremewin88.com?code=${playerDetails.invite_code}`,
+              referralLink: `https://extremewin88.com?code=${playerDetails.referral_code}`,
             });
           } catch (error) {
             console.error('Error fetching player details:', error);
@@ -86,7 +87,7 @@ const Profile = () => {
         <div className="profile-container">
             <div className="profile-info">
                 <h2>My Profile Info </h2>
-              
+                
                 <div className="profile-section">
                     
                     <div className="profile-row">
@@ -143,6 +144,7 @@ const Profile = () => {
             />
             <button className="updateProfileButton" onClick={handleUpdatePassword}>Update</button>
             </div>
+            <BottomNavBar/>
         </div>
     );
 };

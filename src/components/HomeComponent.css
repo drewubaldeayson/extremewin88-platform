@@ -114,7 +114,6 @@
       text-transform: uppercase;
       font-weight: normal;
       color:white;
-      margin-bottom: 50px;
       box-sizing: border-box;
   }
 
@@ -156,6 +155,7 @@
 
   .new-footer-intro > li > div > div > span:first-of-type {
     font-size: 12px;
+    font-weight: 700;
     text-transform: uppercase;
   }
 
@@ -176,7 +176,6 @@
 
   .new-footer-intro > li {
     display: flex;
-    margin-bottom: 20px;
     align-items: flex-start;
     justify-content: space-between;
     flex-wrap: wrap; 

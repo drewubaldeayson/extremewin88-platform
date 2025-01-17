@@ -1,7 +1,6 @@
 .profile-container {
     display: flex;
     justify-content: space-between;
-    padding: 20px;
     background-color: #090F1E;
     color: white;
     font-family: Arial, sans-serif;
@@ -10,7 +9,7 @@
 .profile-info {
     flex: 1;
     max-width: 60%;
-    margin-right: 20px;
+    margin:20px;
     background-color: #1C2238;
     padding: 20px;
     border-radius: 8px;
@@ -120,12 +119,14 @@ overflow-x: auto;
     background-color: #1C2238;
     padding: 20px;
     border-radius: 8px;
-    margin: 0 auto; /* Center the section horizontally */
+    margin-top: 20px; /* Center the section horizontally */
+    margin-bottom: 20px;
+    margin-right: 20px;
     text-align: center; /* Center text inside */
 }
   
   .password-change h3 {
-    font-size: 20px;
+    font-size: 24px;
     font-weight: bold;
     margin-bottom: 5px;
     color: #ffffff;
@@ -177,13 +178,10 @@ overflow-x: auto;
 @media (max-width: 768px) {
     .profile-container {
         flex-direction: column;
-        padding: 10px;
     }
 
     .profile-info, .password-change {
         max-width: 100%;
-        margin-right: 0;
-        margin-bottom: 20px;
     }
 
     .profile-section .profile-row {
@@ -196,9 +194,6 @@ overflow-x: auto;
         text-align: left;
     }
 
-    .password-change {
-        margin:unset;
-    }
 
     .password-change input {
         width: calc(100% - 6%);
@@ -236,13 +231,21 @@ overflow-x: auto;
     }
     
     .profile-info {
+        margin:20px;
         text-align: left;
     }
     .profile-section .profile-row {
         flex-direction: unset;
         text-align: left; /* Ensure text inside each row is left-aligned */
     }
-    
+
+    .password-change h3 {
+        text-align: left;
+    }
+    .password-change p {
+        text-align: left;
+
+    }
     .profile-label {
         text-align: left; 
     }
@@ -253,11 +256,19 @@ overflow-x: auto;
 
     .password-change {
         max-width: 100%; /* Make password change section take up the full width on mobile */
-        margin: 0; /* Remove extra margin */
+        margin: 0;
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-bottom: 30px;
+        padding-bottom: 40px;
     }
 
     .password-change button {
         width: 100%; /* Make the button take up the full width on mobile */
+    }
+
+    .profile-info{
+        padding-bottom:30px;
     }
 
 }

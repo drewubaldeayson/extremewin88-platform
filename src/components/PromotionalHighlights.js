@@ -31,7 +31,7 @@ const PromotionalHighlights = () => {
   return (
     <div className="dashboard">
       {/* HERO SECTION FOR DESKTOP ONLY */}
-      <div className="hero-section">
+      {/* <div className="hero-section">
         <div className="hero-card" onClick={handleRedirectToSlots}>
           <img
             src="https://backend.lvsgaming.com/uploads/1735781780379_313893339.png"
@@ -56,7 +56,10 @@ const PromotionalHighlights = () => {
             <button className="play-now-button">Play Now</button>
           </div>
         </div>
-      </div>
+      </div> */}
+ 
+      {/* HERO SECTION FOR MOBILE VIEW MENU ONLY */}
+      <CarouselMobile/>
 
       {/* PROVIDERS LIST FOR DESKTOP ONLY*/}
       <div className="cards-section">
@@ -106,8 +109,6 @@ const PromotionalHighlights = () => {
         </div>
       </div>
 
-      {/* HERO SECTION FOR MOBILE VIEW MENU ONLY */}
-      <CarouselMobile/>
 
     </div>
   );

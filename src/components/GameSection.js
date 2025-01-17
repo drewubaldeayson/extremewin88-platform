@@ -10,6 +10,7 @@ const GameSection = ({ title, games, providerId, onViewAll  }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [gameLaunchUrl, setGameLaunchUrl] = useState("");
   const [isMaximized, setIsMaximized] = useState(false);
+  const iframeRef = useRef(null);
   const [isGameLoading, setIsGameLoading] = useState(false);
   const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
   const [isLoginModalVisible, setIsLoginModalVisible] = useState(false);
@@ -146,7 +147,22 @@ const GameSection = ({ title, games, providerId, onViewAll  }) => {
 };
 
   const toggleMaximize = () => {
-    setIsMaximized(!isMaximized);
+    const iframe = iframeRef.current;
+    if (iframe) {
+      if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+        // If the document is in full screen, exit full screen
+        document.exitFullscreen?.() ||
+        document.webkitExitFullscreen?.() ||
+        document.mozCancelFullScreen?.() ||
+        document.msExitFullscreen?.();
+      } else {
+        // Request full screen on the iframe
+        iframe.requestFullscreen?.() ||
+        iframe.webkitRequestFullscreen?.() ||
+        iframe.mozRequestFullScreen?.() ||
+        iframe.msRequestFullscreen?.();
+      }
+    }
   };
 
 
@@ -197,6 +213,7 @@ const GameSection = ({ title, games, providerId, onViewAll  }) => {
                 ) : (
 
                     <iframe
+                        ref={iframeRef}
                         src={gameLaunchUrl}
                         title="Game Launch"
                         className={isMaximized ? "maximized" : ""}
@@ -222,6 +239,7 @@ const GameSection = ({ title, games, providerId, onViewAll  }) => {
       {isLoginModalVisible && (
         <LoginModal onClose={toggleLoginModal} />
       )}
+      
     </div>
   );
 };

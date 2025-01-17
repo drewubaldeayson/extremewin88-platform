@@ -1,10 +1,11 @@
 import React from "react";
 import "./PrivacyPolicyPage.css"; // Optional: Include CSS for styling
+import BottomNavBar from "./BottomNavBar";
 
 const PrivacyPolicyPage = () => {
   return (
     <div className="privacy-policy-container">
-      <div className="privacy-policy-inline-box">
+      <div className="privacy-policy-inline-box p-20">
         <h1>Privacy Policy</h1>
         <p>
           At ExtremeWin88, we are committed to safeguarding your privacy. This Privacy Policy outlines how we collect, use, and protect your personal information when you visit our website and use our services.
@@ -14,10 +15,10 @@ const PrivacyPolicyPage = () => {
           <h2>1. Information We Collect</h2>
           <p>
             <strong>Account Information</strong><br />
-            In order to use our Services, you must first register for an online wagering account. When you register for a Wagering Account, we may access and collect the information you provide, including your name, email address, postal address, and date of birth, by which you can be personally identified. We may also ask for your address, mobile phone number, work/business information, and a government-issued photo identification like your driver's license or passport.
+            In order to use our Services, you must first register for an online wagering account. When you register for a Wagering Account, we may access and collect the information you provide, including your name, email address by which you can be personally identified. We may also ask for your address, mobile phone number, work/business information, and a government-issued photo identification like your driver's license or passport.
           </p>
           <p>
-            If you provide a cell phone number, you expressly consent to receive text messages from ExtremeWin88.com. You expressly consent to receive recurring informational and transactional texts, including texts made using an auto-dialer from or on behalf of LVSBAC to the number you provided.
+            If you provide a cell phone number, you expressly consent to receive text messages from ExtremeWin88.com. You expressly consent to receive recurring informational and transactional texts, including texts made using an auto-dialer from.
           </p>
           <p>
             You agree that we are not responsible in any way for such charges, and you can cancel anytime from receiving text messages by emailing us at ExtremeWin88.com support services.
@@ -28,7 +29,7 @@ const PrivacyPolicyPage = () => {
           <h2>2. Terms and Conditions</h2>
           <p>
             <strong>LEGALITY OF USE OF THE SERVICES:</strong><br />
-            You may only use the Services if you are 21 years of age or over, and it is legal for you to do so according to the laws of Nevada and the laws of the foreign country you're logging in from. You confirm that you are not accessing the Services from a state or foreign jurisdiction where internet gambling is illegal.
+            You may only use the Services if you are 21 years of age or over, and it is legal for you to do so according to the laws of Philippines. You confirm that you are not accessing the Services from a state or foreign jurisdiction where internet gambling is illegal.
           </p>
           <p>
             We reserve the right to suspend or terminate your account and refund or refuse to refund any monies contained in your account in our sole discretion.
@@ -38,7 +39,7 @@ const PrivacyPolicyPage = () => {
         <section>
           <h2>3. TRUE IDENTITY AND ONE ACCOUNT</h2>
           <p>
-            The name on your Account must match your true and legal name and identity. To verify your identity, we may request satisfactory proof of identity at any time. You may not hold more than one (1) Account in connection with your use of any Platform.
+            The name on your Account must match your true and legal name and identity. To verify your identity, we may request satisfactory proof of identity at any time. You may not hold more than one (1) Account in connection with your use of our Platform.
           </p>
         </section>
 
@@ -160,7 +161,7 @@ const PrivacyPolicyPage = () => {
         <section>
           <h2>20. SELF-LIMIT AND EXCLUSION</h2>
           <p>
-            In Nevada, individuals may request to limit their internet gaming privileges or voluntarily exclude themselves.
+            In Philippines, individuals may request to limit their internet gaming privileges or voluntarily exclude themselves.
           </p>
         </section>
 
@@ -171,6 +172,7 @@ const PrivacyPolicyPage = () => {
           </p>
         </section>
       </div>
+      <BottomNavBar/>
     </div>
   );
 };

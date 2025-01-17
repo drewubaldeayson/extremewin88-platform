@@ -256,6 +256,9 @@
     color: #aaa;
   }
 
+.yellow{
+  color:yellow;
+}
 
 
 @media (max-width: 768px) {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./DepositMoneyModal.css";
 import Swal from "sweetalert2";
-import { sendDepositTransaction } from "../services/firebase";
+import { sendDepositTransaction, getOngoingPromotionsForUser } from "../services/firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import gCashQrCodeImage from "../assets/images/gcash.png";
 import mayaQrCodeImage from "../assets/images/mayaQrCode.png";
@@ -11,12 +11,14 @@ import { useNavigate } from 'react-router-dom';
 
 const DepositMoneyModal = ({ onClose }) => {
   const [selectedTab, setSelectedTab] = useState("GCash");
+  const [promotion, setPromotion] = useState("");
   const [amount, setAmount] = useState("");
   const [showGCashInstructions, setShowGCashInstructions] = useState(false);
   const [transactionNumber, setTransactionNumber] = useState("");
   const [username, setUserName] = useState("");
   const auth = getAuth();
   const navigate = useNavigate();
+  const [ongoingPromotions, setOngoingPromotions] = useState([]);
 
   const handleTabChange = (tab) => {
     setSelectedTab(tab);
@@ -35,7 +37,18 @@ const DepositMoneyModal = ({ onClose }) => {
     
   };
 
+  const handlePromotionChange = (event) => {
+    setPromotion(event.target.value);
+  };
+
   const handleDeposit = () => {
+    if(ongoingPromotions.length > 0){
+      if(parseFloat(ongoingPromotions[0].turnover_remaining) > 0){
+        Swal.fire("Error", `You still need to wager ₱${ongoingPromotions[0].turnover_remaining.toFixed(2)} before you can deposit again. Please complete your turnover requirement to proceed.`, "error");
+        return;
+      }
+    }
+
     if (!amount || isNaN(amount) || amount <= 0) {
       Swal.fire("Error", "Please enter a valid deposit amount.", "error");
       return;
@@ -56,7 +69,7 @@ const DepositMoneyModal = ({ onClose }) => {
     }
 
     try {
-      await sendDepositTransaction({ amount, transactionNumber, username });
+      await sendDepositTransaction({ amount, transactionNumber, username, promotion });
 
       Swal.fire("Success", "Your deposit request has been submitted!", "success").then(() => {
         onClose(); // Close the modal after success
@@ -78,6 +91,13 @@ const DepositMoneyModal = ({ onClose }) => {
       if (user) {
         const playerData = JSON.parse(localStorage.getItem("playerData"));
         setUserName(playerData.username)
+
+        const fetchPromotions = async () => {
+          const ongoingPromotions = await getOngoingPromotionsForUser(playerData.username);
+          setOngoingPromotions(ongoingPromotions);
+        };
+    
+        fetchPromotions();
         return true;
       }
     });
@@ -143,7 +163,7 @@ const DepositMoneyModal = ({ onClose }) => {
             />
             <div className="withdraw-modal-note">Note: Minimum of Php 100 and Maximum of Php 50,000 per deposit</div>
             <div className="amount-buttons">
-              {[50, 100, 500, 1000, 1500, 2000, 5000, 10000, 50000].map((value) => (
+              {[100, 500, 1000, 1500, 2000, 5000, 10000, 50000].map((value) => (
                 <button
                   key={value}
                   className="amount-button"
@@ -152,6 +172,24 @@ const DepositMoneyModal = ({ onClose }) => {
                   ₱ {value}
                 </button>
               ))}
+            </div>
+            <select
+                name="promotions"
+                id="promotion"
+                value={promotion}
+                 className="amount-input"
+                onChange={handlePromotionChange}
+              >
+                <option value="no_promotion" disabled>
+                  -- Choose a Promotion --
+                </option>
+                <option value="no_promotion">No Promotion</option>
+                <option value="promotion_20_percent">Paldo! 20%</option>
+                <option value="promotion_10_percent">Paldo! 10% </option>
+                <option value="promotion_5_percent">Paldo! 5%</option>
+            </select>
+            <div className="promotions-section">
+              <span className="promotions-note">Check the promotions <a className="no-deco" href="https://www.extremewin88.com/promotions">here </a></span>
             </div>
             <button className="deposit-button" onClick={handleDeposit}>
               Deposit
@@ -176,7 +214,8 @@ const DepositMoneyModal = ({ onClose }) => {
             <br/>
             <div className="gcash-qr">
                 <h3>QR Code</h3>
-                <p><i>If you are using mobile device to deposit, you can screenshot/save this QR Code image below, then upload it to your {selectedTab} account when paying.</i></p>
+                <p><i>If you are using mobile device to deposit, you can screenshot/save this QR Code image below, then upload it to your {selectedTab} account when paying. 
+                Please note that your deposit may take some time to reflect in your account, but rest assured it will be processed promptly.</i></p>
                 <br/>
                 <div className="qr-container">
                   {selectedTab == "GCash" &&  <img src={gCashQrCodeImage} alt="GCash QR Code" className="qr-code" />}

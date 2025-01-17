@@ -38,6 +38,7 @@
 /* Modal Title and Subtitle */
 .registration-modal-title {
     font-size: 24px;
+    color: black;
     font-weight: bold;
     margin-bottom: 5px;
 }
@@ -75,6 +76,7 @@
 /* Terms Section */
 .terms-section {
     margin-top: 15px;
+    color: black;
     text-align: left;
 }
 

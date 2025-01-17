@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PromotionalHighlights from "./PromotionalHighlights";
 import GameProviderCarousel from "./GameProviderCarousel";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -9,6 +9,7 @@ import LoginModal from "./LoginModal.js";
 import './SlotsPage.css';
 import ScrollableMenuMobile from "./ScrollableMenuMobile.js";
 import TabMenu from "./TabMenu.js";
+import BottomNavBar from "./BottomNavBar.js";
 
 const TableCardsPage = () => {
     const [allGames, setAllGames] = useState([]);
@@ -16,6 +17,7 @@ const TableCardsPage = () => {
     const [onlineUsers, setOnlineUsers] = useState({});
     const [gameLaunchUrl, setGameLaunchUrl] = useState("");
     const [isMaximized, setIsMaximized] = useState(false);
+    const iframeRef = useRef(null);
     const [isGameLoading, setIsGameLoading] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
     const [isLoginModalVisible, setIsLoginModalVisible] = useState(false);
@@ -48,7 +50,22 @@ const TableCardsPage = () => {
     
 
     const toggleMaximize = () => {
-        setIsMaximized(!isMaximized);
+        const iframe = iframeRef.current;
+        if (iframe) {
+          if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+            // If the document is in full screen, exit full screen
+            document.exitFullscreen?.() ||
+            document.webkitExitFullscreen?.() ||
+            document.mozCancelFullScreen?.() ||
+            document.msExitFullscreen?.();
+          } else {
+            // Request full screen on the iframe
+            iframe.requestFullscreen?.() ||
+            iframe.webkitRequestFullscreen?.() ||
+            iframe.mozRequestFullScreen?.() ||
+            iframe.msRequestFullscreen?.();
+          }
+        }
     };
 
     const startLoading = async(gameUid) => {
@@ -176,6 +193,9 @@ const TableCardsPage = () => {
         <div className="slots-page">
             {/* PROVIDERS LIST FOR MOBILE VIEW MENU */}
             <TabMenu />
+            {/* CATEGORIES LIST FOR DESKTOP VIEW MENU */}
+            <PromotionalHighlights/>
+            <br/>
             { /* FOR DESKTOP */}
             <GameProviderCarousel onGamesFetched={handleGameFetch} providerType="Table Game"/>
             { /* FOR MOBILE */}
@@ -214,6 +234,7 @@ const TableCardsPage = () => {
                         ) : (
 
                             <iframe
+                                ref={iframeRef}
                                 src={gameLaunchUrl}
                                 title="Game Launch"
                                 className={isMaximized ? "maximized" : ""}
@@ -239,6 +260,7 @@ const TableCardsPage = () => {
                 {isLoginModalVisible && (
                 <LoginModal onClose={toggleLoginModal} />
                 )}
+            <BottomNavBar/>
         </div>
     );
 };

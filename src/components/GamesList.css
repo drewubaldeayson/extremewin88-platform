@@ -86,7 +86,7 @@
 }
 
 iframe {
-    background: white;    
+    background: #090f1e;    
     width: 100vw; /* 83% of the viewport width */
     height: 97vh; /* 83% of the viewport height */    
     border: none;
@@ -105,14 +105,7 @@ iframe {
  
   
   /* Maximized Modal */
-  .modal.maximized {
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100vw;
-    height: 98vh;
-    bottom: 0;
-  }
+
 
   .modal-content {
     position: relative;
@@ -125,8 +118,8 @@ iframe {
   }
   
   iframe.maximized {
-    width: 100vw;
-    height: 98vh;
+    width: 85vw;
+    height: 85vh;
     border: none;
   }
 
