@@ -19,9 +19,14 @@ import SlotsPage from './components/SlotsPage';
 import CasinoPage from './components/CasinoPage';
 import TableCardsPage from './components/TableCardsPage';
 import FishingPage from './components/FishingPage';
+import LiveChatButton from './components/LiveChatButton';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState("false");
+
+  const handleLiveChat = () => {
+    window.OpenWidget.call('maximize');
+  };
 
   useEffect(() => {
     try {
@@ -69,6 +74,7 @@ function App() {
           <Route path="/fishing" element={<FishingPage />} />
           <Route path="/news" element={<NewsPage />} />
         </Routes>
+        <LiveChatButton onClick={handleLiveChat} />
         <Footer/>
       </div>
     </Router>

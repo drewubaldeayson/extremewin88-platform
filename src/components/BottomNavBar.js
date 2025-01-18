@@ -41,14 +41,7 @@ function BottomNavBar() {
   
 
   function openLiveChat() {
-    // Check if OpenWidget is ready
-    if (window.OpenWidget && typeof window.OpenWidget.call === "function") {
-      window.OpenWidget.call('open');
-    } else {
-      console.log("OpenWidget is not loaded yet. Trying again...");
-      // Optionally, try again after a delay if it's not loaded
-      setTimeout(openLiveChat, 500);
-    }
+    window.OpenWidget.call('maximize');
   }
 
   const handleNavigation = (menu) => {
