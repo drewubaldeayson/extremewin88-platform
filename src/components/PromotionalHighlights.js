@@ -64,11 +64,11 @@ const PromotionalHighlights = () => {
       <div className="announcement-bar">
         <div className="scrolling-text">
             <span>
-                If WinForLife discovers that a member applies for an account repeatedly/multiple accounts, 
+                If ExtremeWin88 discovers that a member applies for an account repeatedly/multiple accounts, 
                 it reserves the right to cancel or withdraw all preferential dividends from the user. &nbsp;&nbsp;&nbsp;
             </span>
             <span>
-                If WinForLife discovers that a member applies for an account repeatedly/multiple accounts, 
+                If ExtremeWin88 discovers that a member applies for an account repeatedly/multiple accounts, 
                 it reserves the right to cancel or withdraw all preferential dividends from the user. &nbsp;&nbsp;&nbsp;
             </span>
         </div>
