@@ -6,9 +6,11 @@
   max-width: 49.5%; /* Limits the width to 48% for two columns */
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
   box-sizing: border-box; /* Ensures padding is included in the width */
-  padding-left: 5px;
+  padding-left: 15px;
   padding-right: 10px;
   padding-bottom: 10px;
+  
+  place-self: center;
 }
 
 .game-section-hot{
@@ -22,6 +24,38 @@
   padding-right: 10px;
   padding-bottom: 10px;
 }
+
+.jackpot-all-game-section {
+  width: 45%;
+  place-self: center;
+  text-align: center;
+}
+
+.jackpot-game-section {
+  width: 100%;
+  text-align: center;
+}
+
+.jackpot-image-container {
+  position: relative;
+  display: inline-block;
+}
+
+.jackpot-counter {
+  position: absolute;
+  top: 58%;
+  left: 50%;
+  font-family: 'Arial', sans-serif; /* Using the Luckiest Guy font */
+  color: white;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+  font-weight: bold;
+  letter-spacing:5px; /* Adjust the space between letters */
+  line-height: 10.0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  transition: all 1s ease-in-out;
+}
+
   
 
 .game-section-header {
@@ -200,5 +234,14 @@ flex-shrink: 0;
     padding-bottom: 5px;
   }
 
+  .jackpot-all-game-section {
+    width: 100%;
+
+  }
+
+  .jackpot-counter {
+    font-size:14px;
+
+  }
 
 }

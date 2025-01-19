@@ -18,9 +18,25 @@ const GameSection = ({ title, providerLauncherIcon, games, providerId, onViewAll
   const [walletAmount, setWalletAmount] = useState({ current: 0.0, pending: 0.0 });
   const [userId, setUserId] = useState("");
   const auth = getAuth();
-  const [progressBarKey, setProgressBarKey] = useState(0);
-
+  const [progressBarKey, setProgressBarKey] = useState(0);  
+  const [jackpotAmount, setJackpotAmount] = useState(0);
+  const [targetAmount, setTargetAmount] = useState(1000000); // The target value to reach
+  const [increment, setIncrement] = useState(50);
   const gameSectionWrapperRef = useRef(null);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // If the current jackpot is less than the target amount, increase it
+      if (jackpotAmount < targetAmount) {
+        setJackpotAmount((prevAmount) => prevAmount + increment);
+      } else {
+        // If the jackpot reaches the target amount, stop incrementing
+        clearInterval(interval);
+      }
+    }, 30); // Increment every second
+
+    return () => clearInterval(interval); // Cleanup the interval when component unmounts
+  }, [jackpotAmount, targetAmount, increment]);
   
   useEffect(() => {
     const visibleGames = games.slice(startIndex, startIndex + 10);
@@ -183,8 +199,24 @@ const GameSection = ({ title, providerLauncherIcon, games, providerId, onViewAll
     }
 }, [isGameLoading]);
 
-  return (
+  return (<>
+
     <div className={ title!= null ?`game-section-hot`: `game-section`}>
+      {title == null && (
+        <div className="jackpot-game-section">
+          <div className="jackpot-image-container">
+            <img 
+              width="100%" 
+              src="https://www.pinaswin88.net/custom/img/header/jackpot.gif" 
+              alt="Jackpot"
+            />
+            <div className="jackpot-counter">
+            ₱{jackpotAmount.toFixed(2)}
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="game-section-header">
         {title != null &&  <h3 className="game-section-with-title"><img src={providerLauncherIcon}/> {title} <span className="game-count">({games.length})</span></h3>}
         {title == null &&<h3 className="game-section-title"><img src={providerLauncherIcon}/>  <span className="game-count">({games.length})</span></h3>}
@@ -243,6 +275,7 @@ const GameSection = ({ title, providerLauncherIcon, games, providerId, onViewAll
       )}
       
     </div>
+    </>
   );
 };
 

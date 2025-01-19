@@ -28,8 +28,25 @@ const HomePage = () => {
   const [userId, setUserId] = useState("");
   const [onlineUsers, setOnlineUsers] = useState({});
   const [isGameLoading, setIsGameLoading] = useState(false);
-  const [progressBarKey, setProgressBarKey] = useState(0);
+  const [progressBarKey, setProgressBarKey] = useState(0);  
+  const [jackpotAmount, setJackpotAmount] = useState(0);
+  const [targetAmount, setTargetAmount] = useState(1000000); // The target value to reach
+  const [increment, setIncrement] = useState(50);
   const auth = getAuth();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // If the current jackpot is less than the target amount, increase it
+      if (jackpotAmount < targetAmount) {
+        setJackpotAmount((prevAmount) => prevAmount + increment);
+      } else {
+        // If the jackpot reaches the target amount, stop incrementing
+        clearInterval(interval);
+      }
+    }, 30); // Increment every second
+
+    return () => clearInterval(interval); // Cleanup the interval when component unmounts
+  }, [jackpotAmount, targetAmount, increment]);
 
   useEffect(() => {
       // Listen for changes in Firebase authentication state
@@ -134,18 +151,31 @@ const HomePage = () => {
     const games = await fetchGamesByProvider(providerId);
     setViewAllProvider(providerId);
     setAllGames(games);
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   };
 
   const handleViewHotGames = async() => {
     const games = await fetchHotGames();
     setViewHotGames(true);
     setHotGames(games); 
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   };
 
   const handleBackToHome = () => {
     setViewHotGames(false);
     setViewAllProvider(null);
     setAllGames([]);
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   };
 
   const toggleLoginModal = () => {
@@ -324,6 +354,22 @@ const HomePage = () => {
     return (
       <div className="all-games-page">
         <div className="all-games-section">
+          
+          {(
+            <div className="jackpot-all-game-section">
+              <div className="jackpot-image-container">
+                <img 
+                  width="100%" 
+                  src="https://www.pinaswin88.net/custom/img/header/jackpot.gif" 
+                  alt="Jackpot"
+                />
+                <div className="jackpot-counter">
+                ₱{jackpotAmount.toFixed(2)}
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="all-games-header">
             <h3>
               <img src={provider.carousel_icon} /> <span>({allGames.length})</span>
@@ -332,6 +378,7 @@ const HomePage = () => {
               Back
             </button>
           </div>
+
           <div className="search-container">
             <SearchButton searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
           </div>
