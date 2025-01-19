@@ -11,26 +11,34 @@
     margin-bottom: 20px;
     gap: 20px; 
 }
-  
+
+.single-game-row {
+  display: block;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
 .new-footer-wrapper{
   display:none;
 }
 
 .all-games-page {
-    padding: 20px;
     background-color: #090f1e;
     min-height: 100vh;
   }
 
   .all-games-section {
     background-color: #1c2238;
-    padding: 20px;
     border-radius: 12px;
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
     max-width: 100vw;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
   }
   
   .all-games-header {
+    margin-left:15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -40,8 +48,7 @@
   .all-games-header h3 {
     color: #ffffff;
     font-size: 1.4rem;
-    padding-left:20px;
-
+    text-align: left;
   }
   
   .all-games-header .back-btn {
@@ -103,6 +110,15 @@
   margin-bottom: 20px;
 }
 
+.all-games-header > h3 > img{
+  width:50%;
+}
+
+.hot-games-page > .all-games-section > .all-games-header > h3 > img{
+  width:13%;
+}
+
+
 @media (max-width: 768px) {
   .new-footer-wrapper {
       width: 100%;
@@ -128,6 +144,29 @@
     flex-direction: column;
     
   }
+
+  .all-games-header > h3 > img{
+    width:35%;
+  }
+
+  .all-games-page > .all-games-section > .all-games-header > h3 > img{
+    width:40%;
+  }
+
+  .all-games-page {
+    padding:0;
+    margin-top:20px;
+  }
+
+  .hot-games-page{
+    margin-top:20px;
+  }
+
+  
+  .hot-games-page > .all-games-section > .all-games-header > h3 > img{
+    width:17%;
+  }
+  
 
   .new-footer-intro > li > div > div > span {
     color: #fff;
@@ -201,6 +240,10 @@
     padding:0px;
     padding-top:10px;
     padding-bottom:10px;
+  }
+
+  .all-games-header{
+    text-align: left;
   }
 
   .all-games-header h3 {

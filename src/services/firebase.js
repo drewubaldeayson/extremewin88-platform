@@ -1,6 +1,6 @@
 // Import the required Firebase libraries
 import { initializeApp } from "firebase/app";
-import { Timestamp, getFirestore, collection, getDocs, query, where, doc, getDoc, addDoc, serverTimestamp, updateDoc, orderBy  } from "firebase/firestore";
+import { Timestamp, getFirestore, collection, getDocs, query, where, doc, getDoc, addDoc, serverTimestamp, updateDoc, orderBy, startAt, endAt  } from "firebase/firestore";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword,  updatePassword as fbUpdatePassword  } from "firebase/auth";
 import { v4 as uuidv4 } from "uuid"; 
 
@@ -48,6 +48,39 @@ export const fetchGamesByProvider = async (providerUid) => {
   const q = query(gamesCollection, where("provider_uid", "==", providerUid));
   const snapshot = await getDocs(q);
   return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+};
+
+// Fetch games based on search term
+export const fetchGames = async (searchTerm) => {
+  if (searchTerm.length < 3) {
+    return [];
+  }
+
+  const gamesRef = collection(db, "game_list");
+  const endTerm = searchTerm + "\uf8ff";
+
+  const q = query(
+    gamesRef,
+    where("game_name", ">=", searchTerm),
+    where("game_name", "<", endTerm)
+  );
+
+  const querySnapshot = await getDocs(q);
+  return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+};
+
+// Fetch games based on search term
+export const fetchHotGames = async () => {
+  const gamesCollection = collection(db, "hot_games_list");
+  const q = query(gamesCollection);
+  const snapshot = await getDocs(q);
+
+  let games = [];
+  snapshot.forEach((doc) => {
+    games.push({ id: doc.id, ...doc.data() });
+  });
+
+  return games;
 };
 
 export const fetchGamesByProviderByGameType = async (providerUid, gameType) => {

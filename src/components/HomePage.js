@@ -1,17 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
-import { fetchProviders, fetchGamesByProvider, db,fetchPendingWithdrawals } from "../services/firebase"
+import { fetchProviders, fetchGamesByProvider, db,fetchPendingWithdrawals, fetchHotGames } from "../services/firebase"
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import "./GamesList.css";
 import "./HomeComponent.css";
+import HotGamesIcon from "../assets/icons/hot-games-icon.gif";
 import GameSection from "./GameSection.js";
 import LoginModal from "./LoginModal.js";
 import SearchButton from './SearchButton';
 
 const HomePage = () => {
   const [providers, setProviders] = useState([]);
+  const [hotGames, setHotGames] = useState([]);
   const [gamesByProvider, setGamesByProvider] = useState({});
   const [viewAllProvider, setViewAllProvider] = useState(null);
+  const [viewHotGames, setViewHotGames] = useState(false);
   const [allGames, setAllGames] = useState([]);
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -64,6 +67,15 @@ const HomePage = () => {
       setLoading(false);
     };
 
+    const loadHotGames = async () => {
+      setLoading(true);
+      const games = await fetchHotGames() || [];
+
+      setHotGames(games);
+      setLoading(false);
+    };
+
+    loadHotGames();
     loadProvidersAndGames();
   }, []);
 
@@ -81,7 +93,7 @@ const HomePage = () => {
   const initializeOnlineUsers = () => {
       const newOnlineUsers = {};
       allGames.forEach((game) => {
-      newOnlineUsers[game.game_uid] = 20 + Math.floor(Math.random() * 81); // Random between 20 and 100
+        newOnlineUsers[game.game_uid] = 20 + Math.floor(Math.random() * 81); // Random between 20 and 100
       });
       setOnlineUsers(newOnlineUsers);
   };
@@ -124,7 +136,14 @@ const HomePage = () => {
     setAllGames(games);
   };
 
+  const handleViewHotGames = async() => {
+    const games = await fetchHotGames();
+    setViewHotGames(true);
+    setHotGames(games); 
+  };
+
   const handleBackToHome = () => {
+    setViewHotGames(false);
     setViewAllProvider(null);
     setAllGames([]);
   };
@@ -191,6 +210,10 @@ const HomePage = () => {
     game.game_name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const filteredHotGames = hotGames.filter((game) =>
+    game.game_name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   useEffect(() => {
           // Initialize online users on first load
           initializeOnlineUsers();
@@ -216,7 +239,84 @@ const HomePage = () => {
       
           return () => clearInterval(interval); // Clean up the interval on component unmount
     }, [allGames]);
+  
 
+  if (viewHotGames) {
+
+      return (
+        <div className="hot-games-page">
+          <div className="all-games-section">
+            <div className="all-games-header">
+              <h3>
+                <img src={HotGamesIcon} /> <span>Hot Games ({hotGames.length})</span>
+              </h3>
+              <button className="back-btn" onClick={handleBackToHome}>
+                Back
+              </button>
+            </div>
+            <div className="search-container">
+              <SearchButton searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+            </div>
+            <ul className="games-wrapper">
+                {filteredHotGames.map((game) => (
+                  <li key={game.game_uid} data-id={game.game_uid} data-provider={game.game_provider} data-name={game.game_name}  onClick={() => handleGameClick(game.game_uid)}>
+                      <img src={game.game_launcher_icon} alt={game.game_name} />
+                      <img className="favorite-btn" data-id={game.game_uid} src="https://rollem88.com/assets/images/icon/favorite.svg?v=0.0.99" alt="favorite" />
+                      <div className="game">
+                          <span>{game.game_name}</span>
+                          <span>{game.provider_uid}</span>
+                      </div>
+                      <div className="online">
+                          <div></div>
+                          <span>{onlineUsers[game.game_uid] || 20} Online</span>
+                      </div>
+                  </li>
+                ))}
+            </ul>
+          </div>
+          {modalVisible && (
+            <div className={`modal maximized`}>
+              <div className="modal-content">
+                {isGameLoading ? (
+                    <div className="loader-container">
+                        <div className="loader">
+                            <img src="https://extremewin88.com/static/media/extremewin88logo.b45de00437739a13faff.png" alt="Loader" className="loader-image" />
+  
+                            <div className="progress-bar"  key={progressBarKey}></div>
+                        </div>
+                    </div>
+                ) : (
+  
+                    <iframe
+                        ref={iframeRef}
+                        src={gameLaunchUrl}
+                        title="Game Launch"
+                        className={isMaximized ? "maximized" : ""}
+                        frameBorder="0"
+                    ></iframe>
+                )}
+                { !isGameLoading ?  (
+                  <div className="modal-header">
+                    <button className="maximize-btn" onClick={toggleMaximize}>
+                      <i className="fas fa-expand"></i>
+                    </button>
+                    <button className="close-modal" onClick={() => setModalVisible(false)}>
+                      <i className="fas fa-times"></i>
+                    </button>
+                  </div>
+                ) : <div></div> }
+  
+              </div>
+              
+            </div>
+          )}
+  
+          {isLoginModalVisible && (
+            <LoginModal onClose={toggleLoginModal} />
+          )}
+        </div>
+      );
+  }
 
   if (viewAllProvider) {
     const provider = providers.find((p) => p.provider_uid === viewAllProvider);
@@ -226,7 +326,7 @@ const HomePage = () => {
         <div className="all-games-section">
           <div className="all-games-header">
             <h3>
-              {provider.provider_name} <span>({allGames.length})</span>
+              <img src={provider.carousel_icon} /> <span>({allGames.length})</span>
             </h3>
             <button className="back-btn" onClick={handleBackToHome}>
               Back
@@ -299,27 +399,39 @@ const HomePage = () => {
 
   return (
     <div className="home-page">
+      
+      <div className="single-game-row">
+        <GameSection
+          title="Hot Games"
+          providerLauncherIcon={HotGamesIcon}
+          games={hotGames }
+          providerId=""
+          onViewAll={handleViewHotGames}
+        />
+      </div>
+
       {providers.map((provider, index) => {
         if (index % 2 === 0) {
           const nextProvider = providers[index + 1];
-
-          return (
+          return (<>
+           
             <div key={index} className="game-row">
               <GameSection
-                title={provider.provider_name}
+                providerLauncherIcon={provider.carousel_icon}
                 games={gamesByProvider[provider.provider_uid] || []}
                 providerId={provider.provider_uid}
                 onViewAll={handleViewAll}
               />
               {nextProvider && (
                 <GameSection
-                  title={nextProvider.provider_name}
+                  providerLauncherIcon={nextProvider.carousel_icon}
                   games={gamesByProvider[nextProvider.provider_uid] || []}
                   providerId={nextProvider.provider_uid}
                   onViewAll={handleViewAll}
                 />
               )}
             </div>
+            </>
           );
         }
         return null;

@@ -9,6 +9,7 @@ const TabMenu = () => {
         <li><a href="/slots">Slots</a></li>
         <li><a href="/tablecards">Table & Cards</a></li>
         <li><a href="/fishing">Fishing</a></li>
+        <li><a href="/search">Search</a></li>
       </ul>
     </div>
   );

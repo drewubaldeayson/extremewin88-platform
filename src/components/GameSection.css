@@ -11,6 +11,19 @@
   padding-bottom: 10px;
 }
 
+.game-section-hot{
+  background-color: #1c2238;
+  border-radius: 12px;
+  flex: 1; /* Allows the sections to grow or shrink evenly */
+  max-width: 100%; /* Limits the width to 48% for two columns */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box; /* Ensures padding is included in the width */
+  padding-left: 5px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+}
+  
+
 .game-section-header {
   display: flex;
   justify-content: space-between;
@@ -20,9 +33,27 @@
 
 .game-section-title {
   font-size: 20px;
-  margin-left:10px;
   color: #fff;
+  margin-left:10px;
+  text-align: left;
   font-weight: bold;
+}
+
+.game-section-title > img{
+  width:50%;
+}
+
+
+.game-section-with-title {
+  font-size: 20px;
+  color: #fff;
+  margin-left:10px;
+  text-align: left;
+  font-weight: bold;
+}
+
+.game-section-with-title > img{
+  width:12%;
 }
 
 .view-all-btn {
@@ -120,6 +151,10 @@ flex-shrink: 0;
     min-width: 100%;
   }
 
+  .game-section-hot{
+    min-width: 100%;
+  }
+
   .game-card:hover {
     box-shadow: unset;
   }
@@ -141,12 +176,29 @@ flex-shrink: 0;
     font-size: 17px;
   }
 
+  .game-section-with-title {
+    font-size: 17px;
+  }
+
   .view-all-btn {
     font-size:15px;
+    margin-bottom: 12px;
   }
 
   .game-card p {
     font-size: 13px;
   }
+
+  
+  .game-section-title > img{
+    width:35%;
+    padding-bottom: 5px;
+  }
+
+  .game-section-with-title > img{
+    width:15%;
+    padding-bottom: 5px;
+  }
+
 
 }

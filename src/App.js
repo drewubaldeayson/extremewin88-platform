@@ -20,6 +20,8 @@ import CasinoPage from './components/CasinoPage';
 import TableCardsPage from './components/TableCardsPage';
 import FishingPage from './components/FishingPage';
 import LiveChatButton from './components/LiveChatButton';
+import StickySearchButton from './components/StickySearchButton';
+import SearchGamePage from './components/SearchGamePage';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState("false");
@@ -51,6 +53,7 @@ function App() {
     <Router> 
       <div className="App">
         <Header/>
+        <StickySearchButton />
         <Routes>
           <Route path="/" element={<HomeScreen />} />
           <Route path="/about-us" element={<AboutUsPage />} />
@@ -67,6 +70,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="/search" element={<SearchGamePage />} />
           <Route path="/promotions" element={<PromotionsPage />} />
           <Route path="/slots" element={<SlotsPage />} />
           <Route path="/casino" element={<CasinoPage />} />

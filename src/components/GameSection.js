@@ -5,7 +5,7 @@ import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { db,fetchPendingWithdrawals } from "../services/firebase";
 import LoginModal from "./LoginModal.js";
 
-const GameSection = ({ title, games, providerId, onViewAll  }) => {
+const GameSection = ({ title, providerLauncherIcon, games, providerId, onViewAll  }) => {
   const [startIndex, setStartIndex] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
   const [gameLaunchUrl, setGameLaunchUrl] = useState("");
@@ -21,6 +21,7 @@ const GameSection = ({ title, games, providerId, onViewAll  }) => {
   const [progressBarKey, setProgressBarKey] = useState(0);
 
   const gameSectionWrapperRef = useRef(null);
+  
   useEffect(() => {
     const visibleGames = games.slice(startIndex, startIndex + 10);
     setDisplayedGames(visibleGames);
@@ -183,9 +184,10 @@ const GameSection = ({ title, games, providerId, onViewAll  }) => {
 }, [isGameLoading]);
 
   return (
-    <div className="game-section">
+    <div className={ title!= null ?`game-section-hot`: `game-section`}>
       <div className="game-section-header">
-        <h3 className="game-section-title">{title}  <span className="game-count">({games.length})</span></h3>
+        {title != null &&  <h3 className="game-section-with-title"><img src={providerLauncherIcon}/> {title} <span className="game-count">({games.length})</span></h3>}
+        {title == null &&<h3 className="game-section-title"><img src={providerLauncherIcon}/>  <span className="game-count">({games.length})</span></h3>}
         <button className="view-all-btn" onClick={handleViewAll}>All</button>
       </div>
       <div className="game-section-games-wrapper" ref={gameSectionWrapperRef}>

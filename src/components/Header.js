@@ -208,6 +208,9 @@ const Header = () => {
             <a onClick={handleRedirectToNewsPage} className="nav-link">
               News
             </a>
+            <a onClick={() => window.location.href = "/search"} className="nav-link">
+                Search
+            </a>
           </nav>
         </div>
         <div className="auth-buttons">

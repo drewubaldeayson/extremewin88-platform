@@ -1,0 +1,28 @@
+.sticky-search-button {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    background-color: #FFDE59; /* Match the color from your image */
+    border-radius: 25px 0 0 25px; /* Creates the rounded shape on the left side */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    z-index: 1000; /* Keeps it above other elements */
+    transition: background-color 0.3s, transform 0.3s;
+  }
+  
+  .sticky-search-button:hover {
+    background-color: #FFF4B3; /* Slightly lighter color for hover effect */
+    transform: translateY(-50%) scale(1.1); /* Slight zoom effect on hover */
+  }
+  
+  .search-icon {
+    color: white;
+    font-size: 20px; /* Adjust icon size */
+  }
+  
