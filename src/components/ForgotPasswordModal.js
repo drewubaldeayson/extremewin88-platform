@@ -7,6 +7,7 @@ const ForgotPasswordModal = ({ isOpen, onClose }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [messageSent, setMessageSent] = useState(false);
   const [resetCode, setResetCode] = useState('');
+  const [OTPCode, setOTPCode] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -48,6 +49,7 @@ const ForgotPasswordModal = ({ isOpen, onClose }) => {
     try {
         const response = await sendResetCodeFunction(phoneNumber);
         if (response.success) {
+            setOTPCode(response.resetCode);
             setMessageSent(true);
             setIsSubmitting(false);
             Swal.fire("Success", "A verification code has been sent to your phone successfully.", "success");
@@ -63,7 +65,7 @@ const ForgotPasswordModal = ({ isOpen, onClose }) => {
   const updatePassword = async() => {
     setIsResetting(true);
 
-    if (resetCode === '1234') { // In a real app, you'd validate this with a backend
+    if (resetCode === OTPCode) {
 
         // Validation: Check if passwords match
         if(newPassword.trim() != "" && confirmPassword.trim() !=""){
