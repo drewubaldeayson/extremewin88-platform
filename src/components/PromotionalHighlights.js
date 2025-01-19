@@ -61,6 +61,20 @@ const PromotionalHighlights = () => {
       {/* HERO SECTION FOR MOBILE VIEW MENU ONLY */}
       <CarouselMobile/>
 
+      <div className="announcement-bar">
+        <div className="scrolling-text">
+            <span>
+                If WinForLife discovers that a member applies for an account repeatedly/multiple accounts, 
+                it reserves the right to cancel or withdraw all preferential dividends from the user. &nbsp;&nbsp;&nbsp;
+            </span>
+            <span>
+                If WinForLife discovers that a member applies for an account repeatedly/multiple accounts, 
+                it reserves the right to cancel or withdraw all preferential dividends from the user. &nbsp;&nbsp;&nbsp;
+            </span>
+        </div>
+      </div>
+      
+
       {/* PROVIDERS LIST FOR DESKTOP ONLY*/}
       <div className="cards-section">
         <div className="info-card" onClick={handleRedirectToCasino}>

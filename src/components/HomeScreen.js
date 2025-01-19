@@ -7,7 +7,12 @@ import TabMenu from './TabMenu';
 const HomeScreen =() => {
     return (
         <>{/* PROVIDERS LIST FOR MOBILE VIEW MENU */}
-            <TabMenu /><PromotionalHighlights /><HomePage /><BottomNavBar/></>
+            <TabMenu />
+        
+            <PromotionalHighlights />
+
+
+            <HomePage /><BottomNavBar/></>
     );
 }
 

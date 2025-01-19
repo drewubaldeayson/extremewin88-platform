@@ -129,7 +129,33 @@
     text-align: left;
   }
 
-  
+  .announcement-bar {
+    width: 100%;
+    background-color: #090f1e; /* Match the green background */
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 0;
+    overflow: hidden;
+    position: relative;
+    height: 20px; /* Set a fixed height to avoid jumping */
+}
+
+.scrolling-text {
+    display: flex;
+    width: fit-content;
+    white-space: nowrap;
+    animation: scroll-left 20s linear infinite; /* Adjust duration for speed */
+}
+
+@keyframes scroll-left {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}
 
 @media (max-width: 768px) {
 
@@ -188,5 +214,9 @@
   @media (max-width: 480px) {
     .cards-section {
       grid-template-columns: 1fr; /* One card per row */
+    }
+
+    .scrolling-text {
+      font-size:12px;
     }
   }
