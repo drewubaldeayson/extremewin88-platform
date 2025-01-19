@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { registerUser, signInWithUsername } from "../services/firebase";
 
 import "./RegistrationModal.css";
@@ -13,11 +13,94 @@ const RegistrationModal = ({ onClose, inviteCodeFromURL }) => {
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [captcha, setCaptcha] = useState('');
+  const canvasRef = useRef(null);
+
+   // Function to generate a random captcha code
+  const generateCaptcha = () => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let code = '';
+    for (let i = 0; i < 6; i++) {
+      code += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    setCaptcha(code);
+    drawCaptcha(code);
+  };
+
+  // Function to draw the captcha on canvas
+  const drawCaptcha = (code) => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    const width = canvas.width;
+    const height = canvas.height;
+
+    // Clear the canvas
+    ctx.clearRect(0, 0, width, height);
+
+    // Set background color
+    ctx.fillStyle = '#f0f0f0';
+    ctx.fillRect(0, 0, width, height);
+
+    // Add noise: random lines and circles
+    for (let i = 0; i < 5; i++) {
+      ctx.strokeStyle = getRandomColor();
+      ctx.beginPath();
+      ctx.moveTo(Math.random() * width, Math.random() * height);
+      ctx.lineTo(Math.random() * width, Math.random() * height);
+      ctx.stroke();
+    }
+
+    // Add random dots (noise)
+    for (let i = 0; i < 30; i++) {
+      ctx.beginPath();
+      ctx.arc(Math.random() * width, Math.random() * height, Math.random() * 2, 0, Math.PI * 2);
+      ctx.fillStyle = getRandomColor();
+      ctx.fill();
+    }
+
+    // Draw captcha text with random rotation and positioning
+    ctx.font = '30px Arial';
+    ctx.textBaseline = 'middle';
+
+    for (let i = 0; i < code.length; i++) {
+      ctx.save();
+      ctx.fillStyle = getRandomColor();
+      const x = (i * (width / 6)) + Math.random() * 10;
+      const y = height / 2 + Math.random() * 10;
+      const rotation = Math.random() * 0.2 - 0.1; // Random rotation between -0.1 and 0.1 radians
+
+      ctx.translate(x, y);
+      ctx.rotate(rotation);
+      ctx.fillText(code[i], 0, 0);
+      ctx.restore();
+    }
+  };
+
+  const getRandomColor = () => {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+
+  const refreshCaptcha = () => {
+    generateCaptcha();
+  };
+
 
   const handleRegistration = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
+
+    const userCaptcha = document.getElementById('captcha-input').value;
+    if (userCaptcha !== captcha) {
+      setError("Captcha is not correct! Please try it again.");
+      setLoading(false);
+      return;
+    }
 
     if (password !== confirmPassword) {
       setError("Passwords do not match");
@@ -48,6 +131,11 @@ const RegistrationModal = ({ onClose, inviteCodeFromURL }) => {
   useEffect(() => {
     setInviteCode(inviteCodeFromURL);
   }, [inviteCodeFromURL]);
+
+
+  useEffect(() => {
+    generateCaptcha();
+  }, []);
 
   return (
     <div className="registration-modal-overlay">
@@ -105,12 +193,17 @@ const RegistrationModal = ({ onClose, inviteCodeFromURL }) => {
             onChange={(e) => setInviteCode(e.target.value)}
             className="login-input-field"
           />
+          <input type="text" id="captcha-input" className="login-input-field" placeholder="Enter the code" required />
+
           {error && <p className="error">{error}</p>}
 
-          <div className="captcha-section">
-            <div className="h-captcha" data-sitekey="dd885e3c-c2a4-4558-a262-424636f2e31a"></div>
+          <div className="captcha-container">
+            <canvas id="auth-code" ref={canvasRef} width="200" height="50" ></canvas>
+            <button type="button" onClick={refreshCaptcha} className="refresh-btn">
+              <i className="fas fa-redo-alt"></i> Refresh
+            </button>
           </div>
-
+         
           <div className="terms-section">
             <label>
               <input

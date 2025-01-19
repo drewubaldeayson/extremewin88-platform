@@ -35,17 +35,16 @@ function App() {
       // Retrieve and parse player data from localStorage
       const authStatus = JSON.parse(localStorage.getItem("playerData"));
    
-  
       // Check if playerData exists and has a username
       if (authStatus && authStatus.username) {
-        setIsAuthenticated("true"); 
+        setIsAuthenticated(true); 
       } else {
-        setIsAuthenticated("false");
+        setIsAuthenticated(false);
       }
     } catch (error) {
       // Handle any JSON parsing or localStorage issues
       console.error("Error fetching player data:", error);
-      setIsAuthenticated("false");
+      setIsAuthenticated(false);
     }
   }, []);
 
@@ -59,7 +58,7 @@ function App() {
           <Route path="/about-us" element={<AboutUsPage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
           <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
-          <Route path="/deposit-history" element={<ProtectedRoute isAuthenticated="true"> <DepositMoneyHistoryPage /></ProtectedRoute>} />
+          <Route path="/deposit-history" element={<ProtectedRoute isAuthenticated={isAuthenticated}> <DepositMoneyHistoryPage /></ProtectedRoute>} />
           <Route path="/withdraw-history" element={<ProtectedRoute isAuthenticated={isAuthenticated}> <WithdrawMoneyHistoryPage /></ProtectedRoute>} />
           <Route path="/betting-history" element={<ProtectedRoute isAuthenticated={isAuthenticated}><BettingHistoryPage /></ProtectedRoute>} />
           <Route

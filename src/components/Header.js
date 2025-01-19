@@ -1,6 +1,6 @@
 import React, { useState, useEffect  } from "react";
 import LoginModal from "./LoginModal";
-import { auth } from "../services/firebase";
+import { auth, getOngoingPromotionsForUser } from "../services/firebase";
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { db,fetchPendingWithdrawals } from "../services/firebase";
@@ -23,6 +23,8 @@ const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isHamburgerDropdownOpen, setIsHamburgerDropdownOpen] = useState(false);
   const [inviteCodeFromURL, setInviteCodeFromURL] = useState("");
+  const [ongoingPromotions, setOngoingPromotions] = useState([]);
+  const [username, setUserName] = useState("");
   const auth = getAuth();
   const navigate = useNavigate();
 
@@ -76,6 +78,7 @@ const Header = () => {
       .then(() => {
         localStorage.removeItem("playerData"); // Clear cached player data
         setIsUserAuthenticated(false); // Reset authentication state
+        window.location.reload();
       })
       .catch((error) => {
         console.error("Logout failed:", error);
@@ -109,8 +112,6 @@ const Header = () => {
 
   useEffect(() => {
 
-
-
     // Listen for changes in Firebase authentication state
     const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -118,6 +119,16 @@ const Header = () => {
         setIsUserAuthenticated(true);
         const playerData = JSON.parse(localStorage.getItem("playerData"));
         const unsubscribeWallet = listenToWalletAmount(playerData?.username ?? "");
+
+        setUserName(playerData.username)
+
+        const fetchPromotions = async () => {
+          const ongoingPromotions = await getOngoingPromotionsForUser(playerData.username);
+          setOngoingPromotions(ongoingPromotions);
+        };
+    
+        fetchPromotions();
+
         // Cleanup wallet listener on component unmount or logout
         return () => unsubscribeWallet();
       } else {
@@ -134,7 +145,7 @@ const Header = () => {
     });
 
     return () => unsubscribeAuth(); // Cleanup auth listener on component unmount
-  }, [auth]);
+  }, [auth, username]);
 
   useEffect(() => {
     // Retrieve player data from localStorage
@@ -310,6 +321,7 @@ const Header = () => {
           <div className="mobile-logo" onClick={() => handleRedirectToHome('/')}>
             <img src={companyLogo} alt="ExtremeWin88" className="mobile-header-logo" />
           </div>
+       
           <div className="mobile-nav">
             {isUserAuthenticated && (
               <div className="deposit-btn-wrapper">
@@ -406,6 +418,10 @@ const Header = () => {
           </div>
         </div>
       </header>
+
+      { ongoingPromotions.length > 0 && ( parseFloat(ongoingPromotions[0].turnover_remaining) > 0 && <div className="withdrawal-banner-style">
+        Bet the amount ₱{parseFloat(ongoingPromotions[0].turnover_remaining)} before withdrawal
+      </div>)}
 
 
       {/* Render Login Modal */}

@@ -191,6 +191,15 @@ const DepositMoneyModal = ({ onClose }) => {
             <div className="promotions-section">
               <span className="promotions-note">Check the promotions <a className="no-deco" href="https://www.extremewin88.com/promotions">here </a></span>
             </div>
+
+            {
+              ongoingPromotions.length > 0 ? ( 
+              <div>
+                {ongoingPromotions.map((promo) => (
+                  <p className="yellow">Turnover requirement is ₱{promo.turnover_remaining} remaining before deposit again.</p>
+                ))}
+              </div>
+            ): (<></>)}
             <button className="deposit-button" onClick={handleDeposit}>
               Deposit
             </button>

@@ -171,6 +171,7 @@ export const registerUser = async ({ name, username, password, phone, inviteCode
       username: username.toLowerCase(),
       email,
       phone,
+      password: password,
       invite_code: inviteCode || null,
       wallet_amount: 0,
       createdAt: new Date().toISOString(),
@@ -468,6 +469,66 @@ export const fetchFilteredBettingHistoryList = async (gameProviderFilter, startD
   } catch (error) {
     console.error("Error fetching filtered betting history requests:", error);
     throw error;
+  }
+};
+
+export const sendResetCodeFunction = async (phoneNumber) => {
+  try {
+    // Check if the phone number exists in the database
+    const playersCollection = collection(db, "players");
+    const q = query(playersCollection, where("phone", "==", phoneNumber));
+    const snapshot = await getDocs(q);
+
+    if (snapshot.empty) {
+      throw new Error("The phone number does not exist.");
+    }
+
+    // Simulate sending a reset code (replace this with your SMS gateway logic)
+    const resetCode = Math.floor(100000 + Math.random() * 900000); // Generate a 6-digit code
+    console.log(`Reset code for ${phoneNumber}: ${resetCode}`); // Replace with actual SMS sending logic
+
+    // Return success
+    return { success: true, resetCode }; // Optionally return the reset code for testing
+  } catch (error) {
+    throw new Error(error.message || "Failed to send reset code. Please try again.");
+  }
+};
+
+export const forgotPassword = async (phoneNumber, newPassword) => {
+  try {
+
+    const playersCollection = collection(db, "players");
+    const q = query(playersCollection, where("phone", "==", phoneNumber));
+    const snapshot = await getDocs(q);
+
+    if (snapshot.empty) {
+      throw new Error("User not found with the phone number entered");
+    }
+
+    const userDoc = snapshot.docs[0]; // First matching document
+    const userData = userDoc.data();
+
+    // Reauthenticate the user
+    const userCredential = await signInWithEmailAndPassword(auth, userData.email, userData.password);
+
+    // Update the password in Firebase Auth
+    await fbUpdatePassword(userCredential.user, newPassword);
+
+    const userRef = doc(db, "players", userDoc.id);
+    await updateDoc(userRef, { password: newPassword });
+
+    return true;
+  } catch (error) {
+    // Check the error code and provide specific feedback
+    if (error.code === "auth/wrong-password") {
+      throw new Error("The current password is incorrect. Please try again.");
+    } else if (error.code === "auth/invalid-credential") {
+      throw new Error("The current password is incorrect. Please try again.");
+    } else if (error.code === "auth/user-not-found") {
+      throw new Error("User not found. Please check your email.");
+    } else {
+      throw error; // Rethrow the error for other cases
+    }
   }
 };
 

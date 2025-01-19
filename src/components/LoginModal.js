@@ -3,12 +3,17 @@ import { signInWithUsername } from "../services/firebase";
 import RegistrationModal from "./RegistrationModal";
 
 import "./LoginModal.css";
+import ForgotPasswordModal from "./ForgotPasswordModal";
 
 const LoginModal = ({ onClose, onToggleRegistrationModal}) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isForgotPasswordModalOpen, setIsForgotPasswordModalOpen] = useState(false);
+
+  const openForgotPasswordModal = () => setIsForgotPasswordModalOpen(true);
+  const closeForgotPasswordModal = () => setIsForgotPasswordModalOpen(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -39,37 +44,54 @@ const LoginModal = ({ onClose, onToggleRegistrationModal}) => {
         <button className="login-close-button" onClick={onClose}>
           &times;
         </button>
-        <h2 className="modal-title">Login</h2>
+        {!isForgotPasswordModalOpen && ( <><h2 className="modal-title">Login</h2>
         <p className="modal-subtitle">Welcome to ExtremeWin88</p>
-        <form className="signin-form" onSubmit={handleLogin}>
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-            className="login-input-field"
-          />
-          <input type="password" placeholder="Password" className="login-input-field" value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required />
-        {error && <p className="error">{error}</p>}
-          <div className="form-footer">
-            <a href="#" className="forgot-password">
-              Forgot your password?
-            </a>
+        </>)}
+        {isForgotPasswordModalOpen && ( <><h2 className="modal-title">Forgot Password</h2>
+        </>)}
+        {!isForgotPasswordModalOpen && (
+          <form className="signin-form" onSubmit={handleLogin}>
+            <input
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              className="login-input-field"
+            />
+            <input type="password" placeholder="Password" className="login-input-field" value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required />
+          {error && <p className="error">{error}</p>}
+            <div className="form-footer">
+              <a onClick={openForgotPasswordModal}  className="forgot-password">
+                Forgot your password?
+              </a>
+            </div>
+            
+            <button type="submit" className="signin-button" disabled={loading}>
+              {loading ? "Logging in..." : "Login"}
+            </button>
+          </form>
+        )}
+
+        {isForgotPasswordModalOpen && (
+        <ForgotPasswordModal
+          isOpen={isForgotPasswordModalOpen}
+          onClose={closeForgotPasswordModal}
+        />
+      )}
+
+        {!isForgotPasswordModalOpen && (
+          <div className="signup-section">
+            <p>
+            No account? <a onClick={onToggleRegistrationModal} className="signup-link">Register</a>
+            </p>
           </div>
-          
-          <button type="submit" className="signin-button" disabled={loading}>
-            {loading ? "Logging in..." : "Login"}
-          </button>
-        </form>
-        <div className="signup-section">
-          <p>
-           No account? <a onClick={onToggleRegistrationModal} className="signup-link">Register</a>
-          </p>
-        </div>
+        )}
+
       </div>
+     
     </div>
   );
 };

@@ -118,3 +118,45 @@
 .signin-button:hover {
     background: linear-gradient(to right, #f0c51a, #FFDE59);
 }
+
+
+
+/* Captcha Section */
+.captcha-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Canvas Container */
+.captcha-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 10px;
+}
+
+#auth-code{
+    border: 2px solid #000;
+}
+
+/* Refresh Button */
+.refresh-btn {
+    background-color: #FFDE59;
+    border: none;
+    cursor: pointer;
+    padding:10px;
+    border-radius:10px;
+    font-size: 18px;
+    color: #333;
+    margin-left: 10px;
+}
+
+/* Input Field for Captcha */
+#captcha-input {
+padding: 10px;
+margin-top: 10px;
+border: 1px solid #ccc;
+border-radius: 4px;
+}

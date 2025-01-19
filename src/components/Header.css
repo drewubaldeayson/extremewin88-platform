@@ -243,6 +243,18 @@
   margin-bottom: 8px;
 }
 
+.withdrawal-banner-style{
+  background-color: maroon;
+  color: white;
+  height: 45px; /* Thin height */
+  width: 100%; /* Full width */
+  display: flex;
+  align-items: center; /* Vertically center text */
+  justify-content: center; /* Horizontally center text */
+  font-size: 16px; /* Adjust text size as needed */
+  font-weight: bold;
+}
+
 /* Mobile version visible on smaller screens */
 @media (max-width: 768px) {
   .header-desktop-version {
@@ -374,4 +386,6 @@
   .deposit-btn-wrapper{
     background-color: transparent;
   }
+
+
 }

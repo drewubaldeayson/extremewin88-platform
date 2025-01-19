@@ -22,6 +22,16 @@ body {
   }
 }
 
+  
+.color-black{
+  color: black;
+}
+
+.semibold{
+  font-weight: 600;
+}
+
+
 .App-header {
   background-color: #282c34;
   min-height: 5vh;
