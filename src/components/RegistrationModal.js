@@ -137,6 +137,16 @@ const RegistrationModal = ({ onClose, inviteCodeFromURL }) => {
     generateCaptcha();
   }, []);
 
+  // Handle phone number input change
+  const handlePhoneNumberChange = (e) => {
+    const value = e.target.value;
+
+    // Allow only numbers and ensure the length is 10 digits
+    if (value.length <= 10 && /^[0-9]*$/.test(value)) {
+      setPhone(value)
+    }
+  };
+
   return (
     <div className="registration-modal-overlay">
       <div className="registration-modal-container">
@@ -178,14 +188,17 @@ const RegistrationModal = ({ onClose, inviteCodeFromURL }) => {
             required
             className="login-input-field"
           />
-          <input
-            type="tel"
-            placeholder="Phone"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            required
-            className="login-input-field"
-          />
+          <div className="phone-input-container">
+            <span className="prefix">+63</span>
+            <input
+              type="tel"
+              placeholder="Phone"
+              value={phone}
+              onChange={handlePhoneNumberChange}
+              required
+              className="login-input-field"
+            />
+          </div>
           <input
             type="text"
             placeholder="Invite Code (Optional)"

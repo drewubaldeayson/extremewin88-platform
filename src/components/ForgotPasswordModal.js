@@ -22,7 +22,12 @@ const ForgotPasswordModal = ({ isOpen, onClose }) => {
 
   // Handle phone number input change
   const handlePhoneNumberChange = (e) => {
-    setPhoneNumber(e.target.value);
+    const value = e.target.value;
+
+    // Allow only numbers and ensure the length is 10 digits
+    if (value.length <= 10 && /^[0-9]*$/.test(value)) {
+      setPhoneNumber(value);
+    }
   };
 
   // Handle reset code input change
@@ -47,7 +52,7 @@ const ForgotPasswordModal = ({ isOpen, onClose }) => {
 
 
     try {
-        const response = await sendResetCodeFunction(phoneNumber);
+        const response = await sendResetCodeFunction("63"+phoneNumber);
         if (response.success) {
             setOTPCode(response.resetCode);
             setMessageSent(true);
@@ -64,8 +69,7 @@ const ForgotPasswordModal = ({ isOpen, onClose }) => {
   // Simulate updating the password after receiving the reset code
   const updatePassword = async() => {
     setIsResetting(true);
-
-    if (resetCode === OTPCode) {
+    if (resetCode.toString() == OTPCode.toString()) {
 
         // Validation: Check if passwords match
         if(newPassword.trim() != "" && confirmPassword.trim() !=""){
@@ -102,14 +106,18 @@ const ForgotPasswordModal = ({ isOpen, onClose }) => {
         {!messageSent ? (
           <div>
             <p className='color-black'>Please enter your phone number to receive a verification code</p>
-            <input
-              type="number"
-              value={phoneNumber}
-              onChange={handlePhoneNumberChange}
-              placeholder="Phone number"
-              className="login-input-field mb-20"
-              required
-            />
+            <div className="phone-input-container">
+                <span className="prefix">+63</span>
+                <input
+                type="number"
+                value={phoneNumber}
+                onChange={handlePhoneNumberChange}
+                placeholder="Enter your phone number"
+                className="login-input-field"
+                required
+                maxLength={10}  // Ensure 10 digits only
+                />
+            </div>
             
             <button onClick={sendResetCode} className="signin-button" disabled={isSubmitting}>
               {isSubmitting ? 'Sending...' : 'Send Reset Code'}

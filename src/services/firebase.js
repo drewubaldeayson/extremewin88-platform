@@ -501,7 +501,7 @@ export const sendResetCodeFunction = async (phoneNumber) => {
     };
 
     // Send the SMS using the ITEXMO API
-    const apiUrl = "https://api.itexmo.com/api/broadcast-otp";
+    const apiUrl = "https://api.itexmo.com/api/broadcast";
     const response = await axios.post(apiUrl, payload, {
       headers: {
         "Content-Type": "application/json",
@@ -509,9 +509,9 @@ export const sendResetCodeFunction = async (phoneNumber) => {
     });
 
     // Check if the SMS was sent successfully
-    if (response.data.status === "SUCCESS") {
+    if (response.data.Error === false) {
       console.log(`OTP sent to ${phoneNumber}: ${resetCode}`);
-      return { success: true, resetCode };  // Return the reset code for validation
+      return { success: true, resetCode: resetCode };  // Return the reset code for validation
     } else {
       throw new Error(response.data.message || "Failed to send OTP.");
     }
@@ -525,7 +525,7 @@ export const forgotPassword = async (phoneNumber, newPassword) => {
   try {
 
     const playersCollection = collection(db, "players");
-    const q = query(playersCollection, where("phone", "==", phoneNumber));
+    const q = query(playersCollection, where("phone", "==", "63"+phoneNumber));
     const snapshot = await getDocs(q);
 
     if (snapshot.empty) {

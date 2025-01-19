@@ -387,5 +387,8 @@
     background-color: transparent;
   }
 
-
+  .withdrawal-banner-style{
+    font-size: 13px;
+    height: 38px;
+  }
 }
