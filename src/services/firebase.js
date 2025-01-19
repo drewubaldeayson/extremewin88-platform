@@ -3,6 +3,7 @@ import { initializeApp } from "firebase/app";
 import { Timestamp, getFirestore, collection, getDocs, query, where, doc, getDoc, addDoc, serverTimestamp, updateDoc, orderBy, startAt, endAt  } from "firebase/firestore";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword,  updatePassword as fbUpdatePassword  } from "firebase/auth";
 import { v4 as uuidv4 } from "uuid"; 
+import axios from 'axios';
 
 // Firebase configuration
 const firebaseConfig = {
@@ -483,12 +484,38 @@ export const sendResetCodeFunction = async (phoneNumber) => {
       throw new Error("The phone number does not exist.");
     }
 
-    // Simulate sending a reset code (replace this with your SMS gateway logic)
-    const resetCode = Math.floor(100000 + Math.random() * 900000); // Generate a 6-digit code
-    console.log(`Reset code for ${phoneNumber}: ${resetCode}`); // Replace with actual SMS sending logic
 
-    // Return success
-    return { success: true, resetCode }; // Optionally return the reset code for testing
+
+    // Generate a 6-digit reset code
+    const resetCode = Math.floor(100000 + Math.random() * 900000);
+
+    // Prepare the ITEXMO SMS API payload
+    const payload = {
+      "ApiCode": "TR-DREWA356354_AE084",  // Replace with your actual API Code
+      "SenderId": "IMT.TEXT3",            // Optional: Set the sender ID
+      "ClientId": "QWE456",               // Your client ID
+      "Recipients": [phoneNumber.replace(/^63/, "0")],        // The recipient's phone number
+      "Message": `Your OTP is ${resetCode}. It will expire in 5 minutes.`,
+      "Email": "drewubaldeayson@gmail.com",          // Replace with your email
+      "Password": "jaosdfij29389f8j98hj29if",            // Replace with your password
+    };
+
+    // Send the SMS using the ITEXMO API
+    const apiUrl = "https://api.itexmo.com/api/broadcast-otp";
+    const response = await axios.post(apiUrl, payload, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    // Check if the SMS was sent successfully
+    if (response.data.status === "SUCCESS") {
+      console.log(`OTP sent to ${phoneNumber}: ${resetCode}`);
+      return { success: true, resetCode };  // Return the reset code for validation
+    } else {
+      throw new Error(response.data.message || "Failed to send OTP.");
+    }
+
   } catch (error) {
     throw new Error(error.message || "Failed to send reset code. Please try again.");
   }
