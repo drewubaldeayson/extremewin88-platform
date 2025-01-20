@@ -385,6 +385,11 @@ const Header = () => {
                 <a onClick={toggleRegistrationModal} className="nav-link">
                         Register
                 </a>
+                <br/>
+                <br/>
+                <InstallPWA/>
+                <br/>
+                <br/>
                 </>)
               }
               {isUserAuthenticated && (<>
@@ -415,6 +420,8 @@ const Header = () => {
                 <br/>
                 <br/>
                 <InstallPWA/>
+                <br/>
+                <br/>
               </>)}
 
             </div>
