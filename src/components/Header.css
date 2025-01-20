@@ -214,6 +214,7 @@
   
 .header-desktop-version {
   display: flex;
+  height: auto;
 }
 
 .header-mobile-version {

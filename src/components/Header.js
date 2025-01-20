@@ -10,6 +10,7 @@ import RegistrationModal from "./RegistrationModal";
 import DepositMoneyModal from "./DepositMoneyModal";
 import companyLogo from "../assets/icons/extremewin88logo.png";
 import WithdrawMoneyModal from "./WithdrawMoneyModal";
+import InstallPWA from "./InstallPWA";
 
 const Header = () => {
 
@@ -300,6 +301,7 @@ const Header = () => {
                     <a onClick={handleRedirectToPromotions} className="dropdown-item">
                       Promotions
                     </a>
+                 
                     <a onClick={handleRedirectToProfile} className="dropdown-item">
                       Profile
                     </a>
@@ -375,6 +377,7 @@ const Header = () => {
               <a onClick={() => window.location.href = "/news"} className="nav-link">
                 News
               </a>
+              
               {!isUserAuthenticated && (<>
                 <a onClick={toggleLoginModal} className="nav-link">
                         Login
@@ -409,6 +412,9 @@ const Header = () => {
                 >
                   Logout
                 </button>
+                <br/>
+                <br/>
+                <InstallPWA/>
               </>)}
 
             </div>

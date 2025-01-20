@@ -39,6 +39,24 @@
     }
 }
 
+@media(min-width: 2000px){
+  .carousel-mobile {
+    max-height: 700px;
+  }
+}
+
+@media(min-width: 2500px){
+  .carousel-mobile {
+    max-height: 900px;
+  }
+}
+
+@media(min-width: 4000px){
+  .carousel-mobile {
+    max-height: 1800px;
+  }
+}
+
 @keyframes slideLeft {
     from {
       transform: translateX(100%);
