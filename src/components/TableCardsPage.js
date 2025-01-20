@@ -211,7 +211,7 @@ const TableCardsPage = () => {
                     <img className="favorite-btn" data-id={game.game_uid} src="https://rollem88.com/assets/images/icon/favorite.svg?v=0.0.99" alt="favorite" />
                     <div className="game">
                         <span>{game.game_name}</span>
-                        <span>{game.provider_uid.replace(/_/g, " ")}</span>
+                        <span>{game.provider_uid.replace(/_/g, " ").replace(/\b\w/g, char => char.toUpperCase())}</span>
                     </div>
                     <div className="online">
                         <div></div>
