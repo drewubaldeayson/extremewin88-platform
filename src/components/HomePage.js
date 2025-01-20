@@ -447,7 +447,7 @@ const HomePage = () => {
   return (
     <div className="home-page">
       
-      <div className="single-game-row">
+      <div className="single-game-row" >
         <GameSection
           title="Hot Games"
           providerLauncherIcon={HotGamesIcon}

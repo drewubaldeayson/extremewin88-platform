@@ -12,7 +12,7 @@ const SearchGamePage = () => {
     const [games, setGames] = useState([]);
     const [loading, setLoading] = useState(false);
     const [providers, setProviders] = useState([]);
-      const [gamesByProvider, setGamesByProvider] = useState({});
+    const [definedGames, setDefinedGames] = useState([]);
     const [viewAllProvider, setViewAllProvider] = useState(null);
     const [allGames, setAllGames] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
@@ -128,6 +128,13 @@ const SearchGamePage = () => {
         }
     };
 
+    const searchGameMethod = (allGames, searchTerm) => {
+        const normalizedSearchTerm = searchTerm.trim().toLowerCase();
+        return allGames.filter((game) =>
+          game.game_name.toLowerCase().includes(normalizedSearchTerm)
+        );
+    };
+
     useEffect(() => {
         // Listen for changes in Firebase authentication state
         const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
@@ -146,7 +153,14 @@ const SearchGamePage = () => {
           return () => unsubscribeAuth();
     }, [auth]);
     
-    useEffect(() => {
+    useEffect( () => {
+
+        async function fetchGamesData(){
+            const allGames = await fetchGames();
+            setDefinedGames(allGames);
+        }
+        fetchGamesData();
+
         // Initialize online users on first load
         initializeOnlineUsers();
     
@@ -171,15 +185,15 @@ const SearchGamePage = () => {
     
         return () => clearInterval(interval); // Clean up the interval on component unmount
     }, [allGames]);
-
+    
 
   useEffect(() => {
     const debounceFetch = setTimeout(() => {
       const searchGames = async () => {
         setLoading(true);
-        const results = await fetchGames(searchTerm[0].toUpperCase()+searchTerm.substring(1));
+        
+        const results = searchGameMethod(definedGames,searchTerm)
         setGames(results);
-        console.log(results)
         setLoading(false);
       };
 

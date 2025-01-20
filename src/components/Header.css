@@ -291,6 +291,7 @@
 
   /* Slide-in Menu */
   .slide-menu {
+    overflow-y: auto;
     position: fixed;
     top: 0;
     right: -100%; /* Initially hidden off-screen */

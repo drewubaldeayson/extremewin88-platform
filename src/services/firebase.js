@@ -52,21 +52,9 @@ export const fetchGamesByProvider = async (providerUid) => {
 };
 
 // Fetch games based on search term
-export const fetchGames = async (searchTerm) => {
-  if (searchTerm.length < 3) {
-    return [];
-  }
-
+export const fetchGames = async () => {
   const gamesRef = collection(db, "game_list");
-  const endTerm = searchTerm + "\uf8ff";
-
-  const q = query(
-    gamesRef,
-    where("game_name", ">=", searchTerm),
-    where("game_name", "<", endTerm)
-  );
-
-  const querySnapshot = await getDocs(q);
+  const querySnapshot = await getDocs(gamesRef);
   return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 };
 

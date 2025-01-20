@@ -422,6 +422,8 @@ const Header = () => {
                 <InstallPWA/>
                 <br/>
                 <br/>
+                <br/>
+                <br/>
               </>)}
 
             </div>

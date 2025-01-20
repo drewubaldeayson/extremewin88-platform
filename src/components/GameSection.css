@@ -163,16 +163,26 @@ flex-shrink: 0;
   transform: translateY(-5px);
 }
 
+/* .game-card p {
+  margin-top: 5px;
+  font-size: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis; 
+  color: #fff;
+  word-wrap: break-word;
+} */
+
+
 .game-card p {
   margin-top: 5px;
   font-size: 16px;
-  overflow: hidden; /* Hide overflowed text */
-  text-overflow: ellipsis; /* Optional: adds ellipsis if necessary */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; /* Uncommented */
   color: #fff;
-  word-wrap: break-word; /* Allows long words to break and wrap to the next line */
-  white-space: normal; 
+  word-wrap: break-word; /* Not necessary when using ellipsis */
+  width: 147px; /* Set a fixed or max width */
 }
-  
 
 
   
@@ -221,6 +231,7 @@ flex-shrink: 0;
 
   .game-card p {
     font-size: 13px;
+    width: unset;
   }
 
   
