@@ -1,0 +1,44 @@
+.sticky-footer {
+position: fixed;
+bottom: 0;
+left: 50%;
+width: 50%;
+transform: translateX(-50%);
+border-radius: 10px;
+display: flex;
+justify-content: space-around;
+align-items: center;
+background-color: #1c2238; /* Dark background color */
+padding: 10px 0;
+box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+border-radius: 10px 10px 0 0; /* Optional rounded corners */
+
+}
+
+.footer-item {
+display: flex;
+flex-direction: column;
+align-items: center;
+color: white;
+font-size: 14px;
+cursor: pointer;
+}
+
+.footer-item .icon {
+font-size: 24px;
+margin-bottom: 5px;
+}
+
+.footer-item .label {
+    font-size: 18px;
+}
+
+.footer-item:hover {
+    color: #ffd700; /* Gold color on hover */
+  }
+  
+@media (max-width: 768px) {
+  .sticky-footer {
+    display: none;
+  }
+}

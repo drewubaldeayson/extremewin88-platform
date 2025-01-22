@@ -231,7 +231,7 @@ const Header = () => {
               <button className="login-button" onClick={toggleLoginModal}>
                 Login
               </button>
-              <button className="registration-button"  onClick={toggleRegistrationModal}>Registration</button>
+              <button className="registration-button"  onClick={toggleRegistrationModal}>Register</button>
             </>
           ) : (
             <div className="nav-after-login">

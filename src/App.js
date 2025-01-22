@@ -22,6 +22,7 @@ import FishingPage from './components/FishingPage';
 import LiveChatButton from './components/LiveChatButton';
 import StickySearchButton from './components/StickySearchButton';
 import SearchGamePage from './components/SearchGamePage';
+import StickyShortcutBottomMenu from './components/StickyShortcutBottomMenu';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState("false");
@@ -79,6 +80,7 @@ function App() {
         </Routes>
         <LiveChatButton onClick={handleLiveChat} />
         <Footer/>
+        <StickyShortcutBottomMenu />
       </div>
     </Router>
   );

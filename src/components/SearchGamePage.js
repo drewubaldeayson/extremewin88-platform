@@ -152,6 +152,7 @@ const SearchGamePage = () => {
       
           return () => unsubscribeAuth();
     }, [auth]);
+
     
     useEffect( () => {
 
