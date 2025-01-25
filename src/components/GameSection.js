@@ -201,8 +201,8 @@ const GameSection = ({ title, providerLauncherIcon, games, providerId, onViewAll
 
   return (<>
 
-    <div className={ title!= null ?`game-section-hot`: `game-section`}>
-      {title == null && (
+  <div className={ title!= null ? `game-section-wrapper-hot` : `game-section-wrapper`}>
+    {title == null && (
         <div className="jackpot-game-section">
           <div className="jackpot-image-container">
             <img 
@@ -217,6 +217,7 @@ const GameSection = ({ title, providerLauncherIcon, games, providerId, onViewAll
         </div>
       )}
 
+    <div className={ title!= null ?`game-section-hot`: `game-section`}>
       <div className="game-section-header">
         {title != null &&  <h3 className="game-section-with-title"><img src={providerLauncherIcon}/> {title} <span className="game-count">({games.length})</span></h3>}
         {title == null &&<h3 className="game-section-title"><img src={providerLauncherIcon}/>  <span className="game-count">({games.length})</span></h3>}
@@ -275,6 +276,7 @@ const GameSection = ({ title, providerLauncherIcon, games, providerId, onViewAll
       )}
       
     </div>
+  </div>
     </>
   );
 };

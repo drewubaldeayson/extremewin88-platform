@@ -2,14 +2,12 @@
   background-color: #1c2238;
   border-radius: 12px;
   flex: 1; /* Allows the sections to grow or shrink evenly */
-  min-width: 300px; /* Ensures a minimum width to prevent overlap */
-  max-width: 49.5%; /* Limits the width to 48% for two columns */
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
   box-sizing: border-box; /* Ensures padding is included in the width */
   padding-left: 15px;
   padding-right: 10px;
   padding-bottom: 10px;
-  
+  max-width: 100%;
   place-self: center;
 }
 
@@ -23,6 +21,33 @@
   padding-left: 5px;
   padding-right: 10px;
   padding-bottom: 10px;
+}
+
+.game-section-wrapper{
+  border-radius: 12px;
+  flex: 1; /* Allows the sections to grow or shrink evenly */
+  min-width: 300px; /* Ensures a minimum width to prevent overlap */
+  max-width: 49.5%; /* Limits the width to 48% for two columns */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box; /* Ensures padding is included in the width */
+  padding-left: 15px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  align-items: center;
+  place-self: center;
+}
+
+.game-section-wrapper-hot {
+  border-radius: 12px;
+  flex: 1; /* Allows the sections to grow or shrink evenly */
+  max-width: 100%;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box; /* Ensures padding is included in the width */
+  padding-left: 15px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  align-items: center;
+  place-self: center;
 }
 
 .jackpot-all-game-section {
@@ -39,6 +64,9 @@
 .jackpot-image-container {
   position: relative;
   display: inline-block;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 10px; 
 }
 
 .jackpot-counter {
@@ -195,6 +223,10 @@ flex-shrink: 0;
     min-width: 100%;
   }
 
+  .game-section-wrapper {
+    max-width: 100%;
+  }
+
   .game-section-hot{
     min-width: 100%;
   }
@@ -255,4 +287,14 @@ flex-shrink: 0;
 
   }
 
+}
+
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%); /* Move the content to the left */
+  }
 }
