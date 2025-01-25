@@ -60,22 +60,27 @@ const GameSection = ({ title, providerLauncherIcon, games, providerId, onViewAll
     const scrollInterval = setInterval(() => {
       if (gameSectionWrapperRef.current) {
         const wrapper = gameSectionWrapperRef.current;
-        const scrollWidth = wrapper.scrollWidth;
-        const clientWidth = wrapper.clientWidth;
-        const scrollLeft = wrapper.scrollLeft;
-
-        // Check if we've reached the end of the scroll and reset if needed
+  
+        const scrollWidth = wrapper.scrollWidth; // Total width of the content
+        const clientWidth = wrapper.clientWidth; // Visible width of the container
+        const scrollLeft = wrapper.scrollLeft; // Current scroll position
+  
+        console.log({ scrollLeft, clientWidth, scrollWidth }); // Debug log
+  
         if (scrollLeft + clientWidth >= scrollWidth) {
-          //setDisplayedGames((prevGames) => [...prevGames, ...games.slice(startIndex, startIndex + 10)]);
+          // Reached the right end, reset to the beginning
+          wrapper.scrollLeft = 0;
         } else {
-          
-          wrapper.scrollLeft += 1;  // Scroll by 1px (adjust this for speed)
+          // Scroll by 1px to the right
+          wrapper.scrollLeft += 1;
         }
       }
-    }, 20);  // Interval time for scrolling speed (lower value = faster scroll)
-
-    return () => clearInterval(scrollInterval);  // Clean up interval on component unmount
+    }, 20); // Adjust interval for scroll speed
+  
+    return () => clearInterval(scrollInterval); // Cleanup interval on unmount
   }, [games]);
+  
+    
 
   const listenToWalletAmount = (username) => {
     const playersCollection = collection(db, "players");

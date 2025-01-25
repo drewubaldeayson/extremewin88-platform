@@ -129,12 +129,13 @@
 }
 
 .game-section-games-wrapper {
+  overflow-y: hidden; /* Disable vertical scrolling */
   display: flex;
   padding-top: 5px;
   margin-right:5px;
   overflow-x: auto;
+  white-space: nowrap; 
   scroll-behavior: smooth;
-  white-space: nowrap;
 }
 
 .game-section-games-wrapper::-webkit-scrollbar {
