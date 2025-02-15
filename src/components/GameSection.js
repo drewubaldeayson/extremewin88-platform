@@ -24,6 +24,11 @@ const GameSection = ({ title, providerLauncherIcon, games, providerId, onViewAll
   const [increment, setIncrement] = useState(50);
   const gameSectionWrapperRef = useRef(null);
 
+  
+  const [selectedHotGame, setSelectedHotGame] = useState("");
+  const [selectedHotGameName, setSelectedHotGameName] = useState("");
+  const [selectedHotGameDemoLink, setSelectedHotGameDemoLink] = useState("");
+
   useEffect(() => {
     const interval = setInterval(() => {
       // If the current jackpot is less than the target amount, increase it
@@ -65,7 +70,6 @@ const GameSection = ({ title, providerLauncherIcon, games, providerId, onViewAll
         const clientWidth = wrapper.clientWidth; // Visible width of the container
         const scrollLeft = wrapper.scrollLeft; // Current scroll position
   
-        console.log({ scrollLeft, clientWidth, scrollWidth }); // Debug log
   
         if (scrollLeft + clientWidth >= scrollWidth) {
           // Reached the right end, reset to the beginning
@@ -127,36 +131,56 @@ const GameSection = ({ title, providerLauncherIcon, games, providerId, onViewAll
     setIsLoginModalVisible(!isLoginModalVisible);
   };
 
+  const isValidUrl = (str) => {
+    try {
+      return /^https?:\/\/\S+\.\S+/.test(str) && Boolean(new URL(str));
+    } catch {
+      return false;
+    }
+  };
+
+
   const startLoading = async(gameUid) => {
       setModalVisible(true);
       setIsGameLoading(true);
 
-      setTimeout( async() => {
-          
+
+       //check if the gameUid is a url then it's a demo link, if it's not then it's real game
+       if(isValidUrl(gameUid)){
+        setTimeout( async() => {
+            
           setIsGameLoading(false);
-          
-          const response = await fetch("https://live-casino-slots-evolution-jili-and-50-plus-provider.p.rapidapi.com/casino/get-game-url", {
-              method: "POST",
-              headers: {
-              "Content-Type": "application/json",
-              "x-igtechcasino-apikey": "677126d265bb35832e54e6d3",
-              "x-rapidapi-host": "live-casino-slots-evolution-jili-and-50-plus-provider.p.rapidapi.com",
-              "x-rapidapi-key": "8369852d85msh22d517e3367939ap10d24bjsn9a90b0f65d69",
-              },
-              body: JSON.stringify({
-              userId: userId,
-              gameId: gameUid,
-              lang: "en",
-              money: (walletAmount.current - walletAmount.pending),
-              home_url: "https://extremewin88.com/",
-              platform: 1,
-              }),
-          });
-      
-          const data = await response.json();
-          setGameLaunchUrl(data.payload.game_launch_url);
-          
-      }, 3000); // Loader duration (3 seconds)
+          setGameLaunchUrl(gameUid);
+            
+        }, 3000);
+      }else{
+        setTimeout( async() => {
+            
+            setIsGameLoading(false);
+            
+            const response = await fetch("https://live-casino-slots-evolution-jili-and-50-plus-provider.p.rapidapi.com/casino/get-game-url", {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/json",
+                "x-igtechcasino-apikey": "677126d265bb35832e54e6d3",
+                "x-rapidapi-host": "live-casino-slots-evolution-jili-and-50-plus-provider.p.rapidapi.com",
+                "x-rapidapi-key": "8369852d85msh22d517e3367939ap10d24bjsn9a90b0f65d69",
+                },
+                body: JSON.stringify({
+                userId: userId,
+                gameId: gameUid,
+                lang: "en",
+                money: (walletAmount.current - walletAmount.pending),
+                home_url: "https://extremewin88.com/",
+                platform: 1,
+                }),
+            });
+        
+            const data = await response.json();
+            setGameLaunchUrl(data.payload.game_launch_url);
+            
+        }, 3000); // Loader duration (3 seconds)
+      }
   };
   
   const handleGameClick = async (gameUid) => {
@@ -191,6 +215,36 @@ const GameSection = ({ title, providerLauncherIcon, games, providerId, onViewAll
   const handleViewAll = () => {
     if (onViewAll) {
       onViewAll(providerId);
+    }
+  };
+
+  const openHotGameModalSelection = (focusGame, gameUid, gameName) => {
+
+    if(isValidUrl(focusGame)){
+      setSelectedHotGame(gameUid);
+      setSelectedHotGameName(gameName);
+      setSelectedHotGameDemoLink(focusGame);
+    }else{
+      handleGameClick(gameUid);
+    }
+   
+  };
+
+  const closeHotGameModalSelection = () => {
+    setSelectedHotGame("");
+    setSelectedHotGameName("");
+    setSelectedHotGameDemoLink("")
+  };
+
+  const playHotGame = (isDemo) => {
+    if (!selectedHotGame || !selectedHotGameDemoLink) return;
+
+    if(isDemo){
+      closeHotGameModalSelection();
+      handleGameClick(selectedHotGameDemoLink); 
+    }else{  
+      closeHotGameModalSelection();
+      handleGameClick(selectedHotGame);      
     }
   };
 
@@ -231,7 +285,7 @@ const GameSection = ({ title, providerLauncherIcon, games, providerId, onViewAll
       <div className="game-section-games-wrapper" ref={gameSectionWrapperRef}>
         <div className="game-section-games">
           {displayedGames.map((game) => (
-            <div key={game.game_uid} className="game-card" onClick={() => handleGameClick(game.game_uid)}>
+            <div key={game.game_uid} className="game-card" onClick={() => {openHotGameModalSelection(game?.demo_link ?? "" != "" ? game?.demo_link : game.game_uid, game.game_uid, game.game_name)}}>
               <img src={game.game_launcher_icon} alt={game.game_name} />
               <p>{game.game_name}</p>
             </div>
@@ -282,6 +336,18 @@ const GameSection = ({ title, providerLauncherIcon, games, providerId, onViewAll
       
     </div>
   </div>
+
+  {selectedHotGame != "" && (
+            <div className="home-page-hot-game-modal">
+              <div className="home-page-modal-content" onClick={(e) => e.stopPropagation()}>
+                <h2>Play {selectedHotGameName}</h2>
+                <p>Choose how you want to play:</p>
+                <button onClick={() => playHotGame(true)}>Play Demo</button>
+                <button onClick={() => playHotGame(false)}>Play in Real Account</button>
+                <button onClick={closeHotGameModalSelection} className="home-page-close-btn">Close</button>
+              </div>
+            </div>
+          )}
     </>
   );
 };

@@ -32,6 +32,10 @@ const HomePage = () => {
   const [jackpotAmount, setJackpotAmount] = useState(0);
   const [targetAmount, setTargetAmount] = useState(1000000); // The target value to reach
   const [increment, setIncrement] = useState(50);
+
+  const [selectedHotGame, setSelectedHotGame] = useState("");
+  const [selectedHotGameName, setSelectedHotGameName] = useState("");
+  const [selectedHotGameDemoLink, setSelectedHotGameDemoLink] = useState("");
   const auth = getAuth();
 
   useEffect(() => {
@@ -115,36 +119,55 @@ const HomePage = () => {
       setOnlineUsers(newOnlineUsers);
   };
 
+  const isValidUrl = (str) => {
+    try {
+      return /^https?:\/\/\S+\.\S+/.test(str) && Boolean(new URL(str));
+    } catch {
+      return false;
+    }
+  };
+
   const startLoading = async(gameUid) => {
       setModalVisible(true);
       setIsGameLoading(true);
-
-      setTimeout( async() => {
-          
-          setIsGameLoading(false);
-          
-          const response = await fetch("https://live-casino-slots-evolution-jili-and-50-plus-provider.p.rapidapi.com/casino/get-game-url", {
-              method: "POST",
-              headers: {
-              "Content-Type": "application/json",
-              "x-igtechcasino-apikey": "677126d265bb35832e54e6d3",
-              "x-rapidapi-host": "live-casino-slots-evolution-jili-and-50-plus-provider.p.rapidapi.com",
-              "x-rapidapi-key": "8369852d85msh22d517e3367939ap10d24bjsn9a90b0f65d69",
-              },
-              body: JSON.stringify({
-              userId: userId,
-              gameId: gameUid,
-              lang: "en",
-              money: (walletAmount.current - walletAmount.pending),
-              home_url: "https://extremewin88.com/",
-              platform: 1,
-              }),
-          });
       
-          const data = await response.json();
-          setGameLaunchUrl(data.payload.game_launch_url);
-          
-      }, 3000); // Loader duration (3 seconds)
+      //check if the gameUid is a url then it's a demo link, if it's not then it's real game
+      if(isValidUrl(gameUid)){
+        setTimeout( async() => {
+            
+          setIsGameLoading(false);
+          setGameLaunchUrl(gameUid);
+            
+        }, 3000);
+      }else{
+        setTimeout( async() => {
+            
+            setIsGameLoading(false);
+            
+            const response = await fetch("https://live-casino-slots-evolution-jili-and-50-plus-provider.p.rapidapi.com/casino/get-game-url", {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/json",
+                "x-igtechcasino-apikey": "677126d265bb35832e54e6d3",
+                "x-rapidapi-host": "live-casino-slots-evolution-jili-and-50-plus-provider.p.rapidapi.com",
+                "x-rapidapi-key": "8369852d85msh22d517e3367939ap10d24bjsn9a90b0f65d69",
+                },
+                body: JSON.stringify({
+                userId: userId,
+                gameId: gameUid,
+                lang: "en",
+                money: (walletAmount.current - walletAmount.pending),
+                home_url: "https://extremewin88.com/",
+                platform: 1,
+                }),
+            });
+        
+            const data = await response.json();
+            setGameLaunchUrl(data.payload.game_launch_url);
+            
+        }, 3000); // Loader duration (3 seconds)
+      }
+      
   };
 
   const handleViewAll = async (providerId) => {
@@ -244,6 +267,30 @@ const HomePage = () => {
     game.game_name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const openHotGameModalSelection = (gameUid, gameDemoLink, gameName) => {
+    setSelectedHotGame(gameUid);
+    setSelectedHotGameName(gameName);
+    setSelectedHotGameDemoLink(gameDemoLink);
+  };
+
+  const closeHotGameModalSelection = () => {
+    setSelectedHotGame("");
+    setSelectedHotGameName("");
+    setSelectedHotGameDemoLink("")
+  };
+
+  const playHotGame = (isDemo) => {
+    if (!selectedHotGame || !selectedHotGameDemoLink) return;
+
+    if(isDemo){
+      closeHotGameModalSelection();
+      handleGameClick(selectedHotGameDemoLink); 
+    }else{  
+      closeHotGameModalSelection();
+      handleGameClick(selectedHotGame);      
+    }
+  };
+
   useEffect(() => {
           // Initialize online users on first load
           initializeOnlineUsers();
@@ -289,7 +336,7 @@ const HomePage = () => {
             </div>
             <ul className="games-wrapper">
                 {filteredHotGames.map((game) => (
-                  <li key={game.game_uid} data-id={game.game_uid} data-provider={game.game_provider} data-name={game.game_name}  onClick={() => handleGameClick(game.game_uid)}>
+                  <li key={game.game_uid} data-id={game.game_uid} data-provider={game.game_provider} data-name={game.game_name}  onClick={() => {openHotGameModalSelection(game.game_uid, game?.demo_link ?? "", game.game_name)}}>
                       <img src={game.game_launcher_icon} alt={game.game_name} />
                       <img className="favorite-btn" data-id={game.game_uid} src="https://rollem88.com/assets/images/icon/favorite.svg?v=0.0.99" alt="favorite" />
                       <div className="game">
@@ -343,6 +390,18 @@ const HomePage = () => {
   
           {isLoginModalVisible && (
             <LoginModal onClose={toggleLoginModal} />
+          )}
+
+          {selectedHotGame != "" && (
+            <div className="home-page-hot-game-modal">
+              <div className="home-page-modal-content" onClick={(e) => e.stopPropagation()}>
+                <h2>Play {selectedHotGameName}</h2>
+                <p>Choose how you want to play:</p>
+                <button onClick={() => playHotGame(true)}>Play Demo</button>
+                <button onClick={() => playHotGame(false)}>Play in Real Account</button>
+                <button onClick={closeHotGameModalSelection} className="home-page-close-btn">Close</button>
+              </div>
+            </div>
           )}
         </div>
       );
@@ -439,6 +498,8 @@ const HomePage = () => {
         {isLoginModalVisible && (
           <LoginModal onClose={toggleLoginModal} />
         )}
+
+        
       </div>
     );
   }
@@ -521,7 +582,6 @@ const HomePage = () => {
 
         </ul>
       </div>
- 
     </div>
   );
 };
