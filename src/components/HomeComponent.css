@@ -331,4 +331,28 @@
     font-size: 12px;
     padding: 8px 20px;
   }
+
+
+  .home-page-modal-content button {
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: block;
+    font-size: 1rem;
+    margin: 8px 0;
+    padding: 10px;
+    width: 90%;
+    justify-self: center;
+  }
+
+  .home-page-modal-content {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px #0000004d;
+    max-width: 350px;
+    position: relative;
+    text-align: center;
+    width: 70%;
+    padding-bottom: 20px;
+  }
 }
